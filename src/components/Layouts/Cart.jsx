@@ -9,12 +9,24 @@ export default function Cart() {
     <>
       <section>
         <ol>
-          {Object.entries(cartValue).map(([key, value]) => {
-            const filteredArray = productDetails.filter(
-              (item) => item.id === key
-            );
-            return <li>{filteredArray}</li>;
-          })}
+        {Object.entries(cartValue).map(([key, value]) => {
+  let filteredArray = productDetails.filter(data =>
+    data.id === Number(key)
+  );
+  return (
+    <li key={key}>
+      {filteredArray.map(item => {
+        const {id,image,name,price} = item;
+        <div key={id}>
+          <img src={image} alt={`image-${id}`} />
+          <p>Name: {name}</p>
+          <p>Price: {price} Quantity: {value} Total : {price*value}</p>
+        </div>
+        })}
+    </li>
+  );
+})}
+
         </ol>
       </section>
     </>

@@ -15,7 +15,7 @@ export default function Product({ product }) {
             <p>{description}</p>
             <p>&#8377;{price}</p>
 
-            <div>
+            <>
               {cartValue[id] > 0 ? (
                 <>
                   <button onClick={() => removeCartValue(id)}>
@@ -31,7 +31,7 @@ export default function Product({ product }) {
                   <button onClick={() => addCartValue(id)}>Add Cart</button>
                 </>
               )}
-            </div>
+            </>
             <button>Buy Now</button>
           </div>
         );
