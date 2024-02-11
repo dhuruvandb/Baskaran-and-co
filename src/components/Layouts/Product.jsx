@@ -11,7 +11,7 @@ export default function Product({ product }) {
         return (
           <div key={id}>
             <p>{name}</p>
-            <img src={image} alt={name} />
+            {/* <img src={image} alt={name} /> */}
             <p>{description}</p>
             <p>&#8377;{price}</p>
 
