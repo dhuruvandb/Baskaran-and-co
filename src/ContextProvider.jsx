@@ -18,27 +18,23 @@ export default function ContextProvider({ children }) {
   const hideLogin = () => setShowLogIn(!isShowLogIn);
   const showCart = () => setShowCart(!isShowCart);
   const hideCart = () => setShowCart(!isShowCart);
-  // const deleteCart = (buttonId)=>{
-  //   const newData = { ...cartValue };
-  //   delete newData[buttonId]
-  //   setCartValue(newData);    
-  //   }
+
   const addCartValue = (buttonId) => {
     setCartValue((prevTimes) => ({
       ...prevTimes,
       [buttonId]: (prevTimes[buttonId] || 0) + 1,
     }));
   };
-  
-  const removeCartValue = (buttonId) => {
-    setCartValue((prevTimes) => ({
-      ...prevTimes,
-      [buttonId]: (prevTimes[buttonId] || 0) - 1,
-     
-    }));
-      
-    
 
+  const removeCartValue = (buttonId) => {
+    const updatedCartValue = { ...cartValue };
+    if (updatedCartValue[buttonId] > 0) {
+      updatedCartValue[buttonId]--;
+      if (updatedCartValue[buttonId] === 0) {
+        delete updatedCartValue[buttonId];
+      }
+      setCartValue(updatedCartValue);
+    }
   };
   return (
     <context.Provider
@@ -50,8 +46,8 @@ export default function ContextProvider({ children }) {
         addCartValue,
         removeCartValue,
         isShowCart,
-showCart,
-hideCart
+        showCart,
+        hideCart,
       }}
     >
       {children}
