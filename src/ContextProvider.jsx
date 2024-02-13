@@ -1,6 +1,6 @@
-import { createContext, useState } from "react";
+import { createContext, useRef, useState } from "react";
 export const context = createContext({
-  isShowLogIn: false,
+  ShowLogIn: 0,
   isShowCart: false,
   cartValue: {},
   showLogin: () => {},
@@ -11,11 +11,11 @@ export const context = createContext({
   removeCartValue: () => {},
 });
 export default function ContextProvider({ children }) {
-  const [isShowLogIn, setShowLogIn] = useState(false);
+  const ShowLogIn = useRef(null);
   const [isShowCart, setShowCart] = useState(false);
   const [cartValue, setCartValue] = useState({});
-  const showLogin = () => setShowLogIn(!isShowLogIn);
-  const hideLogin = () => setShowLogIn(!isShowLogIn);
+  const showLogin = () => ShowLogIn.current.showModal();
+  const hideLogin = () => ShowLogIn.current.close();
   const showCart = () => setShowCart(!isShowCart);
   const hideCart = () => setShowCart(!isShowCart);
 
@@ -39,7 +39,7 @@ export default function ContextProvider({ children }) {
   return (
     <context.Provider
       value={{
-        isShowLogIn,
+        ShowLogIn,
         showLogin,
         hideLogin,
         cartValue,

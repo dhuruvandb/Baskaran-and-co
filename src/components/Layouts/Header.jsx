@@ -2,9 +2,9 @@ import { useContext } from "react";
 import { context } from "../../ContextProvider";
 import Login from "./Login";
 import Cart from "./Cart";
+import "../../styles/header.css";
 export default function Header() {
-  const { isShowLogIn, showLogin, cartValue, showCart, isShowCart } =
-    useContext(context);
+  const { showLogin, cartValue, showCart, isShowCart } = useContext(context);
   return (
     <>
       <header className="header">
@@ -35,7 +35,7 @@ export default function Header() {
         <a href="#">category 2</a>
         <a href="#">category 3</a>
       </nav>
-      {isShowLogIn && <Login />}
+      {<Login />}
       {isShowCart && <Cart />}
     </>
   );
