@@ -18,7 +18,6 @@ export default function ContextProvider({ children }) {
   const hideLogin = () => ShowLogIn.current.close();
   const showCart = () => setShowCart(!isShowCart);
   const hideCart = () => setShowCart(!isShowCart);
-
   const addCartValue = (buttonId) => {
     setCartValue((prevTimes) => ({
       ...prevTimes,

@@ -3,8 +3,10 @@ import { context } from "../../ContextProvider";
 import Login from "./Login";
 import Cart from "./Cart";
 import "../../styles/header.css";
+import { useSelector } from "react-redux";
 export default function Header() {
   const { showLogin, cartValue, showCart, isShowCart } = useContext(context);
+  const cartVal = useSelector((state) => state.cartVal);
   return (
     <>
       <header className="header">
@@ -24,7 +26,7 @@ export default function Header() {
         <button className="cart" onClick={showCart}>
           🛒
         </button>
-        <sup>{Object.keys(cartValue).length}</sup>
+        <sup>{Object.keys(cartVal).length}</sup>
         <button className="login" title="Login" onClick={showLogin}>
           Login/Sign up
         </button>

@@ -1,9 +1,10 @@
-import { useContext } from "react";
-import { context } from "../../ContextProvider";
 import "../../styles/product.css";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { DECREMENT, INCREMENT } from "../constants/constants";
 export default function ProductList({ product }) {
-  const { cartValue, addCartValue, removeCartValue } = useContext(context);
+  const cartValue = useSelector((state) => state.cartValue);
+  const dispatch = useDispatch();
   return (
     <>
       <div className="product">
@@ -21,17 +22,31 @@ export default function ProductList({ product }) {
               <>
                 {cartValue[id] > 0 ? (
                   <>
-                    <button onClick={() => removeCartValue(id)}>
+                    <button
+                      onClick={() =>
+                        dispatch({ type: DECREMENT, buttonId: id })
+                      }
+                    >
                       &nbsp;-{cartValue[id] < 10 ? "\u00A0" : null}
                     </button>
                     <span>{cartValue[id] || 0}</span>
-                    <button onClick={() => addCartValue(id)}>
+                    <button
+                      onClick={() =>
+                        dispatch({ type: INCREMENT, buttonId: id })
+                      }
+                    >
                       &nbsp;+{cartValue[id] < 10 ? "\u00A0" : null}
                     </button>
                   </>
                 ) : (
                   <>
-                    <button onClick={() => addCartValue(id)}>Add Cart</button>
+                    <button
+                      onClick={() =>
+                        dispatch({ type: INCREMENT, buttonId: id })
+                      }
+                    >
+                      Add Cart
+                    </button>
                   </>
                 )}
               </>
