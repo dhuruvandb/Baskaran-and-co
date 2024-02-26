@@ -2,6 +2,7 @@ import "../../styles/product.css";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { DECREMENT, INCREMENT } from "../constants/constants";
+import { cartValueActions } from "../store";
 export default function ProductList({ product }) {
   const cartValue = useSelector((state) => state.cartValue);
   const dispatch = useDispatch();
@@ -18,13 +19,12 @@ export default function ProductList({ product }) {
               </Link>
               <p>{description}</p>
               <p>&#8377;{price}</p>
-
               <>
                 {cartValue[id] > 0 ? (
                   <>
                     <button
                       onClick={() =>
-                        dispatch({ type: DECREMENT, buttonId: id })
+                        dispatch(cartValueActions.incrementCartValue(id))
                       }
                     >
                       &nbsp;-{cartValue[id] < 10 ? "\u00A0" : null}
@@ -32,7 +32,7 @@ export default function ProductList({ product }) {
                     <span>{cartValue[id] || 0}</span>
                     <button
                       onClick={() =>
-                        dispatch({ type: INCREMENT, buttonId: id })
+                        dispatch(cartValueActions.decrementCartValue(id))
                       }
                     >
                       &nbsp;+{cartValue[id] < 10 ? "\u00A0" : null}

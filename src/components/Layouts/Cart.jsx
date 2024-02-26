@@ -1,13 +1,12 @@
-import { useContext } from "react";
-import { context } from "../../ContextProvider";
-import productDetails from "../Data/productDetails.json";
 
+import productDetails from "../Data/productDetails.json";
+import {useSelector} from "react-redux"
 export default function Cart() {
-  const { cartValue, hideCart } = useContext(context);
+  const cartValue = useSelector((state) => state.cartValue);
+  console.log(cartValue);
 
   return (
     <>
-      <button onClick={hideCart}>X</button>
       <fieldset>
         <legend>Cart</legend>
         {Object.keys(cartValue).length > 0 ? (
@@ -45,7 +44,7 @@ export default function Cart() {
         ) : (
           <>
             <p>Your Cart is Empty</p>
-            <button>Shop Now</button>
+            <button><a href="/">Shop Now</a></button>
           </>
         )}
       </fieldset>
