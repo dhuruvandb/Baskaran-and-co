@@ -6,9 +6,10 @@ import "../../styles/header.css";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 export default function Header() {
-  const { showLogin, cartValue, showCart, isShowCart } = useContext(context);
-  const cartVal = useSelector((state) => state.cartValue);
+  const { showLogin, isShowCart } = useContext(context);
+  const cartVal = useSelector((state) => state.cartVal.cartValue);
   console.log(cartVal);
+
   return (
     <>
       <header className="header">
@@ -25,11 +26,10 @@ export default function Header() {
           className="search"
         />
         <button className="search-button">🔍</button>
-        <Link to="/cart"><button className="cart">
-          🛒
-        </button>
+        <Link to="/cart">
+          <button className="cart">🛒</button>
         </Link>
-        
+
         <sup>{Object.keys(cartVal).length}</sup>
         <button className="login" title="Login" onClick={showLogin}>
           Login/Sign up

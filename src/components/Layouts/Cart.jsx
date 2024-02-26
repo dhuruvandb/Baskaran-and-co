@@ -1,8 +1,7 @@
-
 import productDetails from "../Data/productDetails.json";
-import {useSelector} from "react-redux"
+import { useSelector } from "react-redux";
 export default function Cart() {
-  const cartValue = useSelector((state) => state.cartValue);
+  const cartValue = useSelector((state) => state.cartVal.cartValue);
   console.log(cartValue);
 
   return (
@@ -17,26 +16,29 @@ export default function Cart() {
                   (data) => data.id === Number(key) && cartValue[key] !== 0
                 );
                 return (
-                  <li key={key}>
-                    {filteredArray.map((item) => {
-                      const { id, image, name, price } = item;
-                      return (
-                        <div key={id}>
-                          <img
-                            src={image}
-                            alt={`Product-${id}`}
-                            height={50}
-                            width={50}
-                          />
-                          <p>{name}</p>
-                          <p>
-                            Price: {price} Quantity: {value} Total :{" "}
-                            {price * value}
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </li>
+                  <>
+                    <li key={key}>
+                      {filteredArray.map((item) => {
+                        const { id, image, name, price } = item;
+                        return (
+                          <div key={id}>
+                            <img
+                              src={image}
+                              alt={`Product-${id}`}
+                              height={50}
+                              width={50}
+                            />
+                            <p>{name}</p>
+                            <p>
+                              Price: {price} Quantity: {value} Total :{" "}
+                              {price * value}
+                            </p>
+                          </div>
+                        );
+                      })}
+                    </li>
+                    <hr />
+                  </>
                 );
               })}
             </ol>
@@ -44,7 +46,9 @@ export default function Cart() {
         ) : (
           <>
             <p>Your Cart is Empty</p>
-            <button><a href="/">Shop Now</a></button>
+            <button>
+              <a href="/">Shop Now</a>
+            </button>
           </>
         )}
       </fieldset>

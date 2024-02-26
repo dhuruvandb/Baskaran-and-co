@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { DECREMENT, INCREMENT } from "../constants/constants";
 import { cartValueActions } from "../store";
 export default function ProductList({ product }) {
-  const cartValue = useSelector((state) => state.cartValue);
+  const cartValue = useSelector((state) => state.cartVal.cartValue);
+  console.log(cartValue);
   const dispatch = useDispatch();
   return (
     <>
@@ -24,7 +25,7 @@ export default function ProductList({ product }) {
                   <>
                     <button
                       onClick={() =>
-                        dispatch(cartValueActions.incrementCartValue(id))
+                        dispatch(cartValueActions.decrementCartValue(id))
                       }
                     >
                       &nbsp;-{cartValue[id] < 10 ? "\u00A0" : null}
@@ -32,7 +33,7 @@ export default function ProductList({ product }) {
                     <span>{cartValue[id] || 0}</span>
                     <button
                       onClick={() =>
-                        dispatch(cartValueActions.decrementCartValue(id))
+                        dispatch(cartValueActions.incrementCartValue(id))
                       }
                     >
                       &nbsp;+{cartValue[id] < 10 ? "\u00A0" : null}
@@ -42,7 +43,7 @@ export default function ProductList({ product }) {
                   <>
                     <button
                       onClick={() =>
-                        dispatch({ type: INCREMENT, buttonId: id })
+                        dispatch(cartValueActions.incrementCartValue(id))
                       }
                     >
                       Add Cart
