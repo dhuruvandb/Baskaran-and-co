@@ -8,17 +8,13 @@ export default function Login() {
         <form action="/">
           <fieldset>
             <legend>Login</legend>
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">Enter Mobile number to continue</label>
             <br />
-            <input type="text" placeholder="Enter your username" />
+            <input type="number" placeholder="Enter mobile number" required />
             <br />
-            <label htmlFor="password">Password</label>
-            <br />
-            <input type="password" placeholder="Enter your password" />
-            <br />
+
             <button type="submit">Login</button>
             <br />
-            <a href="#">Create account</a>
           </fieldset>
         </form>
         <button onClick={hideLogin}>Close</button>

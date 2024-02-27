@@ -46,9 +46,9 @@ export default function Cart() {
         ) : (
           <>
             <p>Your Cart is Empty</p>
-            <button>
-              <a href="/">Shop Now</a>
-            </button>
+            <a href="/">
+              <button>Shop Now</button>
+            </a>
           </>
         )}
       </fieldset>

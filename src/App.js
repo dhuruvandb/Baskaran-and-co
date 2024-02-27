@@ -11,8 +11,8 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/cart" element={<Cart />}/>
-          <Route path={`/product/:id`} element={<Product />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path={`/product/:Id`} element={<Product />} />
         </Routes>
       </BrowserRouter>
     </ContextProvider>

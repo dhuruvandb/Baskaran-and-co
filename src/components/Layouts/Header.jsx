@@ -8,8 +8,6 @@ import { Link } from "react-router-dom";
 export default function Header() {
   const { showLogin, isShowCart } = useContext(context);
   const cartVal = useSelector((state) => state.cartVal.cartValue);
-  console.log(cartVal);
-
   return (
     <>
       <header className="header">

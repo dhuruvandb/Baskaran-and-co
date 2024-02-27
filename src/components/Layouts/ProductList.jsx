@@ -1,11 +1,10 @@
 import "../../styles/product.css";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { DECREMENT, INCREMENT } from "../constants/constants";
 import { cartValueActions } from "../store";
+import { useParams } from "react-router";
 export default function ProductList({ product }) {
   const cartValue = useSelector((state) => state.cartVal.cartValue);
-  console.log(cartValue);
+  let { Id } = useParams();
   const dispatch = useDispatch();
   return (
     <>
@@ -15,9 +14,13 @@ export default function ProductList({ product }) {
           return (
             <div key={id}>
               <p>{name}</p>
-              <Link to={`/product/${id}`} target="_blank">
+              {!Id ? (
+                <a href={`/product/${id}`} target="_blank" rel="noreferrer">
+                  <img src={image} alt={name} />
+                </a>
+              ) : (
                 <img src={image} alt={name} />
-              </Link>
+              )}
               <p>{description}</p>
               <p>&#8377;{price}</p>
               <>

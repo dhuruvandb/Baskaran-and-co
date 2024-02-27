@@ -4,12 +4,11 @@ import productDetails from "../Data/productDetails.json";
 import ProductList from "./ProductList";
 
 const Product = () => {
-  let { id } = useParams();
-
+  let { Id } = useParams();
   return (
     <div>
       <ProductList
-        product={productDetails.filter((data) => data.id === Number(id))}
+        product={productDetails.filter((data) => data.id === Number(Id))}
       />
     </div>
   );
