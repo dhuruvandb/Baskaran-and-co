@@ -1,20 +1,46 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ContextProvider from "./ContextProvider";
-import Header from "./components/Layouts/Header";
-import Main from "./components/Main";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
 import Product from "./components/Layouts/Product";
 import Cart from "./components/Layouts/Cart";
-
+import RootComponent from "./components/pages/RootComponent";
+import Header from "./components/Layouts/Header";
+import Login from "../src/components/Layouts/Login";
 export default function App() {
-  return (
-    <ContextProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path={`/product/:Id`} element={<Product />} />
-        </Routes>
-      </BrowserRouter>
-    </ContextProvider>
-  );
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <RootComponent />,
+      children: [
+        {
+          path: "cart",
+          element: (
+            <>
+              <Header />
+              <Cart />
+            </>
+          ),
+        },
+        {
+          path: "login",
+          element: (
+            <>
+              <Header />
+              <Login />
+            </>
+          ),
+        },
+        {
+          path: "product/:Id",
+          element: (
+            <>
+              <Header />
+              <Product />
+            </>
+          ),
+        },
+      ],
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
 }

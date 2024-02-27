@@ -2,6 +2,7 @@ import "../../styles/product.css";
 import { useDispatch, useSelector } from "react-redux";
 import { cartValueActions } from "../store";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 export default function ProductList({ product }) {
   const cartValue = useSelector((state) => state.cartVal.cartValue);
   let { Id } = useParams();
@@ -15,9 +16,9 @@ export default function ProductList({ product }) {
             <div key={id}>
               <p>{name}</p>
               {!Id ? (
-                <a href={`/product/${id}`} target="_blank" rel="noreferrer">
+                <Link to={`product/${id}`} target="_blank" rel="noreferrer">
                   <img src={image} alt={name} />
-                </a>
+                </Link>
               ) : (
                 <img src={image} alt={name} />
               )}

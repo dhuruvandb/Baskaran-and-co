@@ -1,12 +1,7 @@
-import { useContext } from "react";
-import { context } from "../../ContextProvider";
-import Login from "./Login";
-import Cart from "./Cart";
 import "../../styles/header.css";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 export default function Header() {
-  const { showLogin, isShowCart } = useContext(context);
   const cartVal = useSelector((state) => state.cartVal.cartValue);
   return (
     <>
@@ -24,23 +19,28 @@ export default function Header() {
           className="search"
         />
         <button className="search-button">🔍</button>
-        <Link to="/cart">
+        <Link to="cart">
           <button className="cart">🛒</button>
         </Link>
 
         <sup>{Object.keys(cartVal).length}</sup>
-        <button className="login" title="Login" onClick={showLogin}>
+        <button className="login" title="Login">
           Login/Sign up
         </button>
+        <span className="dropdown">
+          <ul>
+            <li>
+              <NavLink to="/login">Your Profile</NavLink>
+            </li>
+            <li>
+              <NavLink to="/orders">Orders</NavLink>
+            </li>
+            <li>
+              <NavLink to="/wishlist">Wishlist</NavLink>
+            </li>
+          </ul>
+        </span>
       </header>
-      <nav>
-        <a href="#">Home</a>
-        <a href="#">category 1</a>
-        <a href="#">category 2</a>
-        <a href="#">category 3</a>
-      </nav>
-      {<Login />}
-      {isShowCart && <Cart />}
     </>
   );
 }
