@@ -1,7 +1,6 @@
-// import { createStore } from "redux";
 import { createSlice, configureStore } from "@reduxjs/toolkit";
-// import { DECREMENT, INCREMENT } from "../constants/constants";
-const stateValues = { cartValue: {} };
+const stateValues = { productDetails: [], cartValue: {} };
+
 const cartValue = createSlice({
   name: "CartValueUpdate",
   initialState: stateValues,
@@ -21,10 +20,22 @@ const cartValue = createSlice({
     },
   },
 });
+const productDetails = createSlice({
+  name: "productDetailsInfo",
+  initialState: stateValues,
+  reducers: {
+    updateProductDetails(state, action) {
+      const { payload } = action;
 
+      state.productDetails.push(payload);
+    },
+  },
+});
 export const cartValueActions = cartValue.actions;
+export const productDetailsAction = productDetails.actions;
 export const store = configureStore({
   reducer: {
     cartVal: cartValue.reducer,
+    productDetailsInfo: productDetails.reducer,
   },
 });

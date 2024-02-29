@@ -8,9 +8,13 @@ header {
   list-style: none;
 }
 
+.dropdown {
+  display: flex;
+}
+
 .login {
   padding: auto;
 }
 .login:hover .dropdown {
-  display: block;
+  display: inline;
 }

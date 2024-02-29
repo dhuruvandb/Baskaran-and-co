@@ -1,10 +1,13 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import productDetails from "../Data/productDetails.json";
 import ProductList from "./ProductList";
+import { useSelector } from "react-redux";
 
 const Product = () => {
   let { Id } = useParams();
+  const productDetails = useSelector(
+    (state) => state.productDetailsInfo.productDetails
+  );
   return (
     <div>
       <ProductList

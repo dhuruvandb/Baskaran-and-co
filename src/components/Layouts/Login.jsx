@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import { context } from "../../ContextProvider";
 export default function Login() {
   return (
     <>
