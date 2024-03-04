@@ -1,22 +1,54 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-
 import Product from "./components/Layouts/Product";
 import Cart from "./components/Layouts/Cart";
 import RootComponent from "./components/pages/RootComponent";
 import Header from "./components/Layouts/Header";
 import Login from "../src/components/Layouts/Login";
+import { useDispatch } from "react-redux";
+import Loader from "./components/Loader";
+import { useEffect, useRef, useState } from "react";
+import { productDetailsAction } from "./components/store";
+
 export default function App() {
+  const initialLoad = useRef(true);
+  const dispatch = useDispatch();
+  const [loader, setLoader] = useState(true);
+
+  useEffect(() => {
+    if (initialLoad.current) {
+      initialLoad.current = false;
+      return;
+    }
+    fetch("https://baskaran-and-co-default-rtdb.firebaseio.com/items.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setLoader(false);
+        data.forEach((element) => {
+          dispatch(productDetailsAction.updateProductDetails(element));
+        });
+      })
+      .catch((error) => {
+        setLoader(false);
+        console.error(error);
+      });
+  }, [dispatch]);
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <RootComponent />,
+      element: <>{loader ? <Loader /> : <RootComponent />}</>,
       children: [
         {
           path: "cart",
           element: (
             <>
-              <Header />
-              <Cart />
+              {loader ? (
+                <Loader />
+              ) : (
+                <>
+                  <Header />
+                  <Cart />
+                </>
+              )}
             </>
           ),
         },
@@ -24,8 +56,14 @@ export default function App() {
           path: "login",
           element: (
             <>
-              <Header />
-              <Login />
+              {loader ? (
+                <Loader />
+              ) : (
+                <>
+                  <Header />
+                  <Login />
+                </>
+              )}
             </>
           ),
         },
@@ -33,8 +71,14 @@ export default function App() {
           path: "product/:Id",
           element: (
             <>
-              <Header />
-              <Product />
+              {loader ? (
+                <Loader />
+              ) : (
+                <>
+                  <Header />
+                  <Product />
+                </>
+              )}
             </>
           ),
         },

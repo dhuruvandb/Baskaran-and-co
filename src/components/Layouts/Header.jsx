@@ -29,7 +29,11 @@ export default function Header() {
         </Link>
 
         <sup>{Object.keys(cartVal).length}</sup>
-        <button className="login" onClick={() => setDropdown(!dropdown)}>
+        <button
+          className="login"
+          onMouseEnter={() => setDropdown(true)}
+          onMouseLeave={() => setDropdown(false)}
+        >
           Login/Sign up
         </button>
         {dropdown && (

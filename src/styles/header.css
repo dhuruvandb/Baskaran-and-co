@@ -9,12 +9,12 @@ header {
 }
 
 .dropdown {
-  display: flex;
+  display: none;
 }
 
 .login {
   padding: auto;
 }
 .login:hover .dropdown {
-  display: inline;
+  display: block;
 }
