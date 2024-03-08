@@ -3,7 +3,7 @@ import Product from "./components/Layouts/Product";
 import Cart from "./components/Layouts/Cart";
 import RootComponent from "./components/pages/RootComponent";
 import Header from "./components/Layouts/Header";
-import Login from "../src/components/Layouts/Login";
+import Login from "./components/Layouts/Login";
 import { useDispatch } from "react-redux";
 import Loader from "./components/Loader";
 import { useEffect, useRef, useState } from "react";
@@ -53,7 +53,7 @@ export default function App() {
           ),
         },
         {
-          path: "login",
+          path: "/:type(login|signup)",
           element: (
             <>
               {loader ? (

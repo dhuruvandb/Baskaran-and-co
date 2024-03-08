@@ -29,28 +29,29 @@ export default function Header() {
         </Link>
 
         <sup>{Object.keys(cartVal).length}</sup>
-        <button
+        <div
           className="login"
           onMouseEnter={() => setDropdown(true)}
           onMouseLeave={() => setDropdown(false)}
         >
-          Login/Sign up
-        </button>
-        {dropdown && (
-          <span>
-            <ul>
-              <li>
-                <NavLink to="/login">Your Profile</NavLink>
-              </li>
-              <li>
-                <NavLink to="/orders">Orders</NavLink>
-              </li>
-              <li>
-                <NavLink to="/wishlist">Wishlist</NavLink>
-              </li>
-            </ul>
-          </span>
-        )}
+          <div>Login/Sign up</div>
+
+          {dropdown && (
+            <span className="dropdown">
+              <ul>
+                <li>
+                  <NavLink to="/login">Your Profile</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/orders">Orders</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/wishlist">Wishlist</NavLink>
+                </li>
+              </ul>
+            </span>
+          )}
+        </div>
       </header>
     </>
   );

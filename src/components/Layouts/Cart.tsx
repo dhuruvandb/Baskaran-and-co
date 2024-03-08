@@ -1,9 +1,16 @@
 import { useSelector } from "react-redux";
+import ProductList from "./ProductList";
+import { useEffect, useState } from "react";
 export default function Cart() {
   const cartValue = useSelector((state) => state.cartVal.cartValue);
   const productDetails = useSelector(
     (state) => state.productDetailsInfo.productDetails
   );
+  const [inCart, setInCart] = useState(false);
+
+  useEffect(() => {
+    setInCart(true);
+  }, [cartValue]);
   return (
     <>
       <fieldset>
@@ -17,7 +24,7 @@ export default function Cart() {
                 );
                 return (
                   <>
-                    <li key={key}>
+                    {/* <li key={key}>
                       {filteredArray.map((item) => {
                         const { id, image, name, price } = item;
                         return (
@@ -36,7 +43,8 @@ export default function Cart() {
                           </div>
                         );
                       })}
-                    </li>
+                    </li> */}
+                    <ProductList product={filteredArray} inCart={inCart} />
                     <hr />
                   </>
                 );

@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartValueActions } from "../store";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-export default function ProductList({ product }) {
+export default function ProductList({ product, inCart }) {
   const cartValue = useSelector((state) => state.cartVal.cartValue);
   let { Id } = useParams();
+
   const dispatch = useDispatch();
   return (
     <>
@@ -13,14 +14,19 @@ export default function ProductList({ product }) {
         {product.map((data) => {
           const { id, name, description, price, image } = data;
           return (
-            <div key={id}>
+            <figure key={id}>
               <p>{name}</p>
-              {!Id ? (
+              {!Id && !inCart ? (
                 <Link to={`product/${id}`} target="_blank" rel="noreferrer">
                   <img src={image} alt={name} />
                 </Link>
               ) : (
-                <img src={image} alt={name} />
+                <img
+                  src={image}
+                  alt={name}
+                  height={inCart ? 50 : null}
+                  width={inCart ? 50 : null}
+                />
               )}
               <p>{description}</p>
               <p>&#8377;{price}</p>
@@ -55,8 +61,16 @@ export default function ProductList({ product }) {
                   </>
                 )}
               </>
-              <button>Buy Now</button>
-            </div>
+              {inCart ? (
+                <button
+                  onClick={() => dispatch(cartValueActions.removeCartValue(id))}
+                >
+                  Remove
+                </button>
+              ) : (
+                <button>Buy Now</button>
+              )}
+            </figure>
           );
         })}
       </div>

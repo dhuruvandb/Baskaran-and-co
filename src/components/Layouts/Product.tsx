@@ -8,6 +8,7 @@ const Product = () => {
   const productDetails = useSelector(
     (state) => state.productDetailsInfo.productDetails
   );
+
   return (
     <div>
       <ProductList
