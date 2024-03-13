@@ -18,7 +18,7 @@ export default function ProductList({ product, inCart, key }) {
   return (
     <>
       <dialog ref={dialog}>
-        <strong>Are you sure want to remove this item</strong>
+        <strong>Are you sure want to remove this item ?</strong>
         {filteredArray.map((data) => {
           const { name, description, price, image } = data;
           return (
