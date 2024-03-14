@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Product from "./components/pages/Product";
 import Cart from "./components/pages/Cart";
 import RootComponent from "./components/pages/RootComponent";
-import Login from "./components/pages/Login";
+import LoginSignupPage from "./components/pages/LoginSignupPage";
 import { useDispatch } from "react-redux";
 import Loader from "./components/Loader";
 import { useEffect, useRef, useState } from "react";
@@ -53,7 +53,7 @@ export default function App() {
         },
         {
           path: "/:type(login|signup)",
-          element: <>{loader ? <Loader /> : <Login />}</>,
+          element: <>{loader ? <Loader /> : <LoginSignupPage />}</>,
         },
         {
           path: "product/:Id",

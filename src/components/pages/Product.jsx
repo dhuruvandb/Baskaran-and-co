@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import ProductList from "./ProductList";
 import { useSelector } from "react-redux";
 
-const Product = () => {
+const Product = ({products}) => {
   let { Id } = useParams();
   const productDetails = useSelector(
     (state) => state.productDetailsInfo.productDetails

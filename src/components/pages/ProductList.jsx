@@ -20,7 +20,7 @@ export default function ProductList({ product, inCart, key }) {
       <dialog ref={dialog}>
         <strong>Are you sure want to remove this item ?</strong>
         {filteredArray.map((data) => {
-          const { name, description, price, image } = data;
+          const { id, name, description, price, image } = data;
           return (
             <figure>
               <p>{name}</p>
@@ -32,6 +32,15 @@ export default function ProductList({ product, inCart, key }) {
               />
               <p>{description}</p>
               <p>&#8377;{price}</p>
+              <>
+                <button disabled>
+                  &nbsp;-{cartValue[id] < 10 ? "\u00A0" : null}
+                </button>
+                <span>{cartValue[id] || 0}</span>
+                <button disabled>
+                  &nbsp;+{cartValue[id] < 10 ? "\u00A0" : null}
+                </button>
+              </>
             </figure>
           );
         })}

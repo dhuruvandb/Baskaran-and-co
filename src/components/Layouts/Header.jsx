@@ -25,10 +25,12 @@ export default function Header() {
         />
         <button className="search-button">🔍</button>
         <Link to="/cart">
-          <button className="cart">🛒</button>
+          <button className="cart">
+            🛒
+            <sup>{Object.keys(cartVal).length}</sup>
+          </button>
         </Link>
 
-        <sup>{Object.keys(cartVal).length}</sup>
         <div
           className="login"
           onMouseEnter={() => setDropdown(true)}
