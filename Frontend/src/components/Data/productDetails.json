@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "id": 0,
+      "name": "Tape",
+      "description": "A tape for household items",
+      "price": 50,
+      "image": "https://m.media-amazon.com/images/I/41K+cj++ONL._SX300_SY300_.jpg"
+    },
+    {
+      "id": 1,
+      "name": "Tape",
+      "description": "A tape for household items",
+      "price": 50,
+      "image": "https://m.media-amazon.com/images/I/41K+cj++ONL._SX300_SY300_.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Tape",
+      "description": "A tape for household items",
+      "price": 50,
+      "image": "https://m.media-amazon.com/images/I/41K+cj++ONL._SX300_SY300_.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Jape",
+      "description": "A tape for household items",
+      "price": 590,
+      "image": "https://m.media-amazon.com/images/I/41K+cj++ONL._SX300_SY300_.jpg"
+    }
+  ]
+}

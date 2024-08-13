@@ -1,0 +1,103 @@
+/* Product Styles */
+.product {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.product figure {
+  width: 200px;
+  margin-bottom: 20px;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 2%;
+}
+
+.product figure p {
+  margin: 10px 0;
+}
+
+.product figure img {
+  max-width: 100%;
+  height: auto;
+}
+
+.product button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 5px;
+}
+
+.product button:hover {
+  background-color: #0056b3;
+}
+
+.product span {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 5px;
+}
+/* Product Hover Effect */
+.product figure:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+/* Dialog Styles */
+/* Dialog Styles */
+/* Dialog Styles */
+dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 300px; /* Adjust width as needed */
+  height: auto; /* Adjust height as needed */
+}
+
+dialog strong {
+  display: block;
+  margin-bottom: 20px;
+}
+
+dialog figure {
+  text-align: center;
+}
+
+dialog figure p {
+  margin: 10px 0;
+}
+
+dialog figure img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+dialog button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+dialog button:hover {
+  background-color: #0056b3;
+}
