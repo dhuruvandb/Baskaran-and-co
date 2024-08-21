@@ -4,7 +4,7 @@ const LOGIN_WITH_OTP_PATH = "/login-with-otp";
 const SIGNUP_PATH = "/signup";
 const VERIFY_OTP_PATH = "/verify-otp";
 const SEND_OTP = "/send-otp";
-
+const HOME = "/"
 const GET_ALL_PRODUCTS_PATH = "/products";
 const GET_ONE_PRODUCT_PATH = "/product/:id";
 const GET_ALL_USER_PRODUCTS_PATH = "/user/products";
@@ -24,6 +24,7 @@ const ADMIN_UPDATE_CATEGORY_PATH = "/admin/updatecategory/:id";
 const ADMIN_DELETE_CATEGORY_PATH = "/admin/deletecategory/:id";
 
 module.exports = {
+  HOME,
   FORGET_PASSWORD_PATH,
   LOGIN_PATH,
   LOGIN_WITH_OTP_PATH,
