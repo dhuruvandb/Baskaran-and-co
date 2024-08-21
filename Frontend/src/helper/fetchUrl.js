@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-axios.defaults.baseURL = "http://localhost:5000/";
+axios.defaults.baseURL = "https://baskaran-and-co-api.vercel.app/";
 
 export const Axios = async (method, url, data = {}) => {
   try {
