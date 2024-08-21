@@ -7,18 +7,10 @@ const user = require("./router/user");
 const admin = require("./router/admin");
 const common = require("./router/commonRouter");
 const connectDB = require("./config/db");
-
+const cors = require("cors");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, PATCH, DELETE");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+app.use(cors());
 app.use(user);
 app.use(admin);
 app.use(common);
