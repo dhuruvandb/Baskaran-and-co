@@ -1,16 +1,23 @@
 /* Header Styles */
 .header {
-  background-color: #f7f7f7;
+  background-color: #ffffff;
   padding: 15px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 70px; /* Fixed height */
+  box-sizing: border-box;
+  position: fixed; /* Fix the header at the top */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Ensure it stays on top */
 }
 
 .logo {
-  height: 75px;
-  width: 75px;
+  height: 50px;
+  width: auto;
 }
 
 .search-container {
@@ -43,7 +50,6 @@
 
 .cart-link {
   position: relative;
-  margin-right: 20px;
 }
 
 .cart {
@@ -68,11 +74,11 @@
   background-color: #ff0000;
   color: #fff;
   border-radius: 50%;
-  padding: 3px 6px;
-  font-size: 12px;
+  padding: 2px 6px;
+  font-size: 10px;
   position: absolute;
-  top: -8px;
-  right: -8px;
+  top: -5px;
+  right: -5px;
 }
 
 .login {
@@ -83,6 +89,7 @@
 }
 
 .dropdown {
+  display: none; /* Hidden by default */
   position: absolute;
   top: 100%;
   right: 0;
@@ -91,7 +98,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   overflow: hidden;
-  z-index: 1000;
+  z-index: 1000; /* Ensure it appears above other content */
 }
 
 .dropdown ul {
@@ -117,4 +124,41 @@
 
 .dropdown ul li a:hover {
   background-color: #f0f0f0;
+}
+
+.login:hover .dropdown {
+  display: block; /* Show dropdown on hover */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    padding: 10px;
+    height: auto;
+  }
+
+  .search-container {
+    margin: 10px 0;
+    flex-direction: column;
+  }
+
+  .search {
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+
+  .search-button {
+    border-radius: 4px;
+    width: 100%;
+  }
+
+  .cart-link {
+    margin: 10px 0;
+  }
+
+  .login {
+    margin: 10px 0;
+    text-align: center;
+  }
 }
