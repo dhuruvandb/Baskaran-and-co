@@ -1,164 +1,155 @@
-/* Header Styles */
+/* Header styling */
 .header {
-  background-color: #ffffff;
-  padding: 15px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  height: 70px; /* Fixed height */
-  box-sizing: border-box;
-  position: fixed; /* Fix the header at the top */
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000; /* Ensure it stays on top */
+  padding: 10px 20px;
+  background-color: #ffffff; /* Light background */
+  border-bottom: 1px solid #e0e0e0; /* Light border */
+  position: relative; /* For dropdown positioning */
 }
 
+/* Logo styling */
 .logo {
-  height: 50px;
-  width: auto;
+  height: 40px; /* Adjust height for better responsiveness */
+  margin-right: 20px; /* Space between logo and search bar */
 }
 
+/* Search container */
 .search-container {
   display: flex;
   flex: 1;
+  max-width: 600px;
   margin: 0 20px;
 }
 
+/* Search input */
 .search {
   flex: 1;
-  padding: 10px;
+  padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 4px 0 0 4px;
-  outline: none;
+  border-radius: 4px;
 }
 
+/* Search button */
 .search-button {
+  padding: 8px 12px;
+  border: none;
   background-color: #007bff;
   color: #fff;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 0 4px 4px 0;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.search-button:hover {
-  background-color: #0056b3;
-}
-
-.cart-link {
-  position: relative;
-}
-
-.cart {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
-  position: relative;
-  display: inline-flex;
+  margin-left: 8px; /* Space between search input and button */
+}
+
+/* Cart and login containers */
+.cart-link,
+.login-dropdown-container {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s ease;
+  position: relative; /* For dropdown positioning */
 }
 
-.cart:hover {
-  background-color: #0056b3;
+/* Cart button */
+.cart {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  color: #333;
+  position: relative;
+  cursor: pointer;
 }
 
+/* Cart counter */
 .cart sup {
-  background-color: #ff0000;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #ff0000;
   color: #fff;
   border-radius: 50%;
   padding: 2px 6px;
-  font-size: 10px;
-  position: absolute;
-  top: -5px;
-  right: -5px;
+  font-size: 0.75em;
 }
 
-.login {
-  cursor: pointer;
-  font-weight: bold;
-  text-decoration: underline;
+/* Dropdown for login */
+.login-dropdown-container {
   position: relative;
 }
 
 .dropdown {
-  display: none; /* Hidden by default */
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  overflow: hidden;
-  z-index: 1000; /* Ensure it appears above other content */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  z-index: 1000;
+  display: none;
 }
 
+/* Dropdown list styling */
 .dropdown ul {
   list-style: none;
-  margin: 0;
   padding: 0;
+  margin: 0;
 }
 
-.dropdown ul li {
+.dropdown li {
   padding: 10px;
-  border-bottom: 1px solid #ccc;
 }
 
-.dropdown ul li:last-child {
-  border-bottom: none;
-}
-
-.dropdown ul li a {
+.dropdown a {
   text-decoration: none;
-  color: #333;
+  color: #007bff;
+  display: block; /* Make the entire area clickable */
+}
+
+.dropdown a:hover {
+  text-decoration: underline;
+}
+
+/* Show dropdown on hover */
+.login-dropdown-container:hover .dropdown {
   display: block;
 }
 
-.dropdown ul li a:hover {
-  background-color: #f0f0f0;
-}
-
-.login:hover .dropdown {
-  display: block; /* Show dropdown on hover */
-}
-
-/* Responsive Styles */
+/* Responsive styles */
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
+    align-items: flex-start;
     padding: 10px;
-    height: auto;
+  }
+
+  .logo {
+    margin-bottom: 10px;
+    height: 30px;
   }
 
   .search-container {
-    margin: 10px 0;
-    flex-direction: column;
-  }
-
-  .search {
-    border-radius: 4px;
     margin-bottom: 10px;
+    max-width: 100%;
   }
 
   .search-button {
-    border-radius: 4px;
-    width: 100%;
+    padding: 6px 10px;
   }
 
-  .cart-link {
-    margin: 10px 0;
+  .cart {
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 480px) {
+  .search {
+    padding: 6px;
   }
 
-  .login {
-    margin: 10px 0;
-    text-align: center;
+  .search-button {
+    padding: 6px 10px;
+    font-size: 0.9em;
   }
 }

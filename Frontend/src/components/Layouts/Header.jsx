@@ -5,8 +5,6 @@ import { Link, NavLink } from "react-router-dom";
 
 export default function Header() {
   const cartVal = useSelector((state) => state.cartVal.cartValue);
-  const [dropdown, setDropdown] = useState(false);
-
   return (
     <header className="header">
       <Link to="/">
@@ -31,27 +29,21 @@ export default function Header() {
         </button>
       </Link>
 
-      <div
-        className="login"
-        onMouseEnter={() => setDropdown(true)}
-        onMouseLeave={() => setDropdown(false)}
-      >
-        <div>Login/Sign up</div>
-        {dropdown && (
-          <div className="dropdown">
-            <ul>
-              <li>
-                <NavLink to="/login">Your Profile</NavLink>
-              </li>
-              <li>
-                <NavLink to="/orders">Orders</NavLink>
-              </li>
-              <li>
-                <NavLink to="/wishlist">Wishlist</NavLink>
-              </li>
-            </ul>
-          </div>
-        )}
+      <div className="login-dropdown-container">
+        <div className="login">Login/Sign up</div>
+        <div className="dropdown">
+          <ul>
+            <li>
+              <NavLink to="/login">Your Profile</NavLink>
+            </li>
+            <li>
+              <NavLink to="/orders">Orders</NavLink>
+            </li>
+            <li>
+              <NavLink to="/wishlist">Wishlist</NavLink>
+            </li>
+          </ul>
+        </div>
       </div>
     </header>
   );

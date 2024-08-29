@@ -7,26 +7,23 @@ const ProductCategoryPage = ({ productCategories }) => {
 
   const handleScroll = (id, direction) => {
     const card = document.getElementById(id);
-    const scrollStep = 300; // Amount to scroll each step
+    if (!card) return; // Ensure card exists
 
+    const imagesWrapper = card.querySelector(".product-images");
+    if (!imagesWrapper) return; // Ensure imagesWrapper exists
+
+    const scrollStep = 300; // Amount to scroll each step
     let newScrollAmount = scrollAmount[id] || 0;
 
+    const maxScrollLeft = imagesWrapper.scrollWidth - imagesWrapper.clientWidth;
+
     if (direction === "right") {
-      const maxScrollLeft =
-        card.querySelector(".product-images").scrollWidth -
-        card.querySelector(".product-images").clientWidth;
-      if (newScrollAmount < maxScrollLeft) {
-        newScrollAmount += scrollStep;
-      }
+      newScrollAmount = Math.min(newScrollAmount + scrollStep, maxScrollLeft);
     } else if (direction === "left") {
-      if (newScrollAmount > 0) {
-        newScrollAmount -= scrollStep;
-      }
+      newScrollAmount = Math.max(newScrollAmount - scrollStep, 0);
     }
 
-    card.querySelector(
-      ".product-images"
-    ).style.transform = `translateX(-${newScrollAmount}px)`;
+    imagesWrapper.style.transform = `translateX(-${newScrollAmount}px)`;
     setScrollAmount((prev) => ({ ...prev, [id]: newScrollAmount }));
   };
 
@@ -34,7 +31,7 @@ const ProductCategoryPage = ({ productCategories }) => {
     <div className="product-category-container">
       {productCategories.map((product) => {
         const { _id, images, name, description } = product;
-
+        
         return (
           <div key={_id} id={_id} className="product-card">
             <div className="product-images-wrapper">
@@ -49,7 +46,7 @@ const ProductCategoryPage = ({ productCategories }) => {
                   <img
                     key={index}
                     src={data}
-                    alt={`${name} ${index + 1}`}
+                    alt={name}
                     className="product-image"
                   />
                 ))}

@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "forget-password",
-        element: <Layout>{loader ? <Loader /> : <ForgetPassword />}</Layout>,
+        element: <>{loader ? <Loader /> : <ForgetPassword />}</>,
       },
       {
         path: "product/:Id",
