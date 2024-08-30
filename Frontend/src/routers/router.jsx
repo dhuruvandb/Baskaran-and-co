@@ -41,7 +41,11 @@ export const router = createBrowserRouter([
         element: <>{loader ? <Loader /> : <ForgetPassword />}</>,
       },
       {
-        path: "product/:Id",
+        path: "products/category/:categoryName/:productId",
+        element: <>{loader ? <Loader /> : <Product />}</>,
+      },
+      {
+        path: "products/category/:categoryName",
         element: <>{loader ? <Loader /> : <Product />}</>,
       },
       {

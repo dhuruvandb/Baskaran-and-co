@@ -1,13 +1,20 @@
 const {
-  getAllProduct,
   getOneProduct,
   viewCategory,
+  getAllProducts,
 } = require("../../helpers/helper");
 
-exports.getAllProducts = async (req, res) => {
-  const result = await getAllProduct();
-  console.log(result)
-  res.status(200).json({ result });
+exports.fetchAllProducts = async (req, res) => {
+  try {
+    const { category } = req.params;
+    console.log(category);
+    const result = await getAllProducts({ category });
+
+    res.status(200).json({ result });
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ error: "Failed to fetch products" });
+  }
 };
 
 exports.getOneProduct = async (req, res) => {

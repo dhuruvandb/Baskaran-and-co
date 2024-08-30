@@ -1,45 +1,24 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/cart.css";
 import ProductList from "../components/ProductList";
+import { cartItems } from "../components/store/Selectors/cart-selectors";
+import { getCart } from "../components/store/Thunks/cart-thunk";
 export default function Cart() {
-  const cartValue = useSelector((state) => state.cartVal.cartValue);
-  const productDetails = useSelector(
-    (state) => state.productDetailsInfo.productDetails
-  );
-  console.log(productDetails);
+  const cartValue = useSelector(cartItems);
+  console.log(cartValue);
 
+  const dispatch = useDispatch();
   const [inCart, setInCart] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [filteredArray, setFilteredArray] = useState(productDetails);
   useEffect(() => {
-    const cartValueArray = [];
-    let total = 0;
-    Object.entries(cartValue).forEach(([key, value]) => {
-      const newArray = productDetails.filter(
-        (data) => data.id === Number(key) && cartValue[key] !== 0
-      );
-      if (newArray.length > 0) {
-        cartValueArray.push(...newArray);
-      }
-      newArray.forEach((item) => {
-        const { price } = item;
-        total += price * value;
-      });
-    });
-    setTotalPrice(total);
-    setFilteredArray((pre) => {
-      if (JSON.stringify(pre) !== JSON.stringify(cartValueArray)) {
-        return cartValueArray;
-      } else {
-        return pre;
-      }
-    });
+    dispatch(getCart());
+    setTotalPrice(0);
+
     setInCart(true);
-  }, [cartValue, filteredArray, productDetails]);
-  console.log(filteredArray);
+  }, []);
 
   return (
     <>
@@ -48,7 +27,7 @@ export default function Cart() {
         {Object.keys(cartValue).length > 0 ? (
           <section>
             <ol>
-              <ProductList product={filteredArray} inCart={inCart} />
+              {/* <ProductList product inCart={inCart} /> */}
               <hr />
             </ol>
           </section>

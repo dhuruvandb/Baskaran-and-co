@@ -16,7 +16,6 @@ exports.addCart = async (req, res) => {
         { userId },
         { $push: { items: req.body.items } }
       );
-
       res.status(200).json({ result });
     } else {
       const result = await addCart(req.body);
@@ -70,6 +69,8 @@ exports.viewCart = async (req, res) => {
   try {
     const { userId } = req.body;
     const result = await viewCart({ userId }, { items: 1 }, "items.productId");
+    console.log(result);
+
     res.status(200).json({ result });
   } catch (error) {
     console.error(error);

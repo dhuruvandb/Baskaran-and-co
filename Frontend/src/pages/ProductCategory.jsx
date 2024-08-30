@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "../styles/productCategory.css";
 import { useState } from "react";
 
@@ -31,7 +32,7 @@ const ProductCategoryPage = ({ productCategories }) => {
     <div className="product-category-container">
       {productCategories.map((product) => {
         const { _id, images, name, description } = product;
-        
+
         return (
           <div key={_id} id={_id} className="product-card">
             <div className="product-images-wrapper">
@@ -41,16 +42,18 @@ const ProductCategoryPage = ({ productCategories }) => {
               >
                 ←
               </button>
-              <div className="product-images">
-                {images.map((data, index) => (
-                  <img
-                    key={index}
-                    src={data}
-                    alt={name}
-                    className="product-image"
-                  />
-                ))}
-              </div>
+              <Link to={`products/category/${name}`} target="_blank">
+                <div className="product-images">
+                  {images.map((data, index) => (
+                    <img
+                      key={index}
+                      src={data}
+                      alt={name}
+                      className="product-image"
+                    />
+                  ))}
+                </div>
+              </Link>
               <button
                 className="nav-button right"
                 onClick={() => handleScroll(_id, "right")}

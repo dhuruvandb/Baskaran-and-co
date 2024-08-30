@@ -1,20 +1,21 @@
 import "../styles/product.css";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   incrementCartValue,
   decrementCartValue,
   removeCartValue,
-} from "../components/store/Slices";
+} from "./store/Slices";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import { Axios } from "../helper/fetchUrl";
+import { addCart, deleteCart, updateCart } from "./store/Thunks/cart-thunk";
+import { cartItems } from "./store/Selectors/cart-selectors";
 
 export default function ProductList({ product, inCart, key }) {
-  const cartValue = useSelector((state) => state.cartVal.cartValue);
-  console.log(cartValue);
-
-  let { Id } = useParams();
+  console.log(product);
+  
+  const cartValue = useSelector(cartItems);
+  let { productId } = useParams();
   const dialog = useRef(null);
   const dispatch = useDispatch();
   const [displayid, setDisplayid] = useState(null);
@@ -65,8 +66,8 @@ export default function ProductList({ product, inCart, key }) {
           return (
             <figure key={i}>
               <p>{name}</p>
-              {!Id && !inCart ? (
-                <Link to={`product/${_id}`} target="_blank" rel="noreferrer">
+              {!productId && !inCart ? (
+                <Link to={`${_id}`} target="_blank" rel="noreferrer">
                   {images.map((img) => (
                     <img src={img} alt={name} />
                   ))}
@@ -86,11 +87,15 @@ export default function ProductList({ product, inCart, key }) {
                   <>
                     <button
                       onClick={() => {
-                        Axios("put", `/updatecart/${_id}`, {
-                          userId: "66ae15a9ac9ef503f293599e",
-                          count: -1,
-                        });
-                        dispatch(decrementCartValue(_id));
+                        dispatch(
+                          updateCart(
+                            {
+                              userId: "66ae15a9ac9ef503f293599e",
+                              count: -1,
+                            },
+                            _id
+                          )
+                        );
                       }}
                     >
                       &nbsp;-{cartValue[_id] < 10 ? "\u00A0" : null}
@@ -98,11 +103,15 @@ export default function ProductList({ product, inCart, key }) {
                     <span>{cartValue[_id] || 0}</span>
                     <button
                       onClick={() => {
-                        Axios("put", `/updatecart/${_id}`, {
-                          userId: "66ae15a9ac9ef503f293599e",
-                          count: 1,
-                        });
-                        dispatch(incrementCartValue(_id));
+                        dispatch(
+                          updateCart(
+                            {
+                              userId: "66ae15a9ac9ef503f293599e",
+                              count: 1,
+                            },
+                            _id
+                          )
+                        );
                       }}
                     >
                       &nbsp;+{cartValue[_id] < 10 ? "\u00A0" : null}
@@ -112,11 +121,12 @@ export default function ProductList({ product, inCart, key }) {
                   <>
                     <button
                       onClick={() => {
-                        Axios("post", `/addcart`, {
-                          userId: "66ae15a9ac9ef503f293599e",
-                          items: [{ productId: _id }],
-                        });
-                        dispatch(incrementCartValue(_id));
+                        dispatch(
+                          addCart({
+                            userId: "66ae15a9ac9ef503f293599e",
+                            items: [{ productId: _id }],
+                          })
+                        );
                       }}
                     >
                       Add Cart
@@ -127,10 +137,15 @@ export default function ProductList({ product, inCart, key }) {
               {inCart ? (
                 <button
                   onClick={() => {
-                    Axios("delete", `/deletecart/${_id}`, {
-                      userId: "66ae15a9ac9ef503f293599e",
-                      count: -1,
-                    });
+                    dispatch(
+                      deleteCart(
+                        {
+                          userId: "66ae15a9ac9ef503f293599e",
+                          count: -1,
+                        },
+                        _id
+                      )
+                    );
                     setDisplayid(_id);
                     dialog.current.showModal();
                   }}

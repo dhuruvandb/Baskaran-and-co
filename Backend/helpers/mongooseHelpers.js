@@ -1,5 +1,5 @@
 const crudOperations = {
-  count: async (Model, filter = {}) => {
+  countDocuments: async (Model, filter = {}) => {
     return await Model.countDocuments(filter);
   },
   distinct: async (Model, field, filter = {}) => {
@@ -11,17 +11,17 @@ const crudOperations = {
   insertMany: async (Model, docs) => {
     return await Model.insertMany(docs);
   },
-  insertOne: async (Model, doc) => {
+  create: async (Model, doc) => {
     return await Model.create(doc);
   },
-  updateMany: async (Model, filter = {}, update) => {
-    return await Model.updateMany(filter, update);
+  updateMany: async (Model, filter = {}, update, options = {}) => {
+    return await Model.updateMany(filter, update, options);
   },
-  updateOne: async (Model, filter = {}, update) => {
-    return await Model.updateOne(filter, update);
+  updateOne: async (Model, filter = {}, update, options = {}) => {
+    return await Model.updateOne(filter, update, options);
   },
-  replaceOne: async (Model, filter = {}, replacement) => {
-    return await Model.replaceOne(filter, replacement);
+  replaceOne: async (Model, filter = {}, replacement, options = {}) => {
+    return await Model.replaceOne(filter, replacement, options);
   },
   deleteMany: async (Model, filter = {}) => {
     return await Model.deleteMany(filter);
@@ -29,23 +29,26 @@ const crudOperations = {
   deleteOne: async (Model, filter = {}) => {
     return await Model.deleteOne(filter);
   },
-  find: async (Model, filter = {}, fields = {}, populate) => {
-    return await Model.find(filter, fields).populate(populate);
+  find: async (Model, filter = {}, fields = {}, options = {}) => {
+    return await Model.find(filter, fields, options);
   },
-  findOne: async (Model, filter = {}, fields = {}, populate) => {
-    return await Model.find(filter, fields).populate(populate);
+  findOne: async (Model, filter = {}, fields = {}, options = {}) => {
+    return await Model.findOne(filter, fields, options);
   },
-  findById: async (Model, id) => {
-    return await Model.findById(id);
+  findById: async (Model, id, fields = {}, options = {}) => {
+    return await Model.findById(id, fields, options);
   },
-  findOneAndDelete: async (Model, filter = {}) => {
-    return await Model.findOneAndDelete(filter).exec();
+  findOneAndDelete: async (Model, filter = {}, options = {}) => {
+    return await Model.findOneAndDelete(filter, options).exec();
   },
-  findOneAndReplace: async (Model, filter = {}, replacement) => {
-    return await Model.findOneAndReplace(filter, replacement).exec();
+  findOneAndReplace: async (Model, filter = {}, replacement, options = {}) => {
+    return await Model.findOneAndReplace(filter, replacement, options).exec();
   },
-  findOneAndUpdate: async (Model, filter = {}, update) => {
-    return await Model.findOneAndUpdate(filter, update, { new: true }).exec();
+  findOneAndUpdate: async (Model, filter = {}, update, options = {}) => {
+    return await Model.findOneAndUpdate(filter, update, {
+      new: true,
+      ...options,
+    }).exec();
   },
 };
 
