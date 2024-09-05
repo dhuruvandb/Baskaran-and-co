@@ -78,12 +78,16 @@ exports.addCart = async (data) => {
   return await insertMany(Cart, data);
 };
 
-exports.viewCart = async (filter = {}, fields = {}, populate) => {
+exports.viewCart = async (filter = {}, fields = {}, populate = "") => {
   return await find(Cart, filter, fields, populate);
 };
 
 exports.updateCart = async (filter = {}, data) => {
   return await updateOne(Cart, filter, data);
+};
+
+exports.addOrUpdateCart = async (filter = {}, update) => {
+  return await findOneAndUpdate(Cart, filter, update);
 };
 
 exports.deleteCart = async (filter = {}) => {

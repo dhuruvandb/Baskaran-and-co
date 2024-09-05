@@ -1,0 +1,80 @@
+/* src/components/ProfileManagement.css */
+.profile-management {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 30px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.profile-management h2 {
+  text-align: center;
+  color: #333333;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.profile-management h3 {
+  color: #444444;
+  font-size: 1.4em;
+  margin-top: 20px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 5px;
+}
+
+.profile-management label {
+  display: block;
+  margin-bottom: 10px;
+  color: #666666;
+  font-size: 1em;
+}
+
+.profile-management input[type="text"],
+.profile-management input[type="email"],
+.profile-management input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.profile-management button {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1em;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.profile-management button:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .profile-management {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .profile-management h2 {
+    font-size: 1.8em;
+  }
+
+  .profile-management h3 {
+    font-size: 1.2em;
+  }
+
+  .profile-management button {
+    padding: 10px;
+    font-size: 1em;
+  }
+}

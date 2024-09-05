@@ -8,18 +8,24 @@ import {
 } from "./store/Slices";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import { addCart, deleteCart, updateCart } from "./store/Thunks/cart-thunk";
+import {
+  addCart,
+  deleteCart,
+  updateCart,
+  getCart,
+} from "./store/Thunks/cart-thunk";
 import { cartItems } from "./store/Selectors/cart-selectors";
 
 export default function ProductList({ product, inCart, key }) {
-  console.log(product);
-  
-  const cartValue = useSelector(cartItems);
+  const cart = useSelector(cartItems);
   let { productId } = useParams();
   const dialog = useRef(null);
   const dispatch = useDispatch();
   const [displayid, setDisplayid] = useState(null);
   let filteredArray = product.filter((data) => data._id === displayid);
+  useEffect(() => {
+    dispatch(getCart("66ae15a9ac9ef503f293599e"));
+  }, [dispatch]);
   return (
     <>
       <dialog ref={dialog}>
@@ -39,11 +45,11 @@ export default function ProductList({ product, inCart, key }) {
               <p>&#8377;{price}</p>
               <>
                 <button disabled>
-                  &nbsp;-{cartValue[id] < 10 ? "\u00A0" : null}
+                  &nbsp;-{cart[id] < 10 ? "\u00A0" : null}
                 </button>
-                <span>{cartValue[id] || 0}</span>
+                <span>{cart[id] || 0}</span>
                 <button disabled>
-                  &nbsp;+{cartValue[id] < 10 ? "\u00A0" : null}
+                  &nbsp;+{cart[id] < 10 ? "\u00A0" : null}
                 </button>
               </>
             </figure>
@@ -62,6 +68,9 @@ export default function ProductList({ product, inCart, key }) {
       <div className="product" key={key}>
         {product.map((data, i) => {
           const { _id, name, description, price, images } = data;
+          // const cartValue = cart.filter((data) => data.productId === _id)[0];
+          const cartValue = {};
+          console.log(cartValue);
 
           return (
             <figure key={i}>
@@ -124,9 +133,10 @@ export default function ProductList({ product, inCart, key }) {
                         dispatch(
                           addCart({
                             userId: "66ae15a9ac9ef503f293599e",
-                            items: [{ productId: _id }],
+                            items: { [_id]: 1 },
                           })
                         );
+                        dispatch(getCart("66ae15a9ac9ef503f293599e"));
                       }}
                     >
                       Add Cart

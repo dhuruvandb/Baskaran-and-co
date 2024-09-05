@@ -12,13 +12,14 @@ const {
 } = require("../constants/paths");
 const productCategories = require("../models/productCategories");
 const product = require("../models/productModel");
+const cart = require("../models/cart");
 const router = express.Router();
 
 router.get(GET_ALL_PRODUCTS_PATH, fetchAllProducts);
 router.get(GET_ONE_PRODUCT_PATH, getOneProduct);
 router.get([HOME, GET_ALL_CATOGORIES], getCategory);
 router.delete("/d", async (req, res) => {
-  const result = await product.deleteMany();
+  const result = await cart.deleteMany();
   res.json({ result });
 });
 

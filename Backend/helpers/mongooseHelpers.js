@@ -15,7 +15,9 @@ const crudOperations = {
     return await Model.create(doc);
   },
   updateMany: async (Model, filter = {}, update, options = {}) => {
-    return await Model.updateMany(filter, update, options);
+    return await Model.updateMany(filter, update, {
+      upsert: true,
+    });
   },
   updateOne: async (Model, filter = {}, update, options = {}) => {
     return await Model.updateOne(filter, update, options);
@@ -29,8 +31,8 @@ const crudOperations = {
   deleteOne: async (Model, filter = {}) => {
     return await Model.deleteOne(filter);
   },
-  find: async (Model, filter = {}, fields = {}, options = {}) => {
-    return await Model.find(filter, fields, options);
+  find: async (Model, filter = {}, fields = {}, options) => {
+    return await Model.find(filter, fields).populate(options);
   },
   findOne: async (Model, filter = {}, fields = {}, options = {}) => {
     return await Model.findOne(filter, fields, options);
@@ -39,16 +41,16 @@ const crudOperations = {
     return await Model.findById(id, fields, options);
   },
   findOneAndDelete: async (Model, filter = {}, options = {}) => {
-    return await Model.findOneAndDelete(filter, options).exec();
+    return await Model.findOneAndDelete(filter, options);
   },
   findOneAndReplace: async (Model, filter = {}, replacement, options = {}) => {
     return await Model.findOneAndReplace(filter, replacement, options).exec();
   },
-  findOneAndUpdate: async (Model, filter = {}, update, options = {}) => {
+  findOneAndUpdate: async (Model, filter = {}, update) => {
     return await Model.findOneAndUpdate(filter, update, {
       new: true,
-      ...options,
-    }).exec();
+      upsert: true,
+    });
   },
 };
 

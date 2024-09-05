@@ -1,0 +1,79 @@
+/* src/components/OrderConfirmation.css */
+.order-confirmation {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  font-family: Arial, sans-serif;
+}
+
+.order-confirmation h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #333333;
+  text-align: center;
+}
+
+.order-confirmation h3 {
+  font-size: 1.4em;
+  margin-top: 20px;
+  color: #444444;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 5px;
+}
+
+.order-confirmation ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.order-confirmation li {
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  color: #555555;
+}
+
+.payment-confirmation p {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.shipping-tracking a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.shipping-tracking a:hover {
+  text-decoration: underline;
+}
+
+.thank-you-message p {
+  font-size: 1.2em;
+  color: #333333;
+  text-align: center;
+  margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+  .order-confirmation {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .order-confirmation h2 {
+    font-size: 1.8em;
+  }
+
+  .order-confirmation h3 {
+    font-size: 1.2em;
+  }
+
+  .thank-you-message p {
+    font-size: 1.1em;
+  }
+}

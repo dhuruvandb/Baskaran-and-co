@@ -14,11 +14,10 @@ export default function Cart() {
   const [inCart, setInCart] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   useEffect(() => {
-    dispatch(getCart());
+    dispatch(getCart("66ae15a9ac9ef503f293599e"));
     setTotalPrice(0);
-
     setInCart(true);
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -27,7 +26,7 @@ export default function Cart() {
         {Object.keys(cartValue).length > 0 ? (
           <section>
             <ol>
-              {/* <ProductList product inCart={inCart} /> */}
+              <ProductList product={cartValue} inCart={inCart} />
               <hr />
             </ol>
           </section>

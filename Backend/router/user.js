@@ -1,9 +1,9 @@
 const express = require("express");
 const {
-  viewCart,
-  addCart,
   updateCart,
   deleteCart,
+  getCart,
+  handleCartUpdate,
 } = require("../controllers/user/cartController");
 const {
   VIEW_CART_PATH,
@@ -32,15 +32,15 @@ const {
 } = require("../middlewares/auth-middleware");
 const validateLoginEmail = require("../middlewares/validation-middleware");
 
-const { verifyToken, createToken } = require("../helpers/helper");
+const { verifyToken, createToken, addCart } = require("../helpers/helper");
 const { LoginWithPassword } = require("../controllers/auth/loginController");
 const { SendOTP } = require("../controllers/auth/OTPcontroller");
 const router = express.Router();
 
 router.get(GET_ALL_USER_PRODUCTS_PATH, getAllUserProducts);
 router.get(GET_ONE_USER_PRODUCT_PATH, getOneUserProduct);
-router.get(VIEW_CART_PATH, viewCart);
-router.post(ADD_CART_PATH, addCart);
+router.get(VIEW_CART_PATH, getCart);
+router.post(ADD_CART_PATH, handleCartUpdate);
 router.put(UPDATE_CART_PATH, updateCart);
 router.delete(DELETE_CART_PATH, deleteCart);
 router.post(SIGNUP_PATH, SendOTP, Signup);
