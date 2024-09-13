@@ -7,9 +7,7 @@ const {
 exports.fetchAllProducts = async (req, res) => {
   try {
     const { category } = req.params;
-    console.log(category);
     const result = await getAllProducts({ category });
-
     res.status(200).json({ result });
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -18,11 +16,15 @@ exports.fetchAllProducts = async (req, res) => {
 };
 
 exports.getOneProduct = async (req, res) => {
-  const result = await getOneProduct({ _id: req.params.id });
+  const result = await getOneProduct(req.params.id);
+  console.log({ result }, "called...........");
+
   res.status(200).json({ result });
 };
 
 exports.getCategory = async (req, res) => {
   const result = await viewCategory();
+  console.log({ result }, "not called ................");
+
   res.status(200).json({ result });
 };

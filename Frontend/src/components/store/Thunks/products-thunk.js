@@ -11,8 +11,8 @@ export const fetchAllProducts = createAsyncThunk(
 
 export const fetchProductById = createAsyncThunk(
   "products/fetchProductById",
-  async (id) => {
-    const apiData = await Axios("get", `/product/${id}`);
+  async (productId) => {
+    const apiData = await Axios("get", `/products/${productId}`);
     return apiData.data.result;
   }
 );

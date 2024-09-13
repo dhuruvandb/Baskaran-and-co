@@ -4,12 +4,13 @@ import ForgetPassword from "../pages/ForgetPassword";
 import { LoginSignupPage } from "../pages/LoginSignup";
 import { OrderConfirmation } from "../pages/OrderConfirmation";
 import { ProductForm } from "../pages/ProductForm";
-import React from "react";
+import React, { Suspense } from "react";
 import { ProfileManagement } from "../pages/ProfileManagement";
 import { OrderHistory } from "../pages/OrderHistory";
 import { Wishlist } from "../pages/Wishlist";
 import { AboutUs } from "../pages/AboutUs";
-import { Home } from "../pages/Home";
+import { ReturnPolicy } from "../pages/ReturnPolicy";
+import { UserAccount } from "../pages/UserAccount";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Loader } = require("../components/Loader");
@@ -21,112 +22,128 @@ export const router = createBrowserRouter([
     path: "/",
     element: (
       <Layout>
-        <Home />
+        <RootComponent />
       </Layout>
     ),
     children: [
       {
         path: "cart",
         element: (
-          <React.Suspense fallback={<Loader />}>
+          <Suspense fallback={<Loader />}>
             <Cart />
-          </React.Suspense>
+          </Suspense>
         ),
       },
       {
-        path: "products/category/:categoryName",
+        path: "products/:categoryName",
         element: (
-          <React.Suspense fallback={<Loader />}>
+          <Suspense fallback={<Loader />}>
             <Product />
-          </React.Suspense>
+          </Suspense>
         ),
       },
       {
-        path: "products/category/:categoryName/:productId",
+        path: "products/:categoryName/:productId",
         element: (
-          <React.Suspense fallback={<Loader />}>
+          <Suspense fallback={<Loader />}>
             <Product />
-          </React.Suspense>
+          </Suspense>
         ),
       },
       {
         path: "checkout",
         element: (
-          <React.Suspense fallback={<Loader />}>
+          <Suspense fallback={<Loader />}>
             <Checkout />
-          </React.Suspense>
+          </Suspense>
         ),
       },
       {
         path: "order-confirmation",
         element: (
-          <React.Suspense fallback={<Loader />}>
+          <Suspense fallback={<Loader />}>
             <OrderConfirmation />
-          </React.Suspense>
+          </Suspense>
         ),
       },
       {
         path: "profile-management",
         element: (
-          <React.Suspense fallback={<Loader />}>
+          <Suspense fallback={<Loader />}>
             <ProfileManagement />
-          </React.Suspense>
+          </Suspense>
         ),
       },
       {
         path: "order-history",
         element: (
-          <React.Suspense fallback={<Loader />}>
+          <Suspense fallback={<Loader />}>
             <OrderHistory />
-          </React.Suspense>
+          </Suspense>
         ),
       },
       {
         path: "wishlist",
         element: (
-          <React.Suspense fallback={<Loader />}>
+          <Suspense fallback={<Loader />}>
             <Wishlist />
-          </React.Suspense>
+          </Suspense>
         ),
       },
       {
         path: "admin/addProduct",
         element: (
-          <React.Suspense fallback={<Loader />}>
+          <Suspense fallback={<Loader />}>
             <ProductForm />
-          </React.Suspense>
+          </Suspense>
         ),
       },
       {
         path: "login",
         element: (
-          <React.Suspense fallback={<Loader />}>
+          <Suspense fallback={<Loader />}>
             <LoginSignupPage />
-          </React.Suspense>
+          </Suspense>
         ),
       },
       {
         path: "signup",
         element: (
-          <React.Suspense fallback={<Loader />}>
+          <Suspense fallback={<Loader />}>
             <LoginSignupPage />
-          </React.Suspense>
+          </Suspense>
         ),
       },
       {
         path: "forget-password",
         element: (
-          <React.Suspense fallback={<Loader />}>
+          <Suspense fallback={<Loader />}>
             <ForgetPassword />
-          </React.Suspense>
+          </Suspense>
         ),
       },
       {
         path: "about",
         element: (
-          <React.Suspense fallback={<Loader />}>
+          <Suspense fallback={<Loader />}>
             <AboutUs />
-          </React.Suspense>
+          </Suspense>
+        ),
+      },
+      {
+        path: "return-policy",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ReturnPolicy />
+          </Suspense>
+        ),
+      },
+      {
+        path: "user-account",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <UserAccount />
+          </Suspense>
         ),
       },
     ],

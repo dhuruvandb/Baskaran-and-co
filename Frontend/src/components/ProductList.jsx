@@ -19,6 +19,8 @@ import { cartItems } from "./store/Selectors/cart-selectors";
 export default function ProductList({ product, inCart, key }) {
   const cart = useSelector(cartItems);
   let { productId } = useParams();
+  console.log(productId);
+
   const dialog = useRef(null);
   const dispatch = useDispatch();
   const [displayid, setDisplayid] = useState(null);
