@@ -38,8 +38,6 @@ const crudOperations = {
     return await Model.findOne(filter, fields, options);
   },
   findById: async (Model, id, fields = {}, options = {}) => {
-    console.log(id);
-
     return await Model.findById(id, fields, options);
   },
   findOneAndDelete: async (Model, filter = {}, options = {}) => {

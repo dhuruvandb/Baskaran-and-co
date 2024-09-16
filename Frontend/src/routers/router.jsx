@@ -11,6 +11,9 @@ import { Wishlist } from "../pages/Wishlist";
 import { AboutUs } from "../pages/AboutUs";
 import { ReturnPolicy } from "../pages/ReturnPolicy";
 import { UserAccount } from "../pages/UserAccount";
+import TermsOfService from "../pages/TermsOfService";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
+import Orders from "../pages/Orders";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Loader } = require("../components/Loader");
@@ -71,6 +74,14 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <ProfileManagement />
+          </Suspense>
+        ),
+      },
+      {
+        path: "orders",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Orders />
           </Suspense>
         ),
       },
@@ -143,6 +154,22 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <UserAccount />
+          </Suspense>
+        ),
+      },
+      {
+        path: "terms-of-service",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <TermsOfService />
+          </Suspense>
+        ),
+      },
+      {
+        path: "privacy-policy",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PrivacyPolicy />
           </Suspense>
         ),
       },

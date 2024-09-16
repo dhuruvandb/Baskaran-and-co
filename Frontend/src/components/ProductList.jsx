@@ -19,7 +19,6 @@ import { cartItems } from "./store/Selectors/cart-selectors";
 export default function ProductList({ product, inCart, key }) {
   const cart = useSelector(cartItems);
   let { productId } = useParams();
-  console.log(productId);
 
   const dialog = useRef(null);
   const dispatch = useDispatch();
@@ -72,16 +71,14 @@ export default function ProductList({ product, inCart, key }) {
           const { _id, name, description, price, images } = data;
           // const cartValue = cart.filter((data) => data.productId === _id)[0];
           const cartValue = {};
-          console.log(cartValue);
+          console.log(images);
 
           return (
             <figure key={i}>
               <p>{name}</p>
               {!productId && !inCart ? (
                 <Link to={`${_id}`} target="_blank" rel="noreferrer">
-                  {images.map((img) => (
-                    <img src={img} alt={name} />
-                  ))}
+                  <img src={images} alt={name} />
                 </Link>
               ) : (
                 <img

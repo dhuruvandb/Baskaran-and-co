@@ -38,13 +38,10 @@ const {
 const { sign, verify } = require("jsonwebtoken");
 const Otp = require("../models/OTP");
 
-exports.getAllProducts = async (filter = {}, fields = {}) => {
+exports.getProducts = async (filter = {}, fields = {}) => {
   return await find(Product, filter, fields);
 };
 
-exports.getOneProduct = async (data) => {
-  return await findById(Product, data);
-};
 
 exports.addProduct = async (data) => {
   return await insertMany(Product, data);

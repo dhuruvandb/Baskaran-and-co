@@ -13,13 +13,18 @@ export const Product = () => {
   const { categoryName, productId } = useParams();
   const dispatch = useDispatch();
   const products = useSelector(selectAllProducts);
+
   useEffect(() => {
     if (productId) {
+      console.log({ productId }, "called .............");
       dispatch(fetchProductById(productId));
-    } else if (categoryName) {
+    } else {
+      console.log({ productId }, " notttttttttttttttt called .............");
       dispatch(fetchAllProducts(categoryName));
     }
   }, [categoryName, dispatch, productId]);
+  console.log(products);
+
   return (
     <div>
       <ProductList product={products} />

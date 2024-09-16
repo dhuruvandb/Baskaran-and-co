@@ -1,94 +1,100 @@
-/* Footer container */
-footer {
-  background-color: #ffffff; /* Light background */
-  color: #333; /* Dark text color */
-  padding: 40px 20px;
-  border-top: 1px solid #e0e0e0; /* Light border */
+/* Footer.css */
+.footer {
+  background-color: #f8f9fa; /* Light background color */
+  color: #212529; /* Dark text color for contrast */
+  padding: 20px 0;
+  text-align: center;
 }
 
-/* Footer container styling */
 .footer-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
+  justify-content: space-around;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-/* Footer section styling */
 .footer-section {
   flex: 1;
   min-width: 200px;
-  margin: 10px 0;
+  margin: 10px;
 }
 
-/* Footer section heading */
-.footer-section h4 {
-  font-size: 1.2em;
-  color: #333;
+.footer-section h3 {
+  border-bottom: 2px solid #dee2e6; /* Light border color */
+  padding-bottom: 10px;
   margin-bottom: 10px;
 }
 
-/* Footer section text */
 .footer-section p {
-  font-size: 0.9em;
-  color: #666;
+  margin: 0;
 }
 
-/* Footer links styling */
-.footer-section a {
-  color: #007bff;
+.footer-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin: 5px 0;
+}
+
+.footer-section ul li a {
+  color: #007bff; /* Link color */
   text-decoration: none;
 }
 
-.footer-section a:hover {
+.footer-section ul li a:hover {
   text-decoration: underline;
 }
 
-/* Footer subscription form */
-.footer-section form {
+.social-icons a {
+  color: #007bff; /* Link color */
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.social-icons a:hover {
+  text-decoration: underline;
+}
+
+.newsletter-form {
   display: flex;
   flex-direction: column;
 }
 
-.footer-section input[type="email"] {
+.newsletter-form input {
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 0.9em;
   margin-bottom: 10px;
+  border: 1px solid #ced4da; /* Light border color */
+  border-radius: 4px;
 }
 
-.footer-section button {
+.newsletter-form button {
   padding: 10px;
   border: none;
-  background-color: #007bff;
-  color: #ffffff;
   border-radius: 4px;
+  background-color: #007bff; /* Primary button color */
+  color: #fff;
   cursor: pointer;
-  font-size: 0.9em;
-  transition: background-color 0.3s ease;
 }
 
-.footer-section button:hover {
-  background-color: #0056b3;
+.newsletter-form button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
 }
 
-/* Footer copyright text */
-.copyright {
-  text-align: center;
+.payment-methods img {
+  width: 40px;
+  margin: 0 10px;
+}
+
+.footer-bottom {
+  background-color: #e9ecef; /* Slightly darker background for the bottom */
+  padding: 10px 0;
   margin-top: 20px;
-  font-size: 0.9em;
-  color: #666;
 }
 
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .footer-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .footer-section {
-    text-align: center;
-    margin-bottom: 20px;
-  }
+.footer-bottom p {
+  margin: 0;
 }
