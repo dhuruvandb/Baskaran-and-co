@@ -2,7 +2,7 @@
 import React from "react";
 import "../styles/OrderHistory.css";
 
-export const OrderHistory = () => {
+export default function OrderHistory() {
   const orders = [
     { id: 1, date: "2024-08-01", total: 150.0, status: "Delivered", items: 3 },
     { id: 2, date: "2024-07-15", total: 250.0, status: "Shipped", items: 5 },
@@ -36,4 +36,4 @@ export const OrderHistory = () => {
       </table>
     </div>
   );
-};
+}

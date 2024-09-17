@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export const ProductForm = () => {
+export default function ProductForm() {
   const [data, setData] = useState([]);
 
   const handleSubmit = (e) => {
@@ -13,16 +13,6 @@ export const ProductForm = () => {
     setData([...data, obj]);
     e.target.reset();
   };
-
-  useEffect(() => {
-    // addData("http://localhost:5000/admin/addproduct", data)
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((e) => {
-    //     console.error(e);
-    //   });
-  });
 
   return (
     <div>
@@ -48,4 +38,4 @@ export const ProductForm = () => {
       </form>
     </div>
   );
-};
+}

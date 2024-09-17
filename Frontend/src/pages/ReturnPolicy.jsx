@@ -2,7 +2,7 @@
 import React from "react";
 import "../styles/ReturnPolicy.css";
 
-export const ReturnPolicy = () => {
+export default function ReturnPolicy() {
   return (
     <div className="return-policy">
       <section className="policy-header">
@@ -77,4 +77,4 @@ export const ReturnPolicy = () => {
       </section>
     </div>
   );
-};
+}

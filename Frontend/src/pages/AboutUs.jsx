@@ -2,7 +2,7 @@
 import React from "react";
 import "../styles/AboutUs.css";
 
-export const AboutUs = () => {
+export default function AboutUs() {
   const teamMembers = [
     {
       id: 1,
@@ -66,4 +66,4 @@ export const AboutUs = () => {
       </section>
     </div>
   );
-};
+}

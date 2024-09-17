@@ -17,7 +17,7 @@ import { TermsAndConditions } from "../components/TermsAndConditions";
 import { Validation } from "../components/Validation";
 import { axiosWithToastify } from "../helper/fetchUrl";
 
-export const LoginSignupPage = () => {
+export default function LoginSignupPage() {
   const dispatch = useDispatch();
 
   const location = useLocation();
@@ -270,4 +270,4 @@ export const LoginSignupPage = () => {
       </div>
     </>
   );
-};
+}

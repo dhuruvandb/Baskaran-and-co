@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import "../styles/ProfileManagement.css";
 
-export const ProfileManagement = () => {
+export default function ProfileManagement() {
   const [userInfo, setUserInfo] = useState({
     name: "John Doe",
     email: "john.doe@example.com",
@@ -139,4 +139,4 @@ export const ProfileManagement = () => {
       </form>
     </div>
   );
-};
+}

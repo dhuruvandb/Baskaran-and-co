@@ -1,176 +1,212 @@
-import Cart from "../pages/Cart";
-import { Checkout } from "../pages/Checkout";
-import ForgetPassword from "../pages/ForgetPassword";
-import { LoginSignupPage } from "../pages/LoginSignup";
-import { OrderConfirmation } from "../pages/OrderConfirmation";
-import { ProductForm } from "../pages/ProductForm";
-import React, { Suspense } from "react";
-import { ProfileManagement } from "../pages/ProfileManagement";
-import { OrderHistory } from "../pages/OrderHistory";
-import { Wishlist } from "../pages/Wishlist";
-import { AboutUs } from "../pages/AboutUs";
-import { ReturnPolicy } from "../pages/ReturnPolicy";
-import { UserAccount } from "../pages/UserAccount";
-import TermsOfService from "../pages/TermsOfService";
-import PrivacyPolicy from "../pages/PrivacyPolicy";
-import Orders from "../pages/Orders";
+import { lazy, useEffect } from "react";
+import { createBrowserRouter } from "react-router-dom";
+import Suspenses from "../components/Suspense";
+import { useDispatch } from "react-redux";
+import {
+  fetchAllProducts,
+  fetchProductById,
+  fetchProductCategories,
+} from "../components/store/Thunks/products-thunk";
 
-const { createBrowserRouter } = require("react-router-dom");
-const { default: Loader } = require("../components/Loader");
-const { default: Layout } = require("../components/Layouts/Layout");
-const { default: RootComponent } = require("../components/RootComponent");
-const { Product } = require("../pages/Product");
+import { store } from "../components/store";
+
+// Layout and Root Components
+const Layout = lazy(() => import("../components/Layouts/Layout"));
+const RootComponent = lazy(() => import("../components/RootComponent"));
+
+// User Account and Authentication
+const LoginSignupPage = lazy(() => import("../pages/LoginSignup"));
+const ForgetPassword = lazy(() => import("../pages/ForgetPassword"));
+const UserAccount = lazy(() => import("../pages/UserAccount"));
+const ProfileManagement = lazy(() => import("../pages/ProfileManagement"));
+
+// Cart and Checkout
+const Cart = lazy(() => import("../pages/Cart"));
+const Checkout = lazy(() => import("../pages/Checkout"));
+
+// Order Related Pages
+const OrderConfirmation = lazy(() => import("../pages/OrderConfirmation"));
+const OrderHistory = lazy(() => import("../pages/OrderHistory"));
+const Orders = lazy(() => import("../pages/Orders"));
+
+// Product and Wishlist
+const Product = lazy(() => import("../pages/Product"));
+const ProductForm = lazy(() => import("../pages/ProductForm"));
+const Wishlist = lazy(() => import("../pages/Wishlist"));
+
+// Static and Informational Pages
+const AboutUs = lazy(() => import("../pages/AboutUs"));
+const ReturnPolicy = lazy(() => import("../pages/ReturnPolicy"));
+const TermsOfService = lazy(() => import("../pages/TermsOfService"));
+const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy"));
 export const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <Layout>
-        <RootComponent />
-      </Layout>
+      <Suspenses>
+        <Layout>
+          <RootComponent />
+        </Layout>
+      </Suspenses>
     ),
+    loader: async () => {
+      await store.dispatch(fetchProductCategories());
+      return null;
+    },
     children: [
       {
         path: "cart",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <Cart />
-          </Suspense>
+          </Suspenses>
         ),
       },
       {
         path: "products/:categoryName",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <Product />
-          </Suspense>
+          </Suspenses>
         ),
+        loader: async ({ params }) => {
+          const { categoryName } = params;
+          await store.dispatch(fetchAllProducts(categoryName));
+          return null;
+        },
       },
       {
         path: "products/:categoryName/:productId",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <Product />
-          </Suspense>
+          </Suspenses>
         ),
+        loader: async ({ params }) => {
+          const { productId } = params;
+          console.log(productId);
+          await store.dispatch(fetchProductById(productId));
+          return null;
+        },
       },
       {
         path: "checkout",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <Checkout />
-          </Suspense>
+          </Suspenses>
         ),
       },
       {
         path: "order-confirmation",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <OrderConfirmation />
-          </Suspense>
+          </Suspenses>
         ),
       },
       {
         path: "profile-management",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <ProfileManagement />
-          </Suspense>
+          </Suspenses>
         ),
       },
       {
         path: "orders",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <Orders />
-          </Suspense>
+          </Suspenses>
         ),
       },
       {
         path: "order-history",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <OrderHistory />
-          </Suspense>
+          </Suspenses>
         ),
       },
       {
         path: "wishlist",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <Wishlist />
-          </Suspense>
+          </Suspenses>
         ),
       },
       {
         path: "admin/addProduct",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <ProductForm />
-          </Suspense>
+          </Suspenses>
         ),
       },
       {
         path: "login",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <LoginSignupPage />
-          </Suspense>
+          </Suspenses>
         ),
       },
       {
         path: "signup",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <LoginSignupPage />
-          </Suspense>
+          </Suspenses>
         ),
       },
       {
         path: "forget-password",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <ForgetPassword />
-          </Suspense>
+          </Suspenses>
         ),
       },
       {
         path: "about",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <AboutUs />
-          </Suspense>
+          </Suspenses>
         ),
       },
       {
         path: "return-policy",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <ReturnPolicy />
-          </Suspense>
+          </Suspenses>
         ),
       },
       {
         path: "user-account",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <UserAccount />
-          </Suspense>
+          </Suspenses>
         ),
       },
       {
         path: "terms-of-service",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <TermsOfService />
-          </Suspense>
+          </Suspenses>
         ),
       },
       {
         path: "privacy-policy",
         element: (
-          <Suspense fallback={<Loader />}>
+          <Suspenses>
             <PrivacyPolicy />
-          </Suspense>
+          </Suspenses>
         ),
       },
     ],

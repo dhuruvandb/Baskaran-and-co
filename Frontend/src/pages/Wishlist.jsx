@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import "../styles/Wishlist.css";
 
-export const Wishlist = () => {
+export default function Wishlist() {
   const [wishlistItems, setWishlistItems] = useState([
     {
       id: 1,
@@ -54,4 +54,4 @@ export const Wishlist = () => {
       )}
     </div>
   );
-};
+}

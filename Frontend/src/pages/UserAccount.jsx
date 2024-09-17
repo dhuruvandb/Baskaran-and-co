@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 // import "../styles/UserAccount.css";
 
-export const UserAccount = () => {
+export default function UserAccount() {
   const [editMode, setEditMode] = useState(false);
   const [userInfo, setUserInfo] = useState({
     name: "John Doe",
@@ -149,4 +149,4 @@ export const UserAccount = () => {
       </section>
     </div>
   );
-};
+}

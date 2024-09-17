@@ -6,7 +6,7 @@ import { PaymentOptions } from "../components/PaymentOptions";
 import { OrderSummary } from "../components/OrderSummary";
 import "../styles/Checkout.css"; // Create CheckoutForm.css for styling
 
-export const Checkout = () => {
+export default function Checkout() {
   const [shippingInfo, setShippingInfo] = useState({});
   const [billingInfo, setBillingInfo] = useState({});
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -28,4 +28,4 @@ export const Checkout = () => {
       </button>
     </div>
   );
-};
+}

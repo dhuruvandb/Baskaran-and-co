@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
 import "../styles/productCategory.css";
 const ProductCategoryPage = ({ productCategories }) => {
-  // Hook for handling carousel scroll amount
-  console.log("prrrrrrrrrrrrrrrrrrrrrrr");
-
   return (
     <div className="product-category-container">
       {productCategories.map((product, index) => {

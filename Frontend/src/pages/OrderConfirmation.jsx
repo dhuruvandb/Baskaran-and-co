@@ -2,7 +2,7 @@
 import React from "react";
 import "../styles/OrderConfirmation.css";
 
-export const OrderConfirmation = () => {
+export default function OrderConfirmation() {
   const orderNumber = "123456"; // Example order number
   const orderDetails = [
     { id: 1, name: "Product 1", quantity: 2, price: 100 },
@@ -52,4 +52,4 @@ export const OrderConfirmation = () => {
       </section>
     </div>
   );
-};
+}
