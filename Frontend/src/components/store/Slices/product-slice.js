@@ -21,7 +21,7 @@ export const fetchProducts = createSlice({
       })
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
         const { payload } = action;
-        state.items.push(...payload);
+        state.items = payload;
         state.status = "successful";
       })
       .addCase(fetchAllProducts.rejected, (state) => {
@@ -36,7 +36,7 @@ export const fetchProducts = createSlice({
       .addCase(fetchProductById.fulfilled, (state, action) => {
         const { payload } = action;
 
-        state.items.push(payload);
+        state.items = payload;
         state.status = "successful";
         return;
       })
@@ -51,8 +51,7 @@ export const fetchProducts = createSlice({
       })
       .addCase(fetchProductCategories.fulfilled, (state, action) => {
         const { payload } = action;
-
-        state.catergories.push(...payload);
+        state.catergories = payload;
         state.status = "successful";
       })
       .addCase(fetchProductCategories.rejected, (state) => {

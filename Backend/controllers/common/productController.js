@@ -1,5 +1,4 @@
 const { viewCategory, getProducts } = require("../../helpers/helper");
-const Products = require("../../models/productModel");
 const mongoose = require("mongoose");
 exports.fetchAllProducts = async (req, res) => {
   try {
@@ -21,17 +20,14 @@ exports.getOneProduct = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid product ID" });
     }
-
-    // Find the product by its ID
-    const product = await Products.findById(id);
-
-    // Check if the product was found
-    if (!product) {
+    const products = await getProducts({ _id: id });
+    // Check if any products were found
+    if (!products) {
       return res.status(404).json({ message: "Product not found" });
     }
 
     // Return the product in the response
-    res.status(200).json({ result: product });
+    res.status(200).json({ result: products });
   } catch (error) {
     // Handle any errors that occur during the process
     console.error(error);

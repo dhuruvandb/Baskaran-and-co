@@ -1,11 +1,7 @@
 import "../styles/product.css";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  incrementCartValue,
-  decrementCartValue,
-  removeCartValue,
-} from "./store/Slices";
+import { removeCartValue } from "./store/Slices";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import {
@@ -23,7 +19,7 @@ export default function ProductList({ product, inCart, key }) {
   const dialog = useRef(null);
   const dispatch = useDispatch();
   const [displayid, setDisplayid] = useState(null);
-  let filteredArray = product.filter((data) => data._id === displayid);
+  let filteredArray = [];
   useEffect(() => {
     dispatch(getCart("66ae15a9ac9ef503f293599e"));
   }, [dispatch]);
@@ -69,10 +65,7 @@ export default function ProductList({ product, inCart, key }) {
       <div className="product" key={key}>
         {product.map((data, i) => {
           const { _id, name, description, price, images } = data;
-          // const cartValue = cart.filter((data) => data.productId === _id)[0];
           const cartValue = {};
-          console.log(images);
-
           return (
             <figure key={i}>
               <p>{name}</p>

@@ -3,8 +3,6 @@ import { Axios } from "../../../helper/fetchUrl";
 
 export const addCart = createAsyncThunk("cart/add", async (data) => {
   try {
-    console.log("called ....");
-
     await Axios("post", `/addcart`, data);
   } catch (error) {
     console.error("Failed to add to cart:", error);
@@ -25,8 +23,6 @@ export const updateCart = createAsyncThunk(
 export const getCart = createAsyncThunk("cart/get", async (userId) => {
   try {
     const response = await Axios("get", `/viewcart/${userId}`);
-    console.log(response.data.result);
-
     return response.data.result;
   } catch (error) {
     console.error("Failed to fetch cart:", error);

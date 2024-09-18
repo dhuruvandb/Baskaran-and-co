@@ -8,8 +8,6 @@ import { cartItems } from "../components/store/Selectors/cart-selectors";
 import { getCart } from "../components/store/Thunks/cart-thunk";
 export default function Cart() {
   const cartValue = useSelector(cartItems);
-  console.log(cartValue);
-
   const dispatch = useDispatch();
   const [inCart, setInCart] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);

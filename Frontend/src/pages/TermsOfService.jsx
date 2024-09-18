@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/TermsOfService.css"; // Ensure you create this CSS file for styling
 
 const TermsOfService = () => {
@@ -15,7 +15,7 @@ const TermsOfService = () => {
           including any content, functionality, and services offered on or
           through{" "}
           <a
-            href="https://www.baskaranandco.com"
+            href="https://www.baskaranandco.in"
             target="_blank"
             rel="noopener noreferrer"
           >

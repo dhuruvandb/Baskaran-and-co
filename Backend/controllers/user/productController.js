@@ -16,10 +16,6 @@ exports.getAllUserProducts = async (req, res) => {
 };
 
 exports.getOneUserProduct = async (req, res) => {
-  console.log(req.params.id);
-
   const result = await getOneProduct({ _id: req.params.id });
-  console.log(result);
-
   res.status(200).json({ result });
 };

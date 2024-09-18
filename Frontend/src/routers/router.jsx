@@ -1,7 +1,6 @@
-import { lazy, useEffect } from "react";
+import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Suspenses from "../components/Suspense";
-import { useDispatch } from "react-redux";
 import {
   fetchAllProducts,
   fetchProductById,
@@ -9,6 +8,7 @@ import {
 } from "../components/store/Thunks/products-thunk";
 
 import { store } from "../components/store";
+import { selectAllProducts } from "../components/store/Selectors/product-selectors";
 
 // Layout and Root Components
 const Layout = lazy(() => import("../components/Layouts/Layout"));
@@ -49,8 +49,8 @@ export const router = createBrowserRouter([
         </Layout>
       </Suspenses>
     ),
-    loader: async () => {
-      await store.dispatch(fetchProductCategories());
+    loader: () => {
+      store.dispatch(fetchProductCategories());
       return null;
     },
     children: [
@@ -69,9 +69,9 @@ export const router = createBrowserRouter([
             <Product />
           </Suspenses>
         ),
-        loader: async ({ params }) => {
+        loader: ({ params }) => {
           const { categoryName } = params;
-          await store.dispatch(fetchAllProducts(categoryName));
+          store.dispatch(fetchAllProducts(categoryName));
           return null;
         },
       },
@@ -82,10 +82,9 @@ export const router = createBrowserRouter([
             <Product />
           </Suspenses>
         ),
-        loader: async ({ params }) => {
+        loader: ({ params }) => {
           const { productId } = params;
-          console.log(productId);
-          await store.dispatch(fetchProductById(productId));
+          store.dispatch(fetchProductById(productId));
           return null;
         },
       },

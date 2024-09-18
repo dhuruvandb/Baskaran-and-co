@@ -17,7 +17,7 @@ export const cart = createSlice({
       })
       .addCase(getCart.fulfilled, (state, action) => {
         const { payload } = action;
-        state.cartItems.push(...payload);
+        state.cartItems = payload;
       })
       .addCase(getCart.rejected, (state) => {
         state.error = "Error fetching cart items";

@@ -24,6 +24,5 @@ exports.resetSession = (req, res, next) => {
 
 exports.isLoggedIn = (req, res, next) => {
   const token = req.cookie.token;
-  console.log(token);
   next();
 };

@@ -37,7 +37,7 @@ exports.LoginWithPassword = async (req, res) => {
     );
     res
       .status(200)
-      .json({ message: LOGIN_SUCCESSFUL_MESSAGE, path: "/home", token });
+      .json({ message: LOGIN_SUCCESSFUL_MESSAGE, path: "/", token });
   } catch (error) {
     console.error("Login failed:", error);
     res.status(500).json({ message: "Internal server error" });
