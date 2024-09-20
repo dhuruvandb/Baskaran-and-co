@@ -1,167 +1,137 @@
-const {
-  addCart,
-  updateCart,
-  deleteCart,
-  viewCart,
-  addOrUpdateCart,
-} = require("../../helpers/helper");
-const {
-  find,
-  findOneAndDelete,
-  findOne,
-} = require("../../helpers/mongooseHelpers");
-const cart = require("../../models/cart");
-
-// exports.handleCartUpdate = async (req, res) => {
-//   try {
-//     const { userId } = req.body;
-//     console.log(req.body);
-
-//     const itemId = Object.keys(req.body.items)[0];
-//     const isUserPresent = await find(cart, { userId });
-//     if (isUserPresent.length > 0) {
-//       const result = await addOrUpdateCart(
-//         { userId },
-//         {
-//           $set: { [`items.${itemId}`]: 1 },
-//           // $unset: { [`items.${itemId}`]: "" },
-//         }
-//       );
-//       res.status(200).json({ result });
-//     } else {
-//       const result = await addCart(req.body);
-//       res.status(200).json({ result });
-//       // const result = await addOrUpdateCart(
-//       //   { userId },
-//       //   {
-//       //     $inc: { [`items.${itemId}`]: count },
-//       //     // $unset: { [`items.${itemId}`]: "" },
-//       //   }
-//       // );
-//       const isItemZero = await viewCart(
-//         { userId },
-//         { [`items.${itemId}`]: 1, _id: 0 }
-//       );
-//       console.log(isItemZero);
-
-//       res.status(200).json({ result });
-//       console.log("update or delete", result);
-//     }
-
-//     // {
-//     //     $inc: { [`${Object.keys(req.body.items)[0]}`]: 1 },
-//     //   }
-
-//     // const result = await updateCart(
-//     //   req.body,
-//     //   {
-//     //     $inc: { "items.$.count": count },
-//     //   },
-//     //   {
-//     //     $pull: { items: { productId, count: 0 } },
-//     //   }
-//     // );
-
-//     // if (isUserPresent.length > 0) {
-//     //   res.redirect(`/updatecart/${isUserPresent[0].items[0].productId}`);
-//     // } else {
-
-//     // }
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
+const { addCart } = require("../../helpers/helper");
+const Cart = require("../../models/cart");
+const mongoose = require("mongoose");
+const Products = require("../../models/productModel"); // Adjust the path as necessary
 exports.handleCartUpdate = async (req, res) => {
-  const userId = req.body.userId;
-  const items = req.body.items; // Assume items is an object of itemId -> quantity
+  console.log(req.body);
 
-  try {
-    // Create a map of updates using MongoDB operators
-    const updates = {};
-    Object.entries(items).forEach(([itemId, quantity]) => {
-      if (quantity > 0) {
-        updates[`items.${itemId}`] =
-          (updates[`items.${itemId}`] || 0) + quantity;
-      }
-    });
+  const userId = Object.keys(req.body)[0];
+  const itemId = Object.keys(req.body[userId])[0];
+  const itemQuantity = req.body[userId][itemId]; // Assuming you also send quantity to add or subtract
+  const isDecrement = itemQuantity < 0; // Check if this is a decrement operation
+  const quantityChange = Math.abs(itemQuantity); // Get the absolute value of the quantity change
 
-    // Update the cart if it exists, otherwise create a new one
-    await addOrUpdateCart({ userId }, { $set: updates });
-    res.status(200).json({ message: "Cart updated successfully" });
-  } catch (error) {
-    console.error("Error adding to cart:", error);
-    res.status(500).json({ error: "Error adding to cart" });
-  }
-};
+  // Check if the user exists in the cart
+  const userCart = await Cart.findOne({ [userId]: { $exists: true } });
 
-exports.updateCart = async (req, res) => {
-  const userId = req.params.userId;
-  const { items, count } = req.body; // `items` is an object of itemId -> quantity, `count` is -1 or 1
-
-  try {
-    // Create a map of updates and removals
-    const updates = {};
-    const removals = {};
-
-    Object.entries(items).forEach(([itemId, quantity]) => {
-      if (count === 1) {
-        // Increase item quantity
-        updates[`items.${itemId}`] =
-          (updates[`items.${itemId}`] || 0) + quantity;
-      } else if (count === -1) {
-        // Decrease item quantity
-        updates[`items.${itemId}`] =
-          (updates[`items.${itemId}`] || 0) - quantity;
-        if (updates[`items.${itemId}`] <= 0) {
-          removals[`items.${itemId}`] = "";
-        }
-      }
-    });
-
-    // Apply updates and removals to the cart
-    await updateCart({ userId }, { $inc: updates, $unset: removals });
-
-    // Check if the cart is empty after the update
-    const updatedCart = await findOne(cart, { userId });
-    
-    if (!updatedCart || updatedCart.items.size === 0) {
-      await deleteCart({ userId });
-      res
-        .status(200)
-        .json({ message: "Cart cleared and deleted successfully" });
+  if (!userCart) {
+    if (!isDecrement) {
+      // User doesn't exist, create new cart entry
+      const newCart = { [userId]: { [itemId]: quantityChange } };
+      const result = await Cart.create(newCart);
+      return res.status(201).json({ result });
     } else {
-      res.status(200).json({ message: "Cart updated successfully" });
+      return res
+        .status(400)
+        .json({ message: "Cannot decrement items in a non-existent cart." });
     }
-  } catch (error) {
-    console.error("Error updating cart:", error);
-    res.status(500).json({ error: "Error updating cart" });
-  }
-};
+  } else {
+    const itemCount = userCart[userId][itemId] || 0; // Get current count, default to 0 if not present
+    const itemKeys = Object.keys(userCart[userId]);
 
-exports.deleteCart = async (req, res) => {
-  try {
-    const { userId } = req.body;
-    const productId = req.params.id;
-    const result = await updateCart(
-      { userId, "items.productId": productId },
-      {
-        $pull: { items: { productId } },
+    if (!isDecrement) {
+      // Item exists, update its count
+      const updatedItem = await Cart.findOneAndUpdate(
+        { [userId]: { $exists: true } },
+        { $inc: { [`${userId}.${itemId}`]: quantityChange } },
+        { new: true }
+      );
+      return res.json({ updatedItem });
+    } else {
+      // Decrement logic
+      if (itemCount <= quantityChange) {
+        // Remove item if quantity goes to 0 or below
+        const updatedCart = await Cart.findOneAndUpdate(
+          { [userId]: { $exists: true } },
+          { $unset: { [`${userId}.${itemId}`]: "" } },
+          { new: true }
+        );
+
+        // Check if the user has any items left
+        if (itemKeys.length === 1) {
+          // If this was the only item, delete the entire document
+          await Cart.deleteOne({ [userId]: { $exists: true } });
+          return res
+            .status(204)
+            .json({ message: "Cart is empty, user cart deleted." });
+        }
+
+        return res.json({ updatedCart });
+      } else {
+        // Update existing item count
+        const updatedItem = await Cart.findOneAndUpdate(
+          { [userId]: { $exists: true } },
+          { $inc: { [`${userId}.${itemId}`]: -quantityChange } },
+          { new: true }
+        );
+        return res.json({ updatedItem });
       }
-    );
-    res.status(200).json({ result });
-  } catch (error) {
-    console.error(error);
+    }
   }
 };
 
-exports.getCart = async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const result = await viewCart({ userId }, { items: 1 });
+exports.deleteItemFromCart = async (req, res) => {
+  const userId = Object.keys(req.body)[0];
+  const itemId = Object.keys(req.body[userId])[0];
 
-    res.status(200).json({ result });
+  // Check if the user exists in the cart
+  const userCart = await Cart.findOne({ [userId]: { $exists: true } });
+
+  if (!userCart) {
+    return res.status(404).json({ message: "Cart not found for the user." });
+  }
+
+  // Check the current items in the user's cart
+  const itemKeys = Object.keys(userCart[userId]);
+
+  // Remove the specified item from the cart
+  const updatedCart = await Cart.findOneAndUpdate(
+    { [userId]: { $exists: true } },
+    { $unset: { [`${userId}.${itemId}`]: "" } },
+    { new: true }
+  );
+
+  // If the item was the only one in the cart, delete the entire document
+  if (itemKeys.length === 1) {
+    await Cart.deleteOne({ [userId]: { $exists: true } });
+    return res
+      .status(204)
+      .json({ message: "Item deleted, cart is now empty. User cart deleted." });
+  }
+
+  return res.json({ updatedCart });
+};
+
+exports.getCartItems = async (req, res) => {
+  const { userId } = req.params; // Assuming userId is passed as a route parameter
+
+  // Check if the user exists in the cart
+  const userCart = await Cart.findOne({ [userId]: { $exists: true } });
+  if (!userCart) {
+    return res.status(404).json({ result: userCart });
+  }
+
+  const itemIds = Object.keys(userCart[userId]);
+
+  try {
+    // Fetch all products in parallel
+    const products = await Promise.all(
+      itemIds.map(async (id) => {
+        const product = await Products.findOne({ _id: id });
+        if (!product) {
+          return null; // Return null if the product is not found
+        }
+        // Return the product with the cartValue
+        return { ...product.toObject(), cartValue: userCart[userId][id] };
+      })
+    );
+
+    // Filter out any null values (products not found)
+    const filteredProducts = products.filter(Boolean);
+    return res.json({ result: filteredProducts });
   } catch (error) {
-    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "Error fetching products", error: error.message });
   }
 };

@@ -8,6 +8,9 @@ const crudOperations = {
   aggregate: async (Model, pipeline) => {
     return await Model.aggregate(pipeline);
   },
+  insertOne: async (Model, docs) => {
+    return await Model.insertOne(docs);
+  },
   insertMany: async (Model, docs) => {
     return await Model.insertMany(docs);
   },
@@ -46,8 +49,11 @@ const crudOperations = {
   findOneAndReplace: async (Model, filter = {}, replacement, options = {}) => {
     return await Model.findOneAndReplace(filter, replacement, options).exec();
   },
-  findOneAndUpdate: async (Model, filter = {}, update) => {
+  findOneAndUpdate: async (Model, filter = {}, update, fields = {}) => {
+    console.log(fields);
+
     return await Model.findOneAndUpdate(filter, update, {
+      projection: fields,
       new: true,
       upsert: true,
     });

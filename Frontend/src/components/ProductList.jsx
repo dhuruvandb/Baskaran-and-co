@@ -11,9 +11,9 @@ import {
   getCart,
 } from "./store/Thunks/cart-thunk";
 import { cartItems } from "./store/Selectors/cart-selectors";
-
 export default function ProductList({ product, inCart, key }) {
   const cart = useSelector(cartItems);
+
   let { productId } = useParams();
 
   const dialog = useRef(null);
@@ -21,60 +21,23 @@ export default function ProductList({ product, inCart, key }) {
   const [displayid, setDisplayid] = useState(null);
   let filteredArray = [];
   useEffect(() => {
-    dispatch(getCart("66ae15a9ac9ef503f293599e"));
+    dispatch(getCart("66ae15a9ac912312f503f23599e"));
   }, [dispatch]);
   return (
     <>
-      <dialog ref={dialog}>
-        <strong>Are you sure want to remove this item ?</strong>
-        {filteredArray.map((data) => {
-          const { id, name, description, price, image } = data;
-          return (
-            <figure>
-              <p>{name}</p>
-              <img
-                src={image}
-                alt={name}
-                height={inCart ? 50 : null}
-                width={inCart ? 50 : null}
-              />
-              <p>{description}</p>
-              <p>&#8377;{price}</p>
-              <>
-                <button disabled>
-                  &nbsp;-{cart[id] < 10 ? "\u00A0" : null}
-                </button>
-                <span>{cart[id] || 0}</span>
-                <button disabled>
-                  &nbsp;+{cart[id] < 10 ? "\u00A0" : null}
-                </button>
-              </>
-            </figure>
-          );
-        })}
-        <button onClick={() => dialog.current.close()}>Cancel</button>
-        <button
-          onClick={() => {
-            dispatch(removeCartValue(displayid));
-            dialog.current.close();
-          }}
-        >
-          Remove
-        </button>
-      </dialog>
       <div className="product" key={key}>
         {product.map((data, i) => {
-          const { _id, name, description, price, images } = data;
-          const cartValue = {};
+          const { _id, name, description, price, images, cartValue } = data;
           return (
             <figure key={i}>
               <p>{name}</p>
               {!productId && !inCart ? (
                 <Link to={`${_id}`} target="_blank" rel="noreferrer">
-                  <img src={images} alt={name} />
+                  <img src={images} alt={name} loading="lazy" />
                 </Link>
               ) : (
                 <img
+                  loading="lazy"
                   src={images}
                   alt={name}
                   height={inCart ? 50 : null}
@@ -84,24 +47,22 @@ export default function ProductList({ product, inCart, key }) {
               <p>{description}</p>
               <p>&#8377;{price}</p>
               <>
-                {cartValue[_id] > 0 ? (
+                {cartValue > 0 ? (
                   <>
                     <button
                       onClick={() => {
                         dispatch(
-                          updateCart(
-                            {
-                              userId: "66ae15a9ac9ef503f293599e",
-                              count: -1,
+                          updateCart({
+                            "66ae15a9ac9ef503f293599e": {
+                              [_id]: -1,
                             },
-                            _id
-                          )
+                          })
                         );
                       }}
                     >
-                      &nbsp;-{cartValue[_id] < 10 ? "\u00A0" : null}
+                      &nbsp;-{cartValue < 10 ? "\u00A0" : null}
                     </button>
-                    <span>{cartValue[_id] || 0}</span>
+                    <span>{cartValue || 0}</span>
                     <button
                       onClick={() => {
                         dispatch(
@@ -115,7 +76,7 @@ export default function ProductList({ product, inCart, key }) {
                         );
                       }}
                     >
-                      &nbsp;+{cartValue[_id] < 10 ? "\u00A0" : null}
+                      &nbsp;+{cartValue < 10 ? "\u00A0" : null}
                     </button>
                   </>
                 ) : (
@@ -128,7 +89,7 @@ export default function ProductList({ product, inCart, key }) {
                             items: { [_id]: 1 },
                           })
                         );
-                        dispatch(getCart("66ae15a9ac9ef503f293599e"));
+                        dispatch(getCart("66ae15a9ac912312f503f23599e"));
                       }}
                     >
                       Add Cart

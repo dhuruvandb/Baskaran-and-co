@@ -3,7 +3,10 @@ const {
   updateCart,
   deleteCart,
   getCart,
+  addToCart,
   handleCartUpdate,
+  deleteItemFromCart,
+  getCartItems,
 } = require("../controllers/user/cartController");
 const {
   VIEW_CART_PATH,
@@ -39,10 +42,9 @@ const router = express.Router();
 
 router.get(GET_ALL_USER_PRODUCTS_PATH, getAllUserProducts);
 router.get(GET_ONE_USER_PRODUCT_PATH, getOneUserProduct);
-router.get(VIEW_CART_PATH, getCart);
-router.post(ADD_CART_PATH, handleCartUpdate);
-router.put(UPDATE_CART_PATH, updateCart);
-router.delete(DELETE_CART_PATH, deleteCart);
+router.get(VIEW_CART_PATH, getCartItems);
+router.post([ADD_CART_PATH, UPDATE_CART_PATH], handleCartUpdate);
+router.delete(DELETE_CART_PATH, deleteItemFromCart);
 router.post(SIGNUP_PATH, SendOTP, Signup);
 router.post(LOGIN_PATH, validateLoginEmail, LoginWithPassword);
 router.put(FORGET_PASSWORD_PATH, ForgetPassword);

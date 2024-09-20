@@ -74,9 +74,9 @@ const Footer = () => {
         <div className="footer-section">
           <h3>Payment Methods</h3>
           <div className="payment-methods">
-            <img src="visa.png" alt="Visa" />
-            <img src="mastercard.png" alt="MasterCard" />
-            <img src="paypal.png" alt="PayPal" />
+            <img src="visa.png" alt="Visa" loading="lazy" />
+            <img src="mastercard.png" alt="MasterCard" loading="lazy" />
+            <img src="paypal.png" alt="PayPal" loading="lazy" />
             {/* Add more payment method icons as needed */}
           </div>
         </div>

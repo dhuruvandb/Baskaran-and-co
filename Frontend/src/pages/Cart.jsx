@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/cart.css";
@@ -12,7 +11,7 @@ export default function Cart() {
   const [inCart, setInCart] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   useEffect(() => {
-    dispatch(getCart("66ae15a9ac9ef503f293599e"));
+    dispatch(getCart("66ae15a9ac912312f503f23599e"));
     setTotalPrice(0);
     setInCart(true);
   }, [dispatch]);
@@ -21,7 +20,7 @@ export default function Cart() {
     <>
       <fieldset>
         <legend>Cart</legend>
-        {Object.keys(cartValue).length > 0 ? (
+        {cartValue !== null ? (
           <section>
             <ol>
               <ProductList product={cartValue} inCart={inCart} />

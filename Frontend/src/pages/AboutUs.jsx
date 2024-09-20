@@ -47,6 +47,7 @@ export default function AboutUs() {
           {teamMembers.map((member) => (
             <div key={member.id} className="team-member">
               <img
+                loading="lazy"
                 src={member.imageUrl}
                 alt={member.name}
                 className="team-member-image"

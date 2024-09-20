@@ -10,6 +10,7 @@ const ProductCategoryPage = ({ productCategories }) => {
             <div className="product-images-wrapper">
               <Link to={`products/${name}`} target="_blank">
                 <img
+                  loading="lazy"
                   key={index}
                   src={images}
                   alt={name}

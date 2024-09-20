@@ -13,6 +13,7 @@ const {
   findById,
   findOneAndUpdate,
   insertOne,
+  create,
 } = require("./mongooseHelpers");
 const {
   SIGNUP_SECRET_MESSAGE,
@@ -41,7 +42,6 @@ const Otp = require("../models/OTP");
 exports.getProducts = async (filter = {}, fields = {}) => {
   return await find(Product, filter, fields);
 };
-
 
 exports.addProduct = async (data) => {
   return await insertMany(Product, data);
@@ -72,7 +72,7 @@ exports.viewCategory = async (filter = {}) => {
 };
 
 exports.addCart = async (data) => {
-  return await insertMany(Cart, data);
+  return await insertOne(Cart, data);
 };
 
 exports.viewCart = async (filter = {}, fields = {}, populate = "") => {
@@ -84,7 +84,7 @@ exports.updateCart = async (filter = {}, data) => {
 };
 
 exports.addOrUpdateCart = async (filter = {}, update) => {
-  return await findOneAndUpdate(Cart, filter, update);
+  return await findOneAndUpdate(Cart, filter, update, { items: 1 });
 };
 
 exports.deleteCart = async (filter = {}) => {

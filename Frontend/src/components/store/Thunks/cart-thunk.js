@@ -9,20 +9,17 @@ export const addCart = createAsyncThunk("cart/add", async (data) => {
   }
 });
 
-export const updateCart = createAsyncThunk(
-  "cart/update",
-  async ({ data, _id }) => {
-    try {
-      await Axios("put", `/updatecart/${_id}`, data);
-    } catch (error) {
-      console.error("Failed to update cart:", error);
-    }
+export const updateCart = createAsyncThunk("cart/update", async ({ data }) => {
+  try {
+    await Axios("post", `/updatecart`, data);
+  } catch (error) {
+    console.error("Failed to update cart:", error);
   }
-);
+});
 
 export const getCart = createAsyncThunk("cart/get", async (userId) => {
   try {
-    const response = await Axios("get", `/viewcart/${userId}`);
+    const response = await Axios("get", `/getcart/${userId}`);
     return response.data.result;
   } catch (error) {
     console.error("Failed to fetch cart:", error);

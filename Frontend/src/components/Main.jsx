@@ -1,7 +1,6 @@
 import { useLocation } from "react-router";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchProductCategories } from "../components/store/Thunks/products-thunk";
+import React from "react";
+import { useSelector } from "react-redux";
 import ProductCategoryPage from "../pages/ProductCategory";
 import {
   selectAllProductCatergories,

@@ -39,6 +39,7 @@ export default function Wishlist() {
           {wishlistItems.map((item) => (
             <li key={item.id} className="wishlist-item">
               <img
+                loading="lazy"
                 src={item.imageUrl}
                 alt={item.name}
                 className="wishlist-item-image"

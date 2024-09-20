@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "../../styles/header.css";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
@@ -12,6 +11,7 @@ export default function Header() {
           src="https://img.freepik.com/free-vector/bird-colorful-logo-gradient-vector_343694-1365.jpg?size=626&ext=jpg"
           alt="logo"
           className="logo"
+          loading="lazy"
         />
       </Link>
       <div className="search-container">

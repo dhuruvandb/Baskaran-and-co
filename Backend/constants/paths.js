@@ -10,10 +10,10 @@ const GET_ONE_PRODUCT_PATH = "/product/:id";
 const GET_ALL_USER_PRODUCTS_PATH = "/user/products";
 const GET_ONE_USER_PRODUCT_PATH = "/user/product/:id";
 const GET_ALL_CATOGORIES = "/category";
-const VIEW_CART_PATH = "/viewcart/:userId";
+const VIEW_CART_PATH = "/getcart/:userId";
 const ADD_CART_PATH = "/addcart";
-const UPDATE_CART_PATH = "/updatecart/:id";
-const DELETE_CART_PATH = "/deletecart/:id";
+const UPDATE_CART_PATH = "/updatecart";
+const DELETE_CART_PATH = "/deletecart";
 
 const ADMIN_ADD_PRODUCT_PATH = "/admin/addproduct";
 const ADMIN_UPDATE_PRODUCT_PATH = "/admin/updateproduct/:id";
