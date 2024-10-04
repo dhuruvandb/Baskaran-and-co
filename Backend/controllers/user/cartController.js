@@ -1,137 +1,88 @@
-const { addCart } = require("../../helpers/helper");
 const Cart = require("../../models/cart");
-const mongoose = require("mongoose");
-const Products = require("../../models/productModel"); // Adjust the path as necessary
 exports.handleCartUpdate = async (req, res) => {
-  console.log(req.body);
+  try {
+    const { userId, Items } = req.body;
+    const { productId, count } = Items;
 
-  const userId = Object.keys(req.body)[0];
-  const itemId = Object.keys(req.body[userId])[0];
-  const itemQuantity = req.body[userId][itemId]; // Assuming you also send quantity to add or subtract
-  const isDecrement = itemQuantity < 0; // Check if this is a decrement operation
-  const quantityChange = Math.abs(itemQuantity); // Get the absolute value of the quantity change
+    // Check if userId already exists in DB
+    const existingCart = await Cart.findOne({ userId });
 
-  // Check if the user exists in the cart
-  const userCart = await Cart.findOne({ [userId]: { $exists: true } });
-
-  if (!userCart) {
-    if (!isDecrement) {
-      // User doesn't exist, create new cart entry
-      const newCart = { [userId]: { [itemId]: quantityChange } };
-      const result = await Cart.create(newCart);
-      return res.status(201).json({ result });
-    } else {
-      return res
-        .status(400)
-        .json({ message: "Cannot decrement items in a non-existent cart." });
-    }
-  } else {
-    const itemCount = userCart[userId][itemId] || 0; // Get current count, default to 0 if not present
-    const itemKeys = Object.keys(userCart[userId]);
-
-    if (!isDecrement) {
-      // Item exists, update its count
-      const updatedItem = await Cart.findOneAndUpdate(
-        { [userId]: { $exists: true } },
-        { $inc: { [`${userId}.${itemId}`]: quantityChange } },
-        { new: true }
+    if (existingCart) {
+      // Check if product already exists in cart
+      const existingItem = existingCart.Items.find(
+        (item) => item.productId === productId
       );
-      return res.json({ updatedItem });
-    } else {
-      // Decrement logic
-      if (itemCount <= quantityChange) {
-        // Remove item if quantity goes to 0 or below
-        const updatedCart = await Cart.findOneAndUpdate(
-          { [userId]: { $exists: true } },
-          { $unset: { [`${userId}.${itemId}`]: "" } },
-          { new: true }
-        );
 
-        // Check if the user has any items left
-        if (itemKeys.length === 1) {
-          // If this was the only item, delete the entire document
-          await Cart.deleteOne({ [userId]: { $exists: true } });
-          return res
-            .status(204)
-            .json({ message: "Cart is empty, user cart deleted." });
+      if (existingItem) {
+        // Update count
+        existingItem.count += count;
+
+        // Remove item if count reaches 0
+        if (existingItem.count === 0) {
+          await Cart.updateOne({ userId }, { $pull: { Items: { productId } } });
+        } else {
+          await Cart.updateOne(
+            { userId, "Items.productId": productId },
+            { $inc: { "Items.$.count": count } }
+          );
         }
 
-        return res.json({ updatedCart });
+        // Remove whole document if Items array is empty
+        const updatedCart = await Cart.findOne({ userId });
+        if (updatedCart.Items.length === 0) {
+          await Cart.deleteOne({ userId });
+          return res.send({ message: "Cart removed successfully" });
+        } else {
+          return res.send({ message: "Product updated successfully" });
+        }
       } else {
-        // Update existing item count
-        const updatedItem = await Cart.findOneAndUpdate(
-          { [userId]: { $exists: true } },
-          { $inc: { [`${userId}.${itemId}`]: -quantityChange } },
-          { new: true }
-        );
-        return res.json({ updatedItem });
+        // Check if count is valid
+        if (count < 1) {
+          return res
+            .status(400)
+            .send({ error: "Count must be greater than 0" });
+        } else {
+          // Add new item to cart
+          await Cart.updateOne(
+            { userId },
+            { $push: { Items: { productId, count } } }
+          );
+          return res.send({ message: "Product Added successfully" });
+        }
+      }
+    } else {
+      // Create new cart
+      // Check if count is valid
+      if (count < 1) {
+        return res.status(400).send({ error: "Count must be greater than 0" });
+      } else {
+        await Cart.create({ userId, Items: [{ productId, count }] });
+        return res.send({ message: "Cart created successfully" });
       }
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
   }
 };
 
-exports.deleteItemFromCart = async (req, res) => {
-  const userId = Object.keys(req.body)[0];
-  const itemId = Object.keys(req.body[userId])[0];
-
-  // Check if the user exists in the cart
-  const userCart = await Cart.findOne({ [userId]: { $exists: true } });
-
-  if (!userCart) {
-    return res.status(404).json({ message: "Cart not found for the user." });
-  }
-
-  // Check the current items in the user's cart
-  const itemKeys = Object.keys(userCart[userId]);
-
-  // Remove the specified item from the cart
-  const updatedCart = await Cart.findOneAndUpdate(
-    { [userId]: { $exists: true } },
-    { $unset: { [`${userId}.${itemId}`]: "" } },
-    { new: true }
-  );
-
-  // If the item was the only one in the cart, delete the entire document
-  if (itemKeys.length === 1) {
-    await Cart.deleteOne({ [userId]: { $exists: true } });
-    return res
-      .status(204)
-      .json({ message: "Item deleted, cart is now empty. User cart deleted." });
-  }
-
-  return res.json({ updatedCart });
-};
+exports.deleteItemFromCart = async (req, res) => {};
 
 exports.getCartItems = async (req, res) => {
-  const { userId } = req.params; // Assuming userId is passed as a route parameter
+  const { userId } = req.params;
+  const userCart = await Cart.findOne(
+    { userId },
+    { Items: 1, _id: 0 }
+  ).populate([{ path: "Items.productId" }]);
+  if (userCart && userCart.Items) {
+    const result =
+      userCart.Items.map((item) => ({
+        ...item.productId.toObject(), // or toJSON()
+        cartValue: item.count,
+      })) || [];
 
-  // Check if the user exists in the cart
-  const userCart = await Cart.findOne({ [userId]: { $exists: true } });
-  if (!userCart) {
-    return res.status(404).json({ result: userCart });
-  }
-
-  const itemIds = Object.keys(userCart[userId]);
-
-  try {
-    // Fetch all products in parallel
-    const products = await Promise.all(
-      itemIds.map(async (id) => {
-        const product = await Products.findOne({ _id: id });
-        if (!product) {
-          return null; // Return null if the product is not found
-        }
-        // Return the product with the cartValue
-        return { ...product.toObject(), cartValue: userCart[userId][id] };
-      })
-    );
-
-    // Filter out any null values (products not found)
-    const filteredProducts = products.filter(Boolean);
-    return res.json({ result: filteredProducts });
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Error fetching products", error: error.message });
+    res.json({ result });
+  } else {
+    res.json({ result: [] });
   }
 };

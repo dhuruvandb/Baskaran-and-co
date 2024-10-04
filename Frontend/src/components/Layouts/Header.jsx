@@ -1,9 +1,22 @@
 import "../../styles/header.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
+import { cartItems } from "../store/Selectors/cart-selectors";
+import { useEffect } from "react";
+import { getCart } from "../store/Thunks/cart-thunk";
+import { Button } from "@mui/material";
 
 export default function Header() {
-  const cartVal = useSelector((state) => state.cartVal.cartValue);
+  const cartValue = useSelector(cartItems) || 0;
+  const totalItems = cartValue.reduce((pre, next) => {
+    return pre + next.cartValue;
+  }, 0);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCart("66ae15a9ac912312f503f23599e"));
+  }, [dispatch]);
   return (
     <header className="header">
       <Link to="/">
@@ -23,10 +36,10 @@ export default function Header() {
         <button className="search-button">🔍</button>
       </div>
       <Link to="/cart" className="cart-link">
-        <button className="cart">
+        <Button>
           🛒
-          <sup>{Object.keys(cartVal).length}</sup>
-        </button>
+          <sup>{totalItems}</sup>
+        </Button>
       </Link>
 
       <div className="login-dropdown-container">

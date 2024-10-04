@@ -17,7 +17,6 @@ exports.LoginWithPassword = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await checkUserExists(email);
-    console.log(user);
     if (!user) {
       return res.status(404).json({
         message: USER_NOT_FOUND_MESSAGE,

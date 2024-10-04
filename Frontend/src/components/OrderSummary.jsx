@@ -1,7 +1,7 @@
 // src/components/OrderSummary.js
 import React from "react";
 
-export const OrderSummary = () => {
+export const OrderSummary = ({ products }) => {
   const items = [
     { name: "Product 1", price: 100 },
     { name: "Product 2", price: 150 },
@@ -9,15 +9,19 @@ export const OrderSummary = () => {
   const shippingCost = 20;
   const tax = 15;
   const total =
-    items.reduce((sum, item) => sum + item.price, 0) + shippingCost + tax;
+    products.reduce((pre, next) => {
+      return pre + next.cartValue * next.price;
+    }, 0) +
+    shippingCost +
+    tax;
 
   return (
     <div className="order-summary">
       <h3>Order Summary</h3>
       <ul>
-        {items.map((item, index) => (
+        {products.map((item, index) => (
           <li key={index}>
-            {item.name} - ${item.price}
+            {item.name} - ${item.price * item.cartValue}
           </li>
         ))}
       </ul>

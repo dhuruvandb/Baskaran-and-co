@@ -4,6 +4,7 @@ exports.fetchAllProducts = async (req, res) => {
   try {
     const { category } = req.params;
     const result = await getProducts({ category });
+    
     res.status(200).json({ result });
   } catch (error) {
     console.error("Error fetching products:", error);

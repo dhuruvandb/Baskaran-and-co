@@ -23,8 +23,14 @@ const ADMIN_ADD_CATEGORY_PATH = "/admin/addcategory";
 const ADMIN_UPDATE_CATEGORY_PATH = "/admin/updatecategory/:id";
 const ADMIN_DELETE_CATEGORY_PATH = "/admin/deletecategory/:id";
 
+const ADD_WISH_LIST = "/addwishlist";
+const GET_WISH_LIST = "/getwishlist/:userId";
+const DELETE_WISH_LIST = "/deletewishlist/:userId";
 module.exports = {
   HOME,
+  ADD_WISH_LIST,
+  GET_WISH_LIST,
+  DELETE_WISH_LIST,
   FORGET_PASSWORD_PATH,
   LOGIN_PATH,
   LOGIN_WITH_OTP_PATH,

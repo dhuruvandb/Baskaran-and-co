@@ -1,57 +1,37 @@
 // src/components/Wishlist.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/Wishlist.css";
-
+import { useDispatch, useSelector } from "react-redux";
+import { wishListItems } from "../components/store/Selectors/wishlist-selectors";
+import { getWishList } from "../components/store/Thunks/wishlist-thunk";
+import ProductList from "../components/ProductList";
+import { Link } from "react-router-dom";
+import { cartItems } from "../components/store/Selectors/cart-selectors";
 export default function Wishlist() {
-  const [wishlistItems, setWishlistItems] = useState([
-    {
-      id: 1,
-      name: "Product 1",
-      price: 100,
-      imageUrl: "https://via.placeholder.com/150",
-    },
-    {
-      id: 2,
-      name: "Product 2",
-      price: 150,
-      imageUrl: "https://via.placeholder.com/150",
-    },
-    {
-      id: 3,
-      name: "Product 3",
-      price: 200,
-      imageUrl: "https://via.placeholder.com/150",
-    },
-  ]); // Example wishlist items
-
-  const handleRemove = (id) => {
-    const updatedWishlist = wishlistItems.filter((item) => item.id !== id);
-    setWishlistItems(updatedWishlist);
-  };
-
+  const cart = useSelector(cartItems);
+  const items = useSelector(wishListItems);
+  const productSet = new Set(items.map((_) => _.name));
+  const cartSet = new Set(cart.map((_) => _.name));
+  let mergedProducts = [
+    ...cart.filter((data) => productSet.has(data.name)),
+    ...items.filter((data) => !cartSet.has(data.name)),
+  ];
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getWishList("66ae15a9ac912312f503f23599e"));
+  }, [dispatch]);
   return (
     <div className="wishlist">
       <h2>Your Wishlist</h2>
-      {wishlistItems.length === 0 ? (
-        <p>Your wishlist is empty.</p>
+      {items.length === 0 ? (
+        <>
+          <p>Your wishlist is empty.</p>
+          <Link to="/">
+            <button>Shop Now</button>
+          </Link>
+        </>
       ) : (
-        <ul>
-          {wishlistItems.map((item) => (
-            <li key={item.id} className="wishlist-item">
-              <img
-                loading="lazy"
-                src={item.imageUrl}
-                alt={item.name}
-                className="wishlist-item-image"
-              />
-              <div className="wishlist-item-details">
-                <h3>{item.name}</h3>
-                <p>${item.price.toFixed(2)}</p>
-                <button onClick={() => handleRemove(item.id)}>Remove</button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <ProductList product={mergedProducts} />
       )}
     </div>
   );

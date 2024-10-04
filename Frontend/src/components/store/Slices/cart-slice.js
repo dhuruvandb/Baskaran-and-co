@@ -11,16 +11,9 @@ export const cart = createSlice({
   name: "cart",
   initialState,
   extraReducers: (builder) => {
-    builder
-      .addCase(getCart.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(getCart.fulfilled, (state, action) => {
-        const { payload } = action;
-        state.cartItems = payload;
-      })
-      .addCase(getCart.rejected, (state) => {
-        state.error = "Error fetching cart items";
-      });
+    builder.addCase(getCart.fulfilled, (state, action) => {
+      const { payload } = action;
+      state.cartItems = payload;
+    });
   },
 });
