@@ -9,10 +9,11 @@ import RefreshButton from "../components/RefreshButton";
 import { useEffect } from "react";
 import { getCart } from "../components/store/Thunks/cart-thunk";
 import { cartItems } from "../components/store/Selectors/cart-selectors";
-
 export default function Product() {
   const products = useSelector(selectAllProducts);
+
   const cart = useSelector(cartItems);
+
   const productSet = new Set(products.map((_) => _.name));
   const cartSet = new Set(cart.map((_) => _.name));
   let mergedProducts = [
@@ -21,16 +22,20 @@ export default function Product() {
   ];
   const status = useSelector(selectAllProductsStatus);
   const dispatch = useDispatch();
+
+  const callGetCart = () => dispatch(getCart("66ae15a9ac912312f503f23599e"));
   useEffect(() => {
-    dispatch(getCart("66ae15a9ac912312f503f23599e"));
-  }, [dispatch]);
+    callGetCart();
+  }, []);
   let element;
   if (status === "loading") {
     element = <Loader />;
   } else if (status === "failed") {
     element = <RefreshButton />;
   } else {
-    element = <ProductList product={mergedProducts} />;
+    element = (
+      <ProductList product={mergedProducts} callGetCart={callGetCart} />
+    );
   }
   return <>{element}</>;
 }

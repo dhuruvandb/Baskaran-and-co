@@ -1,18 +1,83 @@
 import "../styles/product.css";
-import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import {
-  addCart,
+  addToCart,
   deleteCart,
   updateCart,
   getCart,
 } from "./store/Thunks/cart-thunk";
-export default function ProductList({ product, inCart, key }) {
+import { useEffect } from "react";
+import {
+  increment,
+  decrement,
+  deleteFromCart,
+} from "./store/Slices/cart-slice";
+export default function ProductList({ product, inCart, key, callGetCart }) {
   let { productId } = useParams();
   const dispatch = useDispatch();
   let { pathname } = useLocation();
+
+  useEffect(() => {
+    callGetCart();
+  }, []);
+
+  const handleAddToCart = (userId, productId) => {
+    dispatch(increment(productId));
+    dispatch(
+      addToCart({
+        userId,
+        Items: {
+          productId,
+          count: 1,
+        },
+      })
+    );
+    callGetCart();
+  };
+
+  const handleIncrement = (userId, productId) => {
+    dispatch(increment(productId));
+    dispatch(
+      updateCart({
+        userId,
+        Items: {
+          productId,
+          count: 1,
+        },
+      })
+    );
+    callGetCart();
+  };
+
+  const handleDecrement = (userId, productId) => {
+    dispatch(decrement(productId));
+    dispatch(
+      updateCart({
+        userId,
+        Items: {
+          productId,
+          count: -1,
+        },
+      })
+    );
+    callGetCart();
+  };
+
+  const handleDeleteCart = (userId, productId) => {
+    dispatch(deleteFromCart(productId));
+    dispatch(
+      deleteCart({
+        userId,
+        Items: {
+          productId,
+          count: 1,
+        },
+      })
+    );
+    callGetCart();
+  };
   return (
     <>
       <div className="product" key={key}>
@@ -41,18 +106,7 @@ export default function ProductList({ product, inCart, key }) {
                   <>
                     <button
                       onClick={() => {
-                        dispatch(
-                          updateCart(
-                            {
-                              userId: "66ae15a9ac912312f503f23599e",
-                              Items: {
-                                productId: _id,
-                                count: -1,
-                              },
-                            },
-                            "66ae15a9ac912312f503f23599e"
-                          )
-                        );
+                        handleDecrement("66ae15a9ac912312f503f23599e", _id);
                       }}
                     >
                       &nbsp;-{cartValue < 10 ? "\u00A0" : null}
@@ -60,18 +114,7 @@ export default function ProductList({ product, inCart, key }) {
                     <span>{cartValue || 0}</span>
                     <button
                       onClick={() => {
-                        dispatch(
-                          updateCart(
-                            {
-                              userId: "66ae15a9ac912312f503f23599e",
-                              Items: {
-                                productId: _id,
-                                count: 1,
-                              },
-                            },
-                            "66ae15a9ac912312f503f23599e"
-                          )
-                        );
+                        handleIncrement("66ae15a9ac912312f503f23599e", _id);
                       }}
                     >
                       &nbsp;+{cartValue < 10 ? "\u00A0" : null}
@@ -81,18 +124,7 @@ export default function ProductList({ product, inCart, key }) {
                   <>
                     <button
                       onClick={() => {
-                        dispatch(
-                          addCart(
-                            {
-                              userId: "66ae15a9ac912312f503f23599e",
-                              Items: {
-                                productId: _id,
-                                count: 1,
-                              },
-                            },
-                            "66ae15a9ac912312f503f23599e"
-                          )
-                        );
+                        handleAddToCart("66ae15a9ac912312f503f23599e", _id);
                       }}
                     >
                       Add Cart
@@ -103,18 +135,7 @@ export default function ProductList({ product, inCart, key }) {
               {inCart ? (
                 <button
                   onClick={() => {
-                    dispatch(
-                      deleteCart(
-                        {
-                          userId: "66ae15a9ac912312f503f23599e",
-                          Items: {
-                            productId: _id,
-                            count: 1,
-                          },
-                        },
-                        "66ae15a9ac912312f503f23599e"
-                      )
-                    );
+                    handleDeleteCart("66ae15a9ac912312f503f23599e", _id);
                   }}
                 >
                   Remove

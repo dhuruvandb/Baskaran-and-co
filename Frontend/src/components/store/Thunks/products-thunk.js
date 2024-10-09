@@ -5,8 +5,6 @@ export const fetchAllProducts = createAsyncThunk(
   "products/fetchAllProducts",
   async (category) => {
     const apiData = await Axios("get", `/products/${category}`);
-    console.log(apiData);
-
     return apiData.data.result;
   }
 );

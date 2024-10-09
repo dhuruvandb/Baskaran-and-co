@@ -15,13 +15,13 @@ export default function Cart() {
   const totalItems = cartValue.reduce((pre, next) => {
     return pre + next.cartValue;
   }, 0);
-
+  const callGetCart = () => dispatch(getCart("66ae15a9ac912312f503f23599e"));
   const dispatch = useDispatch();
   const [inCart, setInCart] = useState(false);
   useEffect(() => {
-    dispatch(getCart("66ae15a9ac912312f503f23599e"));
+    callGetCart();
     setInCart(true);
-  }, [dispatch]);
+  }, []);
 
   return (
     <>
@@ -30,7 +30,11 @@ export default function Cart() {
         {cartValue.length > 0 ? (
           <section>
             <ol>
-              <ProductList product={cartValue} inCart={inCart} />
+              <ProductList
+                product={cartValue}
+                inCart={inCart}
+                callGetCart={callGetCart}
+              />
               <hr />
             </ol>
             <table>

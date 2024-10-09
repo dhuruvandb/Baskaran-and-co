@@ -32,6 +32,10 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  cartValue: {
+    type: Number,
+    default: 0,
+  },
   images: {
     type: String,
     required: true,
