@@ -69,11 +69,6 @@ export const router = createBrowserRouter([
             <Product />
           </Suspenses>
         ),
-        loader: ({ params }) => {
-          const { categoryName } = params;
-          store.dispatch(fetchAllProducts(categoryName));
-          return null;
-        },
       },
       {
         path: "products/:categoryName/:productId",

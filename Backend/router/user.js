@@ -23,10 +23,6 @@ const {
   GET_WISH_LIST,
   DELETE_WISH_LIST,
 } = require("../constants/paths");
-const {
-  getAllUserProducts,
-  getOneUserProduct,
-} = require("../controllers/user/productController");
 const { Signup } = require("../controllers/auth/signupController");
 const {
   ForgetPassword,
@@ -47,8 +43,6 @@ const { LoginWithPassword } = require("../controllers/auth/loginController");
 const { SendOTP } = require("../controllers/auth/OTPcontroller");
 const router = express.Router();
 
-router.get(GET_ALL_USER_PRODUCTS_PATH, getAllUserProducts);
-router.get(GET_ONE_USER_PRODUCT_PATH, getOneUserProduct);
 router.get(VIEW_CART_PATH, getCartItems);
 router.post([ADD_CART_PATH, UPDATE_CART_PATH], handleCartUpdate);
 router.delete(DELETE_CART_PATH, deleteItemFromCart);

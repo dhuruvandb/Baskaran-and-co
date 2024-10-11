@@ -3,8 +3,12 @@ import { Axios } from "../../../helper/fetchUrl";
 
 export const fetchAllProducts = createAsyncThunk(
   "products/fetchAllProducts",
-  async (category) => {
-    const apiData = await Axios("get", `/products/${category}`);
+  async (data) => {
+    const { categoryName, userId } = data;
+    const apiData = await Axios(
+      "get",
+      `/products/${categoryName}?userId=${userId}`
+    );
     return apiData.data.result;
   }
 );

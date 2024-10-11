@@ -8,24 +8,23 @@ import Loader from "../components/Loader";
 import RefreshButton from "../components/RefreshButton";
 import { useEffect } from "react";
 import { getCart } from "../components/store/Thunks/cart-thunk";
-import { cartItems } from "../components/store/Selectors/cart-selectors";
+
+import { useLoaderData, useParams } from "react-router";
+import { fetchAllProducts } from "../components/store/Thunks/products-thunk";
 export default function Product() {
+  const { categoryName } = useParams();
   const products = useSelector(selectAllProducts);
+  console.log(products);
 
-  const cart = useSelector(cartItems);
-
-  const productSet = new Set(products.map((_) => _.name));
-  const cartSet = new Set(cart.map((_) => _.name));
-  let mergedProducts = [
-    ...cart.filter((data) => productSet.has(data.name)),
-    ...products.filter((data) => !cartSet.has(data.name)),
-  ];
   const status = useSelector(selectAllProductsStatus);
   const dispatch = useDispatch();
+  const getAllProducts = () =>
+    dispatch(
+      fetchAllProducts({ categoryName, userId: "66ae15a9ac912312f503f23599e" })
+    );
 
-  const callGetCart = () => dispatch(getCart("66ae15a9ac912312f503f23599e"));
   useEffect(() => {
-    callGetCart();
+    getAllProducts();
   }, []);
   let element;
   if (status === "loading") {
@@ -33,9 +32,7 @@ export default function Product() {
   } else if (status === "failed") {
     element = <RefreshButton />;
   } else {
-    element = (
-      <ProductList product={mergedProducts} callGetCart={callGetCart} />
-    );
+    element = <ProductList product={products} callGetCart={getAllProducts} />;
   }
   return <>{element}</>;
 }

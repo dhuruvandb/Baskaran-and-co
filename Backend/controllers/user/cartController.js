@@ -77,11 +77,12 @@ exports.getCartItems = async (req, res) => {
   if (userCart && userCart.Items) {
     const result =
       userCart.Items.map((item) => ({
-        ...item.productId.toObject(), // or toJSON()
+        ...item.productId.toObject(),
         cartValue: item.count,
       })) || [];
 
     res.json({ result });
+    return result;
   } else {
     res.json({ result: [] });
   }

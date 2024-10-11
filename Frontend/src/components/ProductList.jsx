@@ -6,25 +6,13 @@ import {
   addToCart,
   deleteCart,
   updateCart,
-  getCart,
 } from "./store/Thunks/cart-thunk";
-import { useEffect } from "react";
-import {
-  increment,
-  decrement,
-  deleteFromCart,
-} from "./store/Slices/cart-slice";
 export default function ProductList({ product, inCart, key, callGetCart }) {
   let { productId } = useParams();
   const dispatch = useDispatch();
   let { pathname } = useLocation();
 
-  useEffect(() => {
-    callGetCart();
-  }, []);
-
   const handleAddToCart = (userId, productId) => {
-    dispatch(increment(productId));
     dispatch(
       addToCart({
         userId,
@@ -38,7 +26,6 @@ export default function ProductList({ product, inCart, key, callGetCart }) {
   };
 
   const handleIncrement = (userId, productId) => {
-    dispatch(increment(productId));
     dispatch(
       updateCart({
         userId,
@@ -52,7 +39,6 @@ export default function ProductList({ product, inCart, key, callGetCart }) {
   };
 
   const handleDecrement = (userId, productId) => {
-    dispatch(decrement(productId));
     dispatch(
       updateCart({
         userId,
@@ -66,7 +52,6 @@ export default function ProductList({ product, inCart, key, callGetCart }) {
   };
 
   const handleDeleteCart = (userId, productId) => {
-    dispatch(deleteFromCart(productId));
     dispatch(
       deleteCart({
         userId,

@@ -10,25 +10,34 @@ body {
 
 .loader-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
-svg {
-  width: 8em; /* Increased size */
-  height: 8em; /* Maintain aspect ratio */
+.loader-svg {
+  width: 4em; /* Reduced size */
+  height: 4em; /* Maintain aspect ratio */
   transform-origin: center;
   animation: rotate4 2s linear infinite;
 }
 
-circle {
+.loader-circle {
   fill: none;
   stroke: hsl(214, 97%, 59%);
-  stroke-width: 6; /* Increased thickness */
+  stroke-width: 4; /* Adjusted thickness */
   stroke-dasharray: 1, 200;
   stroke-dashoffset: 0;
   stroke-linecap: round;
   animation: dash4 1.5s ease-in-out infinite;
+}
+
+.loading-text {
+  margin-top: 1em; /* Space between loader and text */
+  font-size: 1.2em; /* Adjust font size */
+  color: hsl(214, 97%, 39%); /* Darker shade for contrast */
+  font-family: Arial, sans-serif; /* Change font family */
+  font-weight: bold; /* Make text bold */
+  text-align: center; /* Center the text */
 }
 
 @keyframes rotate4 {

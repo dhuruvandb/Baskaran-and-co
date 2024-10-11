@@ -39,10 +39,36 @@ const {
 const { sign, verify } = require("jsonwebtoken");
 const Otp = require("../models/OTP");
 
-exports.getProducts = async (filter = {}, fields = {}) => {
-  return await find(Product, filter, fields);
-};
+exports.getAllProducts = async (userId, filter = {}, fields = {}) => {
+  if (userId) {
+    const userCart = await Cart.findOne(
+      { userId },
+      { Items: 1, _id: 0 }
+    ).populate([{ path: "Items.productId" }]);
 
+    if (userCart && userCart.Items) {
+      const cart =
+        userCart.Items.map((item) => ({
+          ...item.productId.toObject(),
+          cartValue: item.count,
+        })) || [];
+      const products = await find(Product, filter, fields);
+      const productSet = products.map((_) => _.name);
+      const cartSet = cart.map((_) => _.name);
+
+      let result = [
+        ...cart.filter((data) => productSet.includes(data.name)),
+        ...products.filter((data) => !cartSet.includes(data.name)),
+      ];
+      console.log({ result });
+      return result;
+    }
+  } else {
+    const products = await find(Product, filter, fields);
+
+    return products;
+  }
+};
 exports.addProduct = async (data) => {
   return await insertMany(Product, data);
 };

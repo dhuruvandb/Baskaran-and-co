@@ -7,8 +7,6 @@ const SEND_OTP = "/send-otp";
 const HOME = "/";
 const GET_ALL_PRODUCTS_PATH = "/products/:category";
 const GET_ONE_PRODUCT_PATH = "/product/:id";
-const GET_ALL_USER_PRODUCTS_PATH = "/user/products";
-const GET_ONE_USER_PRODUCT_PATH = "/user/product/:id";
 const GET_ALL_CATOGORIES = "/category";
 const VIEW_CART_PATH = "/getcart/:userId";
 const ADD_CART_PATH = "/addcart";
@@ -39,8 +37,6 @@ module.exports = {
   SEND_OTP,
   GET_ALL_PRODUCTS_PATH,
   GET_ONE_PRODUCT_PATH,
-  GET_ALL_USER_PRODUCTS_PATH,
-  GET_ONE_USER_PRODUCT_PATH,
   GET_ALL_CATOGORIES,
   VIEW_CART_PATH,
   ADD_CART_PATH,
