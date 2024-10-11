@@ -7,8 +7,6 @@ import {
 import Loader from "../components/Loader";
 import RefreshButton from "../components/RefreshButton";
 import { useEffect } from "react";
-import { getCart } from "../components/store/Thunks/cart-thunk";
-
 import { useLoaderData, useParams } from "react-router";
 import { fetchAllProducts } from "../components/store/Thunks/products-thunk";
 export default function Product() {

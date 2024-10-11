@@ -56,27 +56,15 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "cart",
-        element: (
-          <Suspenses>
-            <Cart />
-          </Suspenses>
-        ),
+        element: <Cart />,
       },
       {
         path: "products/:categoryName",
-        element: (
-          <Suspenses>
-            <Product />
-          </Suspenses>
-        ),
+        element: <Product />,
       },
       {
         path: "products/:categoryName/:productId",
-        element: (
-          <Suspenses>
-            <Product />
-          </Suspenses>
-        ),
+        element: <Product />,
         loader: ({ params }) => {
           const { productId } = params;
           store.dispatch(fetchProductById(productId));
@@ -85,123 +73,63 @@ export const router = createBrowserRouter([
       },
       {
         path: "checkout",
-        element: (
-          <Suspenses>
-            <Checkout />
-          </Suspenses>
-        ),
+        element: <Checkout />,
       },
       {
         path: "order-confirmation",
-        element: (
-          <Suspenses>
-            <OrderConfirmation />
-          </Suspenses>
-        ),
+        element: <OrderConfirmation />,
       },
       {
         path: "profile-management",
-        element: (
-          <Suspenses>
-            <ProfileManagement />
-          </Suspenses>
-        ),
+        element: <ProfileManagement />,
       },
       {
         path: "orders",
-        element: (
-          <Suspenses>
-            <Orders />
-          </Suspenses>
-        ),
+        element: <Orders />,
       },
       {
         path: "order-history",
-        element: (
-          <Suspenses>
-            <OrderHistory />
-          </Suspenses>
-        ),
+        element: <OrderHistory />,
       },
       {
         path: "wishlist",
-        element: (
-          <Suspenses>
-            <Wishlist />
-          </Suspenses>
-        ),
+        element: <Wishlist />,
       },
       {
         path: "admin/addProduct",
-        element: (
-          <Suspenses>
-            <ProductForm />
-          </Suspenses>
-        ),
+        element: <ProductForm />,
       },
       {
         path: "login",
-        element: (
-          <Suspenses>
-            <LoginSignupPage />
-          </Suspenses>
-        ),
+        element: <LoginSignupPage />,
       },
       {
         path: "signup",
-        element: (
-          <Suspenses>
-            <LoginSignupPage />
-          </Suspenses>
-        ),
+        element: <LoginSignupPage />,
       },
       {
         path: "forget-password",
-        element: (
-          <Suspenses>
-            <ForgetPassword />
-          </Suspenses>
-        ),
+        element: <ForgetPassword />,
       },
       {
         path: "about",
-        element: (
-          <Suspenses>
-            <AboutUs />
-          </Suspenses>
-        ),
+        element: <AboutUs />,
       },
       {
         path: "return-policy",
-        element: (
-          <Suspenses>
-            <ReturnPolicy />
-          </Suspenses>
-        ),
+        element: <ReturnPolicy />,
       },
       {
         path: "user-account",
-        element: (
-          <Suspenses>
-            <UserAccount />
-          </Suspenses>
-        ),
+        element: <UserAccount />,
       },
       {
         path: "terms-of-service",
-        element: (
-          <Suspenses>
-            <TermsOfService />
-          </Suspenses>
-        ),
+        element: <TermsOfService />,
       },
       {
         path: "privacy-policy",
-        element: (
-          <Suspenses>
-            <PrivacyPolicy />
-          </Suspenses>
-        ),
+        element: <PrivacyPolicy />,
       },
     ],
   },
