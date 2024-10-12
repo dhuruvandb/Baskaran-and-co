@@ -39,7 +39,12 @@ const {
 const { sign, verify } = require("jsonwebtoken");
 const Otp = require("../models/OTP");
 
-exports.getAllProducts = async (userId, filter = {}, fields = {}) => {
+exports.getAllProducts = async (
+  userId,
+  filter = {},
+  fields = {},
+  inCart = false
+) => {
   if (userId) {
     const userCart = await Cart.findOne(
       { userId },
@@ -60,7 +65,9 @@ exports.getAllProducts = async (userId, filter = {}, fields = {}) => {
         ...cart.filter((data) => productSet.includes(data.name)),
         ...products.filter((data) => !cartSet.includes(data.name)),
       ];
-      console.log({ result });
+      if (inCart) {
+        return cart.filter((data) => productSet.includes(data.name));
+      }
       return result;
     }
   } else {

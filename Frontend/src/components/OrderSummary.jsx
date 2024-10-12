@@ -55,7 +55,7 @@ export const OrderSummary = ({ products }) => {
                 ₹
                 {productTotal < 199
                   ? (productTotal + shippingCost).toFixed(2)
-                  : productTotal}
+                  : productTotal.toFixed(2)}
               </strong>
             </td>
           </tr>

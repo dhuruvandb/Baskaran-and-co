@@ -14,6 +14,11 @@ const initialState = {
 export const fetchProducts = createSlice({
   name: "products",
   initialState,
+  reducers: {
+    increment: (state, action) => {
+      console.log(state, action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllProducts.pending, (state) => {
@@ -60,3 +65,5 @@ export const fetchProducts = createSlice({
       });
   },
 });
+
+export const { increment } = fetchProducts.actions;

@@ -2,12 +2,9 @@ import "../styles/product.css";
 import { useDispatch } from "react-redux";
 import { useLocation, useParams } from "react-router";
 import { Link } from "react-router-dom";
-import {
-  addToCart,
-  deleteCart,
-  updateCart,
-} from "./store/Thunks/cart-thunk";
-export default function ProductList({ product, inCart, key, callGetCart }) {
+import { addToCart, deleteCart, updateCart } from "./store/Thunks/cart-thunk";
+import { increment } from "./store/Slices/product-slice";
+export default function ProductList({ product, inCart, key }) {
   let { productId } = useParams();
   const dispatch = useDispatch();
   let { pathname } = useLocation();
@@ -22,10 +19,10 @@ export default function ProductList({ product, inCart, key, callGetCart }) {
         },
       })
     );
-    callGetCart();
   };
 
   const handleIncrement = (userId, productId) => {
+    increment(productId);
     dispatch(
       updateCart({
         userId,
@@ -35,7 +32,6 @@ export default function ProductList({ product, inCart, key, callGetCart }) {
         },
       })
     );
-    callGetCart();
   };
 
   const handleDecrement = (userId, productId) => {
@@ -48,7 +44,6 @@ export default function ProductList({ product, inCart, key, callGetCart }) {
         },
       })
     );
-    callGetCart();
   };
 
   const handleDeleteCart = (userId, productId) => {
@@ -61,7 +56,6 @@ export default function ProductList({ product, inCart, key, callGetCart }) {
         },
       })
     );
-    callGetCart();
   };
   return (
     <>
@@ -73,7 +67,7 @@ export default function ProductList({ product, inCart, key, callGetCart }) {
               <p>{name}</p>
               {!productId && !inCart ? (
                 <Link to={`${_id}`} target="_blank" rel="noreferrer">
-                  <img src={images} alt={name} loading="lazy" />
+                  <img alt={name} loading="lazy" />
                 </Link>
               ) : (
                 <img

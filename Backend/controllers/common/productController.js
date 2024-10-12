@@ -6,8 +6,6 @@ exports.fetchAllProducts = async (req, res) => {
     const { category } = req.params;
     const { userId } = req.query;
     const result = await getAllProducts(userId, { category });
-    console.log(result);
-
     res.status(200).json({ result });
   } catch (error) {
     console.error("Error fetching products:", error);

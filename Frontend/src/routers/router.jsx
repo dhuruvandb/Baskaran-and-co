@@ -66,8 +66,8 @@ export const router = createBrowserRouter([
         path: "products/:categoryName/:productId",
         element: <Product />,
         loader: ({ params }) => {
-          const { productId } = params;
-          store.dispatch(fetchProductById(productId));
+          
+          store.dispatch();
           return null;
         },
       },

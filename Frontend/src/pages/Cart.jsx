@@ -7,6 +7,7 @@ import { cartItems } from "../components/store/Selectors/cart-selectors";
 import { getCart } from "../components/store/Thunks/cart-thunk";
 export default function Cart() {
   const cartValue = useSelector(cartItems);
+  const dispatch = useDispatch();
   const totalPrice = cartValue
     .reduce((pre, next) => {
       return pre + next.cartValue * next.price;
@@ -15,13 +16,11 @@ export default function Cart() {
   const totalItems = cartValue.reduce((pre, next) => {
     return pre + next.cartValue;
   }, 0);
-  const callGetCart = () => dispatch(getCart("66ae15a9ac912312f503f23599e"));
-  const dispatch = useDispatch();
   const [inCart, setInCart] = useState(false);
   useEffect(() => {
-    callGetCart();
+    dispatch(getCart("66ae15a9ac912312f503f23599e"));
     setInCart(true);
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -30,11 +29,7 @@ export default function Cart() {
         {cartValue.length > 0 ? (
           <section>
             <ol>
-              <ProductList
-                product={cartValue}
-                inCart={inCart}
-                callGetCart={callGetCart}
-              />
+              <ProductList product={cartValue} inCart={inCart} />
               <hr />
             </ol>
             <table>

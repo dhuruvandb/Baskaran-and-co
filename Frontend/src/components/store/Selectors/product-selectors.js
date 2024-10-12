@@ -1,6 +1,6 @@
-export const selectAllProducts = (state) => state.reducers.products.items;
-export const selectAllProductsStatus = (state) =>
+export const selectProducts = (state) => state.reducers.products.items;
+export const selectProductsStatus = (state) =>
   state.reducers.products.status;
-export const selectAllProductsError = (state) => state.reducers.products.error;
-export const selectAllProductCatergories = (state) =>
+export const selectProductsError = (state) => state.reducers.products.error;
+export const selectProductCatergories = (state) =>
   state.reducers.products.catergories;

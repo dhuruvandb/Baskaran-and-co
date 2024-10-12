@@ -16,11 +16,7 @@ export default function Wishlist() {
     ...cart.filter((data) => productSet.has(data.name)),
     ...items.filter((data) => !cartSet.has(data.name)),
   ];
-  const dispatch = useDispatch();
-    const callGetCart = () => dispatch(getWishList("66ae15a9ac912312f503f23599e"));
 
-  useEffect(() => {
-callGetCart();  }, []);
   return (
     <div className="wishlist">
       <h2>Your Wishlist</h2>
@@ -32,7 +28,7 @@ callGetCart();  }, []);
           </Link>
         </>
       ) : (
-        <ProductList product={mergedProducts} callGetCart={callGetCart} />
+        <ProductList product={mergedProducts} />
       )}
     </div>
   );

@@ -22,21 +22,13 @@ export const cart = createSlice({
         state.cartItems = payload;
       })
       .addCase(addToCart.fulfilled, (state, action) => {
-        console.log(state.cartItems, action);
-
-        // state.cartItems = state.cartItems.map((data) => {
-        //   if (data._id === "66c8d4d59112cf429d9b49d7") {
-        //     data.cartValue = data.cartValue + 1;
-        //   }
-        //   return data;
-        // });
+        console.log("cart Added : ", action.payload);
       })
       .addCase(updateCart.fulfilled, (state, action) => {
         console.log("Cart updated:", action.payload);
       })
       .addCase(deleteCart.fulfilled, (state, action) => {
         console.log("Cart deleted:", action.payload);
-        // delete state.items[action.payload]; // Remove from state if needed
       });
   },
 });
