@@ -67,7 +67,7 @@ export default function ProductList({ product, inCart, key }) {
               <p>{name}</p>
               {!productId && !inCart ? (
                 <Link to={`${_id}`} target="_blank" rel="noreferrer">
-                  <img alt={name} loading="lazy" />
+                  <img alt={name} loading="lazy" src={images} />
                 </Link>
               ) : (
                 <img
