@@ -1,17 +1,20 @@
 import ProductList from "../components/ProductList";
 import { useDispatch, useSelector } from "react-redux";
-import { selectProducts } from "../components/store/Selectors/product-selectors";
+import {
+  selectClicked,
+  selectProducts,
+} from "../components/store/Selectors/product-selectors";
 import { useParams } from "react-router";
 import {
   fetchAllProducts,
   fetchProductById,
 } from "../components/store/Thunks/products-thunk";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 export default function Product() {
   const { categoryName, productId } = useParams();
   const products = useSelector(selectProducts);
+  const clicked = useSelector(selectClicked);
   const dispatch = useDispatch();
-  const [clicked, setClicked] = useState(false);
   useEffect(() => {
     if (productId) {
       dispatch(
@@ -25,10 +28,10 @@ export default function Product() {
         })
       );
     }
-  }, [dispatch, clicked]);
+  }, [dispatch, clicked, categoryName, productId]);
   return (
     <>
-      <ProductList product={products} setClicked={setClicked} />
+      <ProductList product={products} />
     </>
   );
 }

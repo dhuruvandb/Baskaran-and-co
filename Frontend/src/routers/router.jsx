@@ -1,14 +1,9 @@
 import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Suspenses from "../components/Suspense";
-import {
-  fetchAllProducts,
-  fetchProductById,
-  fetchProductCategories,
-} from "../components/store/Thunks/products-thunk";
+import { fetchProductCategories } from "../components/store/Thunks/products-thunk";
 
 import { store } from "../components/store";
-import { selectAllProducts } from "../components/store/Selectors/product-selectors";
 
 // Layout and Root Components
 const Layout = lazy(() => import("../components/Layouts/Layout"));
@@ -49,10 +44,6 @@ export const router = createBrowserRouter([
         </Layout>
       </Suspenses>
     ),
-    loader: () => {
-      store.dispatch(fetchProductCategories());
-      return null;
-    },
     children: [
       {
         path: "cart",

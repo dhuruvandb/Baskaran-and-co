@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import "../styles/OrderSummary.css";
+import { setClicked } from "./store/Slices/product-slice";
+import { useDispatch } from "react-redux";
 export const OrderSummary = ({ products }) => {
   const shippingCost = 20;
   const productTotal = products.reduce((pre, next) => {
     return pre + next.cartValue * next.price;
   }, 0);
+  const dispatch = useDispatch();
   return (
     <div className="order-summary">
       <h3>Order Summary</h3>
@@ -21,7 +24,10 @@ export const OrderSummary = ({ products }) => {
           {products.map((item) => (
             <tr key={item._id}>
               <td>
-                <Link to={`/products/${item.category}/${item._id}`}>
+                <Link
+                  onClick={() => dispatch(setClicked())}
+                  to={`/products/${item.category}/${item._id}`}
+                >
                   <p>{item.name}</p>
                 </Link>
               </td>
@@ -47,7 +53,8 @@ export const OrderSummary = ({ products }) => {
                 ₹{shippingCost.toFixed(2)}
                 <br />
                 <small className="delivery">
-                  Add ₹{(199 - productTotal).toFixed(2)} to get Free delivery
+                  Add ₹{(199 - productTotal).toFixed(2)} more to get Free
+                  delivery
                 </small>
               </td>
             ) : (

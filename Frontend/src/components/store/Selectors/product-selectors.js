@@ -3,3 +3,4 @@ export const selectProductsStatus = (state) => state.reducers.products.status;
 export const selectProductsError = (state) => state.reducers.products.error;
 export const selectProductCatergories = (state) =>
   state.reducers.products.categories;
+export const selectClicked = (state) => state.reducers.products.clicked;
