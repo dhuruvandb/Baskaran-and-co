@@ -20,8 +20,6 @@ export const updateCart = createAsyncThunk("cart/update", async (data) => {
 export const getCart = createAsyncThunk("cart/get", async (userId) => {
   try {
     const response = await Axios("get", `/getcart/${userId}`);
-    console.log(response);
-
     return response.data.result;
   } catch (error) {
     console.error("Failed to fetch cart:", error);

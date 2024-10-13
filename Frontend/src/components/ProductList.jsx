@@ -3,13 +3,25 @@ import { useDispatch } from "react-redux";
 import { useLocation, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { addToCart, deleteCart, updateCart } from "./store/Thunks/cart-thunk";
-import { increment } from "./store/Slices/product-slice";
-export default function ProductList({ product, inCart, key }) {
+import { decrement, increment } from "./store/Slices/product-slice";
+import {
+  addProductToCart,
+  decrementCart,
+  incrementCart,
+  removeProductFromCart,
+} from "./store/Slices/cart-slice";
+export default function ProductList({ product, key, setClicked }) {
   let { productId } = useParams();
   const dispatch = useDispatch();
   let { pathname } = useLocation();
-
+  const inCart = /cart/.test(pathname);
   const handleAddToCart = (userId, productId) => {
+    dispatch(increment(productId));
+    const getProductToAddInCart = product.filter(
+      (data) => data._id === productId
+    );
+    dispatch(addProductToCart(...getProductToAddInCart));
+    dispatch(incrementCart(productId));
     dispatch(
       addToCart({
         userId,
@@ -19,10 +31,12 @@ export default function ProductList({ product, inCart, key }) {
         },
       })
     );
+    setClicked((pre) => !pre);
   };
 
   const handleIncrement = (userId, productId) => {
-    increment(productId);
+    dispatch(increment(productId));
+    dispatch(incrementCart(productId));
     dispatch(
       updateCart({
         userId,
@@ -32,9 +46,12 @@ export default function ProductList({ product, inCart, key }) {
         },
       })
     );
+    setClicked((pre) => !pre);
   };
 
   const handleDecrement = (userId, productId) => {
+    dispatch(decrement(productId));
+    dispatch(decrementCart(productId));
     dispatch(
       updateCart({
         userId,
@@ -44,9 +61,11 @@ export default function ProductList({ product, inCart, key }) {
         },
       })
     );
+    setClicked((pre) => !pre);
   };
 
   const handleDeleteCart = (userId, productId) => {
+    dispatch(removeProductFromCart(productId));
     dispatch(
       deleteCart({
         userId,
@@ -56,6 +75,7 @@ export default function ProductList({ product, inCart, key }) {
         },
       })
     );
+    setClicked((pre) => !pre);
   };
   return (
     <>
@@ -65,7 +85,7 @@ export default function ProductList({ product, inCart, key }) {
           return (
             <figure key={i}>
               <p>{name}</p>
-              {!productId && !inCart ? (
+              {!productId ? (
                 <Link to={`${_id}`} target="_blank" rel="noreferrer">
                   <img alt={name} loading="lazy" src={images} />
                 </Link>
@@ -74,8 +94,8 @@ export default function ProductList({ product, inCart, key }) {
                   loading="lazy"
                   src={images}
                   alt={name}
-                  height={inCart ? 50 : null}
-                  width={inCart ? 50 : null}
+                  height={inCart ? 100 : null}
+                  width={inCart ? 100 : null}
                 />
               )}
               <p>{description}</p>

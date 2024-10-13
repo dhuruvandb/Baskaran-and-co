@@ -6,17 +6,27 @@ import {
 } from "../Thunks/products-thunk";
 
 const initialState = {
-  catergories: [],
+  categories: [],
   items: [],
   status: "idle",
   error: "",
 };
+
 export const fetchProducts = createSlice({
   name: "products",
   initialState,
   reducers: {
     increment: (state, action) => {
-      console.log(state, action.payload);
+      const product = state.items.find((data) => data._id === action.payload);
+      if (product) {
+        product.cartValue += 1;
+      }
+    },
+    decrement: (state, action) => {
+      const product = state.items.find((data) => data._id === action.payload);
+      if (product && product.cartValue > 0) {
+        product.cartValue -= 1;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -25,13 +35,14 @@ export const fetchProducts = createSlice({
         state.status = "loading";
       })
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
-        const { payload } = action;
-        state.items = payload;
+        if (state.items.length === 0) {
+          state.items = action.payload;
+        }
         state.status = "successful";
       })
-      .addCase(fetchAllProducts.rejected, (state) => {
+      .addCase(fetchAllProducts.rejected, (state, action) => {
         state.status = "failed";
-        state.error = "Failed to fetch the products";
+        state.error = action.error.message || "Failed to fetch the products";
       });
 
     builder
@@ -39,15 +50,14 @@ export const fetchProducts = createSlice({
         state.status = "loading";
       })
       .addCase(fetchProductById.fulfilled, (state, action) => {
-        const { payload } = action;
-
-        state.items = payload;
+        if (state.items.length === 0) {
+          state.items = action.payload;
+        }
         state.status = "successful";
-        return;
       })
-      .addCase(fetchProductById.rejected, (state) => {
+      .addCase(fetchProductById.rejected, (state, action) => {
         state.status = "failed";
-        state.error = "Failed to fetch the product";
+        state.error = action.error.message || "Failed to fetch the product";
       });
 
     builder
@@ -55,15 +65,14 @@ export const fetchProducts = createSlice({
         state.status = "loading";
       })
       .addCase(fetchProductCategories.fulfilled, (state, action) => {
-        const { payload } = action;
-        state.catergories = payload;
+        state.categories = action.payload;
         state.status = "successful";
       })
-      .addCase(fetchProductCategories.rejected, (state) => {
+      .addCase(fetchProductCategories.rejected, (state, action) => {
         state.status = "failed";
-        state.error = "Failed to fetch the products";
+        state.error = action.error.message || "Failed to fetch the categories";
       });
   },
 });
 
-export const { increment } = fetchProducts.actions;
+export const { increment, decrement } = fetchProducts.actions;

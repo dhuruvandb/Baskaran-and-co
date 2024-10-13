@@ -15,10 +15,12 @@ export const fetchAllProducts = createAsyncThunk(
 
 export const fetchProductById = createAsyncThunk(
   "products/fetchProductById",
-  async (productId) => {
-    const apiData = await Axios("get", `/product/${productId}`);
-    console.log({ apiData });
-    
+  async (data) => {
+    const { productId, userId } = data;
+    const apiData = await Axios(
+      "get",
+      `/product/${productId}?userId=${userId}`
+    );
     return apiData.data.result;
   }
 );

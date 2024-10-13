@@ -4,8 +4,7 @@ exports.handleCartUpdate = async (req, res) => {
   try {
     const { userId, Items } = req.body;
     const { productId, count } = Items;
-
-    const existingCart = await Cart.findOne({ userId });
+    const existingCart = await Cart.findOne({ userId: { $eq: userId } });
 
     if (existingCart) {
       const existingItem = existingCart.Items.find(
@@ -16,7 +15,10 @@ exports.handleCartUpdate = async (req, res) => {
         existingItem.count += count;
 
         if (existingItem.count === 0) {
-          await Cart.updateOne({ userId }, { $pull: { Items: { productId } } });
+          await Cart.updateOne(
+            { userId: { $eq: userId } },
+            { $pull: { Items: { productId } } }
+          );
         } else {
           await Cart.updateOne(
             { userId, "Items.productId": productId },
@@ -24,9 +26,9 @@ exports.handleCartUpdate = async (req, res) => {
           );
         }
 
-        const updatedCart = await Cart.findOne({ userId });
+        const updatedCart = await Cart.findOne({ userId: { $eq: userId } });
         if (updatedCart.Items.length === 0) {
-          await Cart.deleteOne({ userId });
+          await Cart.deleteOne({ userId: { $eq: userId } });
           const result = await getAllProducts(
             userId,
             undefined,
@@ -48,7 +50,7 @@ exports.handleCartUpdate = async (req, res) => {
           res.status(400).send({ error: "Count must be greater than 0" });
         } else {
           await Cart.updateOne(
-            { userId },
+            { userId: { $eq: userId } },
             { $push: { Items: { productId, count } } }
           );
           const result = await getAllProducts(
@@ -75,11 +77,18 @@ exports.handleCartUpdate = async (req, res) => {
   }
 };
 
-exports.deleteItemFromCart = async (req, res) => {};
+exports.deleteItemFromCart = async (req, res) => {
+  const { userId, Items } = req.body;
+  const { productId } = Items;
+  await Cart.updateOne(
+    { userId: { $eq: userId } },
+    { $pull: { Items: { productId } } }
+  );
+  res.status(200).json({ message: "product deleted" });
+};
 
 exports.getCartItems = async (req, res) => {
   const { userId } = req.params;
-  console.log({userId},"aaaaaaaaaaaaa")
   const userCart = await Cart.findOne(
     { userId },
     { Items: 1, _id: 0 }

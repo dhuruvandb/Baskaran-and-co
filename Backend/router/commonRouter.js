@@ -2,7 +2,7 @@ const express = require("express");
 const {
   getOneProduct,
   getCategory,
-  fetchAllProducts,
+  getProductsByCategory,
 } = require("../controllers/common/productController");
 const {
   GET_ALL_PRODUCTS_PATH,
@@ -14,7 +14,7 @@ const product = require("../models/productModel");
 const cart = require("../models/cart");
 const router = express.Router();
 
-router.get(GET_ALL_PRODUCTS_PATH, fetchAllProducts);
+router.get(GET_ALL_PRODUCTS_PATH, getProductsByCategory);
 router.get(GET_ONE_PRODUCT_PATH, getOneProduct);
 router.get([HOME, GET_ALL_CATOGORIES], getCategory);
 

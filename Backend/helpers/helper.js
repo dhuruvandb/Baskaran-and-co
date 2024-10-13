@@ -47,7 +47,7 @@ exports.getAllProducts = async (
 ) => {
   if (userId) {
     const userCart = await Cart.findOne(
-      { userId },
+      { userId: { $eq: userId } },
       { Items: 1, _id: 0 }
     ).populate([{ path: "Items.productId" }]);
 

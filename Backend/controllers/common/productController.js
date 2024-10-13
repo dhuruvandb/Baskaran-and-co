@@ -1,7 +1,7 @@
 const { viewCategory, getAllProducts } = require("../../helpers/helper");
 const mongoose = require("mongoose");
 
-exports.fetchAllProducts = async (req, res) => {
+exports.getProductsByCategory = async (req, res) => {
   try {
     const { category } = req.params;
     const { userId } = req.query;

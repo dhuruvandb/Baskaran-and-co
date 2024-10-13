@@ -6,15 +6,17 @@ import {
   fetchAllProducts,
   fetchProductById,
 } from "../components/store/Thunks/products-thunk";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 export default function Product() {
   const { categoryName, productId } = useParams();
   const products = useSelector(selectProducts);
   const dispatch = useDispatch();
-
+  const [clicked, setClicked] = useState(false);
   useEffect(() => {
     if (productId) {
-      dispatch(fetchProductById(productId));
+      dispatch(
+        fetchProductById({ userId: "66ae15a9ac912312f503f23599e", productId })
+      );
     } else {
       dispatch(
         fetchAllProducts({
@@ -23,10 +25,10 @@ export default function Product() {
         })
       );
     }
-  }, [products]);
+  }, [dispatch, clicked]);
   return (
     <>
-      <ProductList product={products} />
+      <ProductList product={products} setClicked={setClicked} />
     </>
   );
 }

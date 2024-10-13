@@ -1,0 +1,65 @@
+/* General Styles */
+.order-summary {
+  margin: 20px; /* Space around the order summary */
+  font-family: Arial, sans-serif; /* Font style for the summary */
+  background-color: #fff; /* Background color */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Table Styles */
+table {
+  width: 100%; /* Full width of the container */
+  border-collapse: collapse; /* Remove gaps between cells */
+}
+
+th,
+td {
+  padding: 12px; /* Space inside cells */
+  text-align: left; /* Align text to the left */
+  border-bottom: 1px solid #ddd; /* Light border below each row */
+}
+
+th {
+  background-color: #f4f4f4; /* Light background for header */
+  font-weight: bold; /* Bold text for headers */
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9; /* Alternate row colors for readability */
+}
+
+tr:hover {
+  background-color: #eaeaea; /* Highlight row on hover */
+}
+
+/* Shipping and Total Styles */
+td:last-child {
+  font-weight: bold; /* Bold text for the last column */
+}
+
+.shipping-info {
+  font-size: 0.9em; /* Smaller text for shipping info */
+  color: #555; /* Slightly darker text color */
+}
+
+.total {
+  color: black; /* Color for total amount */
+}
+
+.delivery {
+  color: #d9534f;
+}
+
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+  th,
+  td {
+    padding: 8px; /* Reduce padding on smaller screens */
+  }
+
+  .order-summary {
+    margin: 10px; /* Less margin on smaller screens */
+  }
+}

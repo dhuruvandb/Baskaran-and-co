@@ -17,10 +17,11 @@ export default function Cart() {
     return pre + next.cartValue;
   }, 0);
   const [inCart, setInCart] = useState(false);
+  const [clicked, setClicked] = useState(false);
   useEffect(() => {
     dispatch(getCart("66ae15a9ac912312f503f23599e"));
     setInCart(true);
-  }, [dispatch]);
+  }, [dispatch, clicked]);
 
   return (
     <>
@@ -28,10 +29,11 @@ export default function Cart() {
         <legend>Cart</legend>
         {cartValue.length > 0 ? (
           <section>
-            <ol>
-              <ProductList product={cartValue} inCart={inCart} />
-              <hr />
-            </ol>
+            <ProductList product={cartValue} setClicked={setClicked} />
+            <hr />
+            <Link to="/">
+              <button>Shop More Products</button>
+            </Link>
             <table>
               <tbody>
                 <tr>
@@ -40,10 +42,6 @@ export default function Cart() {
                 <tr>
                   <td>Price of {totalItems} Items : </td>
                   <td>{totalPrice}</td>
-                </tr>
-                <tr>
-                  <td>Delivery Charges : </td>
-                  <td>100</td>
                 </tr>
                 <tr>
                   <td>Total Amount : </td>
