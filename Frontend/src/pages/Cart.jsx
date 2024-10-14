@@ -5,10 +5,8 @@ import "../styles/cart.css";
 import ProductList from "../components/ProductList";
 import { cartItems } from "../components/store/Selectors/cart-selectors";
 import { getCart } from "../components/store/Thunks/cart-thunk";
-import { selectClicked } from "../components/store/Selectors/product-selectors";
 export default function Cart() {
   const cartValue = useSelector(cartItems);
-  const clicked = useSelector(selectClicked);
   const dispatch = useDispatch();
   const totalPrice = cartValue
     .reduce((pre, next) => {
@@ -20,7 +18,7 @@ export default function Cart() {
   }, 0);
   useEffect(() => {
     dispatch(getCart("66ae15a9ac912312f503f23599e"));
-  }, [dispatch, clicked]);
+  }, []);
 
   return (
     <>

@@ -1,7 +1,6 @@
 import ProductList from "../components/ProductList";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  selectClicked,
   selectProducts,
 } from "../components/store/Selectors/product-selectors";
 import { useParams } from "react-router";
@@ -13,7 +12,6 @@ import { useEffect } from "react";
 export default function Product() {
   const { categoryName, productId } = useParams();
   const products = useSelector(selectProducts);
-  const clicked = useSelector(selectClicked);
   const dispatch = useDispatch();
   useEffect(() => {
     if (productId) {
@@ -28,7 +26,7 @@ export default function Product() {
         })
       );
     }
-  }, [productId, categoryName, clicked]);
+  }, []);
   return (
     <>
       <ProductList product={products} />

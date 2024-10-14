@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useLocation, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { addToCart, deleteCart, updateCart } from "./store/Thunks/cart-thunk";
-import { decrement, increment, setClicked } from "./store/Slices/product-slice";
+import { decrement, increment } from "./store/Slices/product-slice";
 import {
   addProductToCart,
   decrementCart,
@@ -31,7 +31,6 @@ export default function ProductList({ product, key }) {
         },
       })
     );
-    dispatch(setClicked());
   };
 
   const handleIncrement = (userId, productId) => {
@@ -46,7 +45,6 @@ export default function ProductList({ product, key }) {
         },
       })
     );
-    dispatch(setClicked());
   };
 
   const handleDecrement = (userId, productId) => {
@@ -61,7 +59,6 @@ export default function ProductList({ product, key }) {
         },
       })
     );
-    dispatch(setClicked());
   };
 
   const handleDeleteCart = (userId, productId) => {
@@ -75,7 +72,6 @@ export default function ProductList({ product, key }) {
         },
       })
     );
-    dispatch(setClicked());
   };
   return (
     <>

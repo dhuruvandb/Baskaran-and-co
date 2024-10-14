@@ -1,13 +1,10 @@
 import { Link } from "react-router-dom";
 import "../styles/OrderSummary.css";
-import { setClicked } from "./store/Slices/product-slice";
-import { useDispatch } from "react-redux";
 export const OrderSummary = ({ products }) => {
   const shippingCost = 20;
   const productTotal = products.reduce((pre, next) => {
     return pre + next.cartValue * next.price;
   }, 0);
-  const dispatch = useDispatch();
   return (
     <div className="order-summary">
       <h3>Order Summary</h3>

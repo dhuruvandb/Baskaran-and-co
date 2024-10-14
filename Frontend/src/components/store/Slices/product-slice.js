@@ -11,7 +11,6 @@ const initialState = {
   items: [],
   status: "idle",
   error: "",
-  clicked: false,
   searchResult: [],
 };
 
@@ -30,9 +29,6 @@ export const fetchProducts = createSlice({
       if (product && product.cartValue > 0) {
         product.cartValue -= 1;
       }
-    },
-    setClicked: (state) => {
-      state.clicked = !state.clicked;
     },
   },
   extraReducers: (builder) => {
@@ -85,4 +81,4 @@ export const fetchProducts = createSlice({
   },
 });
 
-export const { increment, decrement, setClicked } = fetchProducts.actions;
+export const { increment, decrement } = fetchProducts.actions;
