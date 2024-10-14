@@ -21,6 +21,7 @@
   flex: 1;
   max-width: 600px;
   margin: 0 20px;
+  position: relative; /* For absolute positioning of search results */
 }
 
 /* Search input */
@@ -40,6 +41,33 @@
   border-radius: 4px;
   cursor: pointer;
   margin-left: 8px; /* Space between search input and button */
+}
+
+/* Search results list */
+.search-results {
+  position: absolute; /* Position relative to the search container */
+  top: 100%; /* Align below the search bar */
+  left: 0; /* Align with the left edge of the search container */
+  background-color: #ffffff; /* Match search container background */
+  border: 1px solid #ddd; /* Light border for the dropdown */
+  border-radius: 4px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  z-index: 1000; /* Ensure it appears above other elements */
+  width: 100%; /* Match the width of the search input */
+  max-height: 200px; /* Optional: limit height */
+  overflow-y: auto; /* Scroll if too many results */
+}
+
+/* Search results list items */
+.search-results li {
+  padding: 10px; /* Spacing for list items */
+  cursor: pointer; /* Pointer on hover */
+  list-style: none;
+}
+
+/* Hover effect for list items */
+.search-results li:hover {
+  background-color: #f0f0f0; /* Highlight on hover */
 }
 
 /* Cart and login containers */
@@ -140,6 +168,10 @@
 
   .cart {
     font-size: 1.2em;
+  }
+
+  .search-results {
+    width: calc(100% - 40px); /* Adjust for margins */
   }
 }
 

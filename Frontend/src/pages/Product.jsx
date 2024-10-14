@@ -6,7 +6,7 @@ import {
 } from "../components/store/Selectors/product-selectors";
 import { useParams } from "react-router";
 import {
-  fetchAllProducts,
+  fetchAllProductsByCategories,
   fetchProductById,
 } from "../components/store/Thunks/products-thunk";
 import { useEffect } from "react";
@@ -22,13 +22,13 @@ export default function Product() {
       );
     } else {
       dispatch(
-        fetchAllProducts({
+        fetchAllProductsByCategories({
           categoryName,
           userId: "66ae15a9ac912312f503f23599e",
         })
       );
     }
-  }, [dispatch, clicked, categoryName, productId]);
+  }, [productId, categoryName, clicked]);
   return (
     <>
       <ProductList product={products} />

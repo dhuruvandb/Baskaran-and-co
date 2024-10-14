@@ -4,10 +4,12 @@ const productSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    index: "text", // Text index for name
   },
   category: {
     type: String,
     required: true,
+    index: "text",
   },
   _id: { type: String },
   price: {
@@ -17,6 +19,7 @@ const productSchema = new mongoose.Schema({
   description: {
     type: String,
     required: true,
+    index: "text", // Text index for description
   },
   rating: {
     type: Number,
@@ -41,4 +44,11 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
 });
-module.exports = mongoose.model("Products", productSchema);
+
+// Create the model
+const Product = mongoose.model("Products", productSchema);
+
+// Create the text index
+productSchema.index({ name: "text", description: "text" });
+
+module.exports = Product;

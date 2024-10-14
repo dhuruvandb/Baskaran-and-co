@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  fetchAllProducts,
+  fetchAllProductsByCategories,
   fetchProductById,
   fetchProductCategories,
+  searchProducts,
 } from "../Thunks/products-thunk";
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
   status: "idle",
   error: "",
   clicked: false,
+  searchResult: [],
 };
 
 export const fetchProducts = createSlice({
@@ -35,16 +37,16 @@ export const fetchProducts = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAllProducts.pending, (state) => {
+      .addCase(fetchAllProductsByCategories.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(fetchAllProducts.fulfilled, (state, action) => {
+      .addCase(fetchAllProductsByCategories.fulfilled, (state, action) => {
         if (state.items.length === 0) {
           state.items = action.payload;
         }
         state.status = "successful";
       })
-      .addCase(fetchAllProducts.rejected, (state, action) => {
+      .addCase(fetchAllProductsByCategories.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Failed to fetch the products";
       });
@@ -76,6 +78,10 @@ export const fetchProducts = createSlice({
         state.status = "failed";
         state.error = action.error.message || "Failed to fetch the categories";
       });
+
+    builder.addCase(searchProducts.fulfilled, (state, action) => {
+      state.searchResult = action.payload;
+    });
   },
 });
 

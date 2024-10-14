@@ -12,7 +12,7 @@ const VIEW_CART_PATH = "/getcart/:userId";
 const ADD_CART_PATH = "/addcart";
 const UPDATE_CART_PATH = "/updatecart";
 const DELETE_CART_PATH = "/deletecart";
-
+const SEARCH_PATH = "/search/:searchText";
 const ADMIN_ADD_PRODUCT_PATH = "/admin/addproduct";
 const ADMIN_UPDATE_PRODUCT_PATH = "/admin/updateproduct/:id";
 const ADMIN_DELETE_PRODUCT_PATH = "/admin/deleteproduct/:id";
@@ -28,6 +28,7 @@ module.exports = {
   HOME,
   ADD_WISH_LIST,
   GET_WISH_LIST,
+  SEARCH_PATH,
   DELETE_WISH_LIST,
   FORGET_PASSWORD_PATH,
   LOGIN_PATH,

@@ -1,5 +1,6 @@
 const { viewCategory, getAllProducts } = require("../../helpers/helper");
 const mongoose = require("mongoose");
+const productModel = require("../../models/productModel");
 
 exports.getProductsByCategory = async (req, res) => {
   try {
@@ -34,4 +35,19 @@ exports.getOneProduct = async (req, res) => {
 exports.getCategory = async (req, res) => {
   const result = await viewCategory();
   res.status(200).json({ result });
+};
+
+exports.searchProducts = async (req, res) => {
+  try {
+    const { searchText } = req.params;
+    const results = await productModel.find();
+    const result = results
+      .filter((d) => d.name.toLowerCase().includes(searchText.toLowerCase()))
+      .map((d) => d);
+
+    return res.json({ result });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
 };

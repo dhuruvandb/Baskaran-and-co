@@ -23,11 +23,8 @@ export const OrderSummary = ({ products }) => {
         <tbody>
           {products.map((item) => (
             <tr key={item._id}>
-              <td>
-                <Link
-                  onClick={() => dispatch(setClicked())}
-                  to={`/products/${item.category}/${item._id}`}
-                >
+              <td onClick={() => window.location.reload()}>
+                <Link to={`/products/${item.category}/${item._id}`}>
                   <p>{item.name}</p>
                 </Link>
               </td>

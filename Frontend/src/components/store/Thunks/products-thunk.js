@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Axios } from "../../../helper/fetchUrl";
 
-export const fetchAllProducts = createAsyncThunk(
+export const fetchAllProductsByCategories = createAsyncThunk(
   "products/fetchAllProducts",
   async (data) => {
     const { categoryName, userId } = data;
@@ -9,6 +9,15 @@ export const fetchAllProducts = createAsyncThunk(
       "get",
       `/products/${categoryName}?userId=${userId}`
     );
+    return apiData.data.result;
+  }
+);
+
+export const searchProducts = createAsyncThunk(
+  "products/searchProducts",
+  async (data) => {
+    const { search } = data;
+    const apiData = await Axios("get", `/search/${search}`);
     return apiData.data.result;
   }
 );
