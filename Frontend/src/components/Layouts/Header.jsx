@@ -29,9 +29,9 @@ export default function Header() {
       if (selectedIndex < productNames.length - 1) {
         setSelectedIndex((prevIndex) => prevIndex + 1);
         setSearchText(productNames[selectedIndex + 1].name);
-      } else {
-        setSelectedIndex(0);
-        setSearchText(productNames[0].name);
+      } else if (selectedIndex > productNames.length - 1) {
+        setSelectedIndex(-1);
+        setSearchText(productNames[selectedIndex].name);
       }
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
@@ -43,7 +43,6 @@ export default function Header() {
         setSearchText(productNames[selectedIndex - 1].name);
       } else {
         setSelectedIndex(-1);
-        setSearchText("");
       }
     } else if (e.key === "Enter") {
       if (selectedIndex >= 0) {
@@ -91,7 +90,7 @@ export default function Header() {
                 `/products/${productNames[selectedIndex].category}/${productNames[selectedIndex]._id}`
               );
               window.location.reload();
-            } 
+            }
           }}
         >
           🔍

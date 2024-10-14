@@ -41,10 +41,20 @@ exports.searchProducts = async (req, res) => {
   try {
     const { searchText } = req.params;
     const results = await productModel.find();
-    const result = results
-      .filter((d) => d.name.toLowerCase().includes(searchText.toLowerCase()))
-      .map((d) => d);
-
+    const result = (() => {
+      const matchedCategories = new Set();
+      results.forEach((d) => {
+        if (d.category.toLowerCase().includes(searchText.toLowerCase())) {
+          matchedCategories.add(d.category);
+        }
+      });
+      return results.filter((d) => {
+        if (matchedCategories.has(d.category)) {
+          return true;
+        }
+        return d.name.toLowerCase().includes(searchText.toLowerCase());
+      });
+    })();
     return res.json({ result });
   } catch (error) {
     console.error(error);

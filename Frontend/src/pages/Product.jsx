@@ -2,6 +2,7 @@ import ProductList from "../components/ProductList";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectProducts,
+  selectProductsStatus,
 } from "../components/store/Selectors/product-selectors";
 import { useParams } from "react-router";
 import {
@@ -9,9 +10,12 @@ import {
   fetchProductById,
 } from "../components/store/Thunks/products-thunk";
 import { useEffect } from "react";
+import Loader from "../components/Loader";
+import RefreshButton from "../components/RefreshButton";
 export default function Product() {
   const { categoryName, productId } = useParams();
   const products = useSelector(selectProducts);
+  const status = useSelector(selectProductsStatus);
   const dispatch = useDispatch();
   useEffect(() => {
     if (productId) {
@@ -27,9 +31,11 @@ export default function Product() {
       );
     }
   }, []);
-  return (
-    <>
-      <ProductList product={products} />
-    </>
-  );
+  if (status === "loading") {
+    return <Loader />;
+  } else if (status === "successful") {
+    return <ProductList product={products} />;
+  } else if (status === "failed") {
+    return <RefreshButton />;
+  }
 }

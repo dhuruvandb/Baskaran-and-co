@@ -58,15 +58,15 @@ exports.getAllProducts = async (
           cartValue: item.count,
         })) || [];
       const products = await find(Product, filter, fields);
-      const productSet = products.map((_) => _.name);
-      const cartSet = cart.map((_) => _.name);
+      const productSet = new Set(products.map((_) => _.name));
+      const cartSet = new Set(cart.map((_) => _.name));
 
       let result = [
-        ...cart.filter((data) => productSet.includes(data.name)),
-        ...products.filter((data) => !cartSet.includes(data.name)),
+        ...cart.filter((data) => productSet.has(data.name)),
+        ...products.filter((data) => !cartSet.has(data.name)),
       ];
       if (inCart) {
-        return cart.filter((data) => productSet.includes(data.name));
+        return cart.filter((data) => productSet.has(data.name));
       }
       return result;
     }
