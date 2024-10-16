@@ -30,6 +30,10 @@ export const fetchProducts = createSlice({
         product.cartValue -= 1;
       }
     },
+    getProduct:(state,action)=>{
+      const product = state.items.filter((data) => data._id === action.payload);
+      state.items=product;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -81,4 +85,4 @@ export const fetchProducts = createSlice({
   },
 });
 
-export const { increment, decrement } = fetchProducts.actions;
+export const { increment, decrement,getProduct } = fetchProducts.actions;

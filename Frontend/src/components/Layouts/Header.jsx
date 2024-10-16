@@ -7,6 +7,7 @@ import { getCart } from "../store/Thunks/cart-thunk";
 import { Button } from "@mui/material";
 import { selectSearch } from "../store/Selectors/product-selectors";
 import { searchProducts } from "../store/Thunks/products-thunk";
+import { getProduct } from "../store/Slices/product-slice";
 
 export default function Header() {
   const cartValue = useSelector(cartItems) || [];
@@ -30,7 +31,7 @@ export default function Header() {
         setSelectedIndex((prevIndex) => prevIndex + 1);
         setSearchText(productNames[selectedIndex + 1].name);
       } else if (selectedIndex > productNames.length - 1) {
-        setSelectedIndex(-1);
+        setSelectedIndex(0);
         setSearchText(productNames[selectedIndex].name);
       }
     } else if (e.key === "ArrowUp") {
@@ -52,7 +53,7 @@ export default function Header() {
           `/products/${productNames[selectedIndex].category}/${productNames[selectedIndex]._id}`
         );
         setSearchText("");
-        window.location.reload();
+        dispatch(getProduct(productNames[selectedIndex]._id))
       }
     }
   };
@@ -89,7 +90,7 @@ export default function Header() {
               navigate(
                 `/products/${productNames[selectedIndex].category}/${productNames[selectedIndex]._id}`
               );
-              window.location.reload();
+              dispatch(getProduct(productNames[selectedIndex]._id))
             }
           }}
         >
@@ -105,7 +106,7 @@ export default function Header() {
                     setSearchText(data.name);
                     setSelectedIndex(-1);
                     navigate(`/products/${data.category}/${data._id}`);
-                    window.location.reload();
+                    dispatch(getProduct(data._id))
                   }}
                   style={{
                     backgroundColor:

@@ -22,7 +22,7 @@ export default function Product() {
       dispatch(
         fetchProductById({ userId: "66ae15a9ac912312f503f23599e", productId })
       );
-    } else {
+    } else  {
       dispatch(
         fetchAllProductsByCategories({
           categoryName,
@@ -30,7 +30,7 @@ export default function Product() {
         })
       );
     }
-  }, []);
+  }, [categoryName, productId, dispatch]);
   if (status === "loading") {
     return <Loader />;
   } else if (status === "successful") {
