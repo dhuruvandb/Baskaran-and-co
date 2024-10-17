@@ -45,12 +45,10 @@ exports.getAllProducts = async (
   fields = {},
   inCart = false
 ) => {
-  if (userId) {
-    const userCart = await Cart.findOne(
-      { userId: { $eq: userId } },
-      { Items: 1, _id: 0 }
-    ).populate([{ path: "Items.productId" }]);
-
+  const userCart = await Cart.findOne(
+    { userId: { $eq: userId } },
+    { Items: 1, _id: 0 }
+  ).populate([{ path: "Items.productId" }]);
     if (userCart && userCart.Items) {
       const cart =
         userCart.Items.map((item) => ({
@@ -69,10 +67,9 @@ exports.getAllProducts = async (
         return cart.filter((data) => productSet.has(data.name));
       }
       return result;
-    }
+    
   } else {
     const products = await find(Product, filter, fields);
-
     return products;
   }
 };
