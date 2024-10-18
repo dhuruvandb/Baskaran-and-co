@@ -35,7 +35,7 @@ export const OrderSummary = ({ products }) => {
           dispatch(decrement(buyNowproducts[0]._id))
           dispatch(removeProductFromBuyNow(buyNowproducts[0]._id));        }
     };
-}, [dispatch]);
+}, [dispatch,buyNowproducts]);
   return (
     <div className="order-summary">
       <h3>Order Summary</h3>
