@@ -4,3 +4,4 @@ export const selectProductsError = (state) => state.reducers.products.error;
 export const selectProductCatergories = (state) =>
   state.reducers.products.categories;
 export const selectSearch = (state) => state.reducers.products.searchResult;
+export const selectBuyNowProducts = (state) => state.reducers.products.buyNow;

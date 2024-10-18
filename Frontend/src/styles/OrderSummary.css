@@ -13,6 +13,7 @@ table {
   border-collapse: collapse; /* Remove gaps between cells */
 }
 
+
 th,
 td {
   padding: 12px; /* Space inside cells */

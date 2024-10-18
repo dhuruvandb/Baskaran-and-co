@@ -1,9 +1,9 @@
 import "../styles/product.css";
 import { useDispatch } from "react-redux";
 import { useLocation, useParams } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addToCart, deleteCart, updateCart } from "./store/Thunks/cart-thunk";
-import { decrement, increment } from "./store/Slices/product-slice";
+import { addToBuyNow, decrement, increment } from "./store/Slices/product-slice";
 import {
   addProductToCart,
   decrementCart,
@@ -15,6 +15,7 @@ export default function ProductList({ product, key }) {
   const dispatch = useDispatch();
   let { pathname } = useLocation();
   const inCart = /cart/.test(pathname);
+  const navigate = useNavigate();
   const handleAddToCart = (userId, productId) => {
     dispatch(increment(productId));
     const getProductToAddInCart = product.filter(
@@ -127,7 +128,7 @@ export default function ProductList({ product, key }) {
                   </>
                 )}
               </>
-              {inCart ? (
+              {inCart && (
                 <button
                   onClick={() => {
                     handleDeleteCart("66ae15a9ac912312f503f23599e", _id);
@@ -135,9 +136,11 @@ export default function ProductList({ product, key }) {
                 >
                   Remove
                 </button>
-              ) : (
-                <button onClick={() => {}}>Buy Now</button>
               )}
+              {productId&&<button onClick={() => {
+                  navigate("/checkout")
+                  dispatch(addToBuyNow(_id))
+                }}>Buy Now</button>}
               {/wishlist/.test(pathname) && <button>Remove</button>}
             </figure>
           );
