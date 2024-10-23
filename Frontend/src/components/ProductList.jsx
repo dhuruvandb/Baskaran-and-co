@@ -41,10 +41,6 @@ export default function ProductList({ product, key }) {
         },
       })
     );
-    if (productIdentifier !== undefined) {
-      navigate("/cart");
-      window.location.reload();
-    }
   };
 
   const handleIncrement = (userId, productId) => {
