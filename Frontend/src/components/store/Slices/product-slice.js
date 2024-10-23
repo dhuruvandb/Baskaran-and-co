@@ -9,7 +9,7 @@ import {
 const initialState = {
   categories: [],
   items: [],
-  buyNow:[],
+  buyNow: [],
   status: "idle",
   error: "",
   searchResult: [],
@@ -20,36 +20,53 @@ export const fetchProducts = createSlice({
   initialState,
   reducers: {
     increment: (state, action) => {
-      const product = state.items.find((data) => data._id === action.payload);
-      const buyNowProduct = state.buyNow.find((data) => data._id === action.payload);
-      !buyNowProduct?product.cartValue += 1:buyNowProduct.cartValue+=1
+      state.items = state.items.map((data) => {
+        if (data._id === action.payload) {
+          data.cartValue += 1;
+        }
+        return data;
+      });
     },
     decrement: (state, action) => {
-      const product = state.items.find((data) => data._id === action.payload);
-      const buyNowProduct = state.buyNow.find((data) => data._id === action.payload);
-      if (product && product.cartValue > 0) {
-        product.cartValue -= 1;
-      }
-      if (buyNowProduct && buyNowProduct.cartValue > 0) {
-        buyNowProduct.cartValue -= 1;
-      }
+      state.items = state.items.map((data) => {
+        if (data._id === action.payload) {
+          data.cartValue -= 1;
+        }
+        return data;
+      });
     },
-    getProduct:(state,action)=>{
+    getProduct: (state, action) => {
       const product = state.items.filter((data) => data._id === action.payload);
-      state.items=product;
+      state.items = product;
     },
-    addToBuyNow:(state,action)=>{
-      const products =state.items.filter((data) => data._id === action.payload);
-      state.buyNow= products.map((data) => {if(data._id === action.payload){
-        data.cartValue=1
-        return data
-      }});
+    addToBuyNow: (state, action) => {
+      const product = state.items.filter((data) => data._id === action.payload);
+      state.buyNow = product.map((data) => {
+        data.cartValue = 1;
+
+        return data;
+      });
+    },
+    incrementBuyNow: (state, action) => {
+      const product = state.buyNow.filter(
+        (data) => data._id === action.payload
+      );
+      state.buyNow = product.map((data) => {
+        data.cartValue += 1;
+        return data;
+      });
+    },
+    decrementBuyNow: (state, action) => {
+      const product = state.buyNow.filter(
+        (data) => data._id === action.payload
+      );
+      state.buyNow = product.map((data) => {
+        data.cartValue -= 1;
+        return data;
+      });
     },
     removeProductFromBuyNow: (state, action) => {
-      console.log("hiii");
-      state.buyNow = state.buyNow.filter(
-        (data) => data._id !== action.payload
-      );
+      state.buyNow = state.buyNow.filter((data) => data._id !== action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -102,4 +119,12 @@ export const fetchProducts = createSlice({
   },
 });
 
-export const { increment, decrement,getProduct,addToBuyNow,removeProductFromBuyNow } = fetchProducts.actions;
+export const {
+  increment,
+  decrement,
+  getProduct,
+  addToBuyNow,
+  removeProductFromBuyNow,
+  incrementBuyNow,
+  decrementBuyNow,
+} = fetchProducts.actions;

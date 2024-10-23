@@ -1,28 +1,37 @@
 import "../styles/product.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router";
 import { Link, useNavigate } from "react-router-dom";
 import { addToCart, deleteCart, updateCart } from "./store/Thunks/cart-thunk";
-import { addToBuyNow, decrement, increment } from "./store/Slices/product-slice";
+import {
+  addToBuyNow,
+  decrement,
+  increment,
+} from "./store/Slices/product-slice";
 import {
   addProductToCart,
   decrementCart,
   incrementCart,
   removeProductFromCart,
 } from "./store/Slices/cart-slice";
+import { AppBar, Button } from "@mui/material";
+import { cartItems } from "./store/Selectors/cart-selectors";
 export default function ProductList({ product, key }) {
-  let { productId } = useParams();
+  let { productIdentifier } = useParams();
   const dispatch = useDispatch();
   let { pathname } = useLocation();
   const inCart = /cart/.test(pathname);
   const navigate = useNavigate();
+  const cartValue = useSelector(cartItems) || [];
+  const totalItems = cartValue.reduce((pre, next) => pre + next.cartValue, 0);
+
   const handleAddToCart = (userId, productId) => {
-    dispatch(increment(productId));
     const getProductToAddInCart = product.filter(
       (data) => data._id === productId
     );
     dispatch(addProductToCart(...getProductToAddInCart));
     dispatch(incrementCart(productId));
+    dispatch(increment(productId));
     dispatch(
       addToCart({
         userId,
@@ -32,6 +41,10 @@ export default function ProductList({ product, key }) {
         },
       })
     );
+    if (productIdentifier !== undefined) {
+      navigate("/cart");
+      window.location.reload();
+    }
   };
 
   const handleIncrement = (userId, productId) => {
@@ -63,6 +76,7 @@ export default function ProductList({ product, key }) {
   };
 
   const handleDeleteCart = (userId, productId) => {
+    console.log("remove cart");
     dispatch(removeProductFromCart(productId));
     dispatch(
       deleteCart({
@@ -76,14 +90,30 @@ export default function ProductList({ product, key }) {
   };
   return (
     <>
+      {!inCart && totalItems > 0 && (
+        <Button
+          variant="outlined"
+          onClick={() => {
+            navigate("/cart");
+            window.location.reload();
+          }}
+        >
+          View Cart
+        </Button>
+      )}
       <div className="product" key={key}>
         {product.map((data, i) => {
-          const { _id, name, description, price, images, cartValue } = data;
+          const { _id, name, description, price, images, cartValue, category } =
+            data;
           return (
             <figure key={i}>
               <p>{name}</p>
-              {!productId ? (
-                <Link to={`${_id}`} target="_blank" rel="noreferrer">
+              {!productIdentifier ? (
+                <Link
+                  to={`/products/${category}/${_id}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <img alt={name} loading="lazy" src={images} />
                 </Link>
               ) : (
@@ -104,6 +134,7 @@ export default function ProductList({ product, key }) {
                       onClick={() => {
                         handleDecrement("66ae15a9ac912312f503f23599e", _id);
                       }}
+                      disabled={cartValue <= 0}
                     >
                       &nbsp;-{cartValue < 10 ? "\u00A0" : null}
                     </button>
@@ -137,10 +168,16 @@ export default function ProductList({ product, key }) {
                   Remove
                 </button>
               )}
-              {productId&&<button onClick={() => {
-                  navigate("/checkout")
-                  dispatch(addToBuyNow(_id))
-                }}>Buy Now</button>}
+              {productIdentifier && (
+                <button
+                  onClick={() => {
+                    dispatch(addToBuyNow(_id));
+                    navigate("/checkout");
+                  }}
+                >
+                  Buy Now
+                </button>
+              )}
               {/wishlist/.test(pathname) && <button>Remove</button>}
             </figure>
           );

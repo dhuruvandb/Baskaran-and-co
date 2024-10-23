@@ -25,10 +25,10 @@ export const searchProducts = createAsyncThunk(
 export const fetchProductById = createAsyncThunk(
   "products/fetchProductById",
   async (data) => {
-    const { productId, userId } = data;
+    const { productIdentifier, userId } = data;
     const apiData = await Axios(
       "get",
-      `/product/${productId}?userId=${userId}`
+      `/product/${productIdentifier}?userId=${userId}`
     );
     return apiData.data.result;
   }

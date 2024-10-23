@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../styles/cart.css";
 import ProductList from "../components/ProductList";
 import { cartItems } from "../components/store/Selectors/cart-selectors";
@@ -8,6 +8,7 @@ import { getCart } from "../components/store/Thunks/cart-thunk";
 export default function Cart() {
   const cartValue = useSelector(cartItems);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const totalPrice = cartValue
     .reduce((pre, next) => {
       return pre + next.cartValue * next.price;
@@ -18,7 +19,7 @@ export default function Cart() {
   }, 0);
   useEffect(() => {
     dispatch(getCart("66ae15a9ac912312f503f23599e"));
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -46,9 +47,15 @@ export default function Cart() {
                 </tr>
               </tbody>
             </table>
-            <Link to="/checkout">
-              <button>Buy Now</button>
-            </Link>
+
+            <button
+              onClick={() => {
+                navigate("/checkout");
+                window.location.reload();
+              }}
+            >
+              Buy Now
+            </button>
           </section>
         ) : (
           <>

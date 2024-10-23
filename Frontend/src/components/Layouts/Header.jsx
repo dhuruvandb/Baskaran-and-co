@@ -53,7 +53,7 @@ export default function Header() {
           `/products/${productNames[selectedIndex].category}/${productNames[selectedIndex]._id}`
         );
         setSearchText("");
-        dispatch(getProduct(productNames[selectedIndex]._id))
+        dispatch(getProduct(productNames[selectedIndex]._id));
       }
     }
   };
@@ -90,7 +90,7 @@ export default function Header() {
               navigate(
                 `/products/${productNames[selectedIndex].category}/${productNames[selectedIndex]._id}`
               );
-              dispatch(getProduct(productNames[selectedIndex]._id))
+              dispatch(getProduct(productNames[selectedIndex]._id));
             }
           }}
         >
@@ -106,7 +106,7 @@ export default function Header() {
                     setSearchText(data.name);
                     setSelectedIndex(-1);
                     navigate(`/products/${data.category}/${data._id}`);
-                    dispatch(getProduct(data._id))
+                    dispatch(getProduct(data._id));
                   }}
                   style={{
                     backgroundColor:
@@ -129,12 +129,15 @@ export default function Header() {
           </ul>
         )}
       </div>
-      <Link to="/cart" className="cart-link">
-        <Button>
-          🛒
-          <sup>{totalItems}</sup>
-        </Button>
-      </Link>
+      <Button
+        onClick={() => {
+          navigate("/cart");
+          window.location.reload();
+        }}
+      >
+        🛒
+        <sup>{totalItems}</sup>
+      </Button>
 
       <div className="login-dropdown-container">
         <div className="login">Login/Sign up</div>

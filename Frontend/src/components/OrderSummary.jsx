@@ -1,41 +1,25 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../styles/OrderSummary.css";
-import {  decrement, getProduct, increment, removeProductFromBuyNow } from "./store/Slices/product-slice";
+import {
+  decrement,
+  decrementBuyNow,
+  getProduct,
+  incrementBuyNow,
+} from "./store/Slices/product-slice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { selectBuyNowProducts } from "./store/Selectors/product-selectors";
-import { useEffect } from "react";
 export const OrderSummary = ({ products }) => {
   const shippingCost = 20;
   const productTotal = products.reduce((pre, next) => {
     return pre + next.cartValue * next.price;
   }, 0);
-  const buyNowproducts=useSelector(selectBuyNowProducts);
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const buyNowproducts = useSelector(selectBuyNowProducts);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (buyNowproducts.some((product) => product.cartValue < 1)) {
-        dispatch(removeProductFromBuyNow(buyNowproducts[0]._id));
-        navigate(-1);
-    }
-
-    const handleBeforeUnload = (event) => {
-        event.preventDefault();
-        event.returnValue = ''
-        dispatch(removeProductFromBuyNow(buyNowproducts[0]._id));
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-        window.removeEventListener('beforeunload', handleBeforeUnload);
-
-        if (buyNowproducts.length > 0) {
-          dispatch(decrement(buyNowproducts[0]._id))
-          dispatch(removeProductFromBuyNow(buyNowproducts[0]._id));        }
-    };
-}, [dispatch,buyNowproducts]);
+  if (buyNowproducts.length > 0) {
+    dispatch(decrement(buyNowproducts[0]._id));
+  }
   return (
     <div className="order-summary">
       <h3>Order Summary</h3>
@@ -51,13 +35,30 @@ export const OrderSummary = ({ products }) => {
         <tbody>
           {products.map((item) => (
             <tr key={item._id}>
-              <td onClick={()=>dispatch(getProduct(item._id))}>
+              <td
+                onClick={() => {
+                  dispatch(getProduct(item._id));
+                  window.location.reload();
+                }}
+              >
                 <Link to={`/products/${item.category}/${item._id}`}>
                   <p>{item.name}</p>
                 </Link>
               </td>
 
-              {buyNowproducts.length>0?<td><button onClick={()=>dispatch(decrement(item._id))}>-</button>{item.cartValue}<button onClick={()=>dispatch(increment(item._id))}>+</button></td>:<td>{item.cartValue}</td>}
+              {buyNowproducts.length > 0 ? (
+                <td>
+                  <button onClick={() => dispatch(decrementBuyNow(item._id))}>
+                    -
+                  </button>
+                  {item.cartValue}
+                  <button onClick={() => dispatch(incrementBuyNow(item._id))}>
+                    +
+                  </button>
+                </td>
+              ) : (
+                <td>{item.cartValue}</td>
+              )}
               <td>₹{item.price.toFixed(2)}</td>
               <td>₹{(item.price * item.cartValue).toFixed(2)}</td>
             </tr>

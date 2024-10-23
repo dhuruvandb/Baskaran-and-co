@@ -13,16 +13,19 @@ import { useEffect } from "react";
 import Loader from "../components/Loader";
 import RefreshButton from "../components/RefreshButton";
 export default function Product() {
-  const { categoryName, productId } = useParams();
+  const { categoryName, productIdentifier } = useParams();
   const products = useSelector(selectProducts);
   const status = useSelector(selectProductsStatus);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (productId) {
+    if (productIdentifier !== undefined) {
       dispatch(
-        fetchProductById({ userId: "66ae15a9ac912312f503f23599e", productId })
+        fetchProductById({
+          userId: "66ae15a9ac912312f503f23599e",
+          productIdentifier,
+        })
       );
-    } else  {
+    } else if (categoryName !== undefined) {
       dispatch(
         fetchAllProductsByCategories({
           categoryName,
@@ -30,7 +33,7 @@ export default function Product() {
         })
       );
     }
-  }, [categoryName, productId, dispatch]);
+  }, [categoryName, productIdentifier, dispatch]);
   if (status === "loading") {
     return <Loader />;
   } else if (status === "successful") {
