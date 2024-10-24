@@ -10,8 +10,7 @@ import {
   fetchProductById,
 } from "../components/store/Thunks/products-thunk";
 import { useEffect } from "react";
-import Loader from "../components/Loader";
-import RefreshButton from "../components/RefreshButton";
+import checkStatus from "../helper/checkLoadingStatus";
 export default function Product() {
   const { categoryName, productIdentifier } = useParams();
   const products = useSelector(selectProducts);
@@ -34,11 +33,5 @@ export default function Product() {
       );
     }
   }, [categoryName, productIdentifier, dispatch]);
-  if (status === "loading") {
-    return <Loader />;
-  } else if (status === "successful") {
-    return <ProductList product={products} />;
-  } else if (status === "failed") {
-    return <RefreshButton />;
-  }
+  return checkStatus(<ProductList product={products} />, status);
 }

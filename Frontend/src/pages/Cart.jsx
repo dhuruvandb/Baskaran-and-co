@@ -10,6 +10,7 @@ import {
 import { getCart } from "../components/store/Thunks/cart-thunk";
 import Loader from "../components/Loader";
 import RefreshButton from "../components/RefreshButton";
+import checkStatus from "../helper/checkLoadingStatus";
 export default function Cart() {
   const cartValue = useSelector(cartItems);
   const cartStatus = useSelector(cartItemsStatus);
@@ -31,9 +32,7 @@ export default function Cart() {
     <>
       <fieldset>
         <legend>Cart</legend>
-        {cartStatus === "loading" ? (
-          <Loader />
-        ) : cartStatus === "successful" ? (
+        {checkStatus(
           cartValue.length > 0 ? (
             <section>
               <ProductList product={cartValue} />
@@ -73,9 +72,8 @@ export default function Cart() {
                 <button>Shop Now</button>
               </Link>
             </>
-          )
-        ) : (
-          <RefreshButton />
+          ),
+          cartStatus
         )}
       </fieldset>
     </>

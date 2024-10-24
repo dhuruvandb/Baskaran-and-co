@@ -11,6 +11,7 @@ import {
 } from "../store/Selectors/product-selectors";
 import { searchProducts } from "../store/Thunks/products-thunk";
 import { getProduct } from "../store/Slices/product-slice";
+import checkStatus from "../../helper/checkLoadingStatus";
 
 export default function Header() {
   const cartValue = useSelector(cartItems) || [];
@@ -102,12 +103,9 @@ export default function Header() {
         </button>
         {searchText && (
           <ul className="search-results">
-            {searchText.length > 0 && productNames.length > 0 ? (
-              searchStatus === "loading" ? (
-                <Box sx={{ width: "80%" }}>
-                  <LinearProgress />
-                </Box>
-              ) : searchStatus === "successful" ? (
+            {searchText.length > 0 &&
+              productNames.length > 0 &&
+              checkStatus(
                 productNames.map((data, i) => (
                   <li
                     key={data._id}
@@ -131,13 +129,12 @@ export default function Header() {
                       {data.name}
                     </Link>
                   </li>
-                ))
-              ) : (
-                <li>No products found!</li>
-              )
-            ) : (
-              <li>No products found!</li>
-            )}
+                )),
+                searchStatus,
+                <Box sx={{ width: "80%" }}>
+                  <LinearProgress />
+                </Box>
+              )}
           </ul>
         )}
       </div>

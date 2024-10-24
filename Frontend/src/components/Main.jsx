@@ -7,23 +7,20 @@ import {
   selectProductsStatus,
 } from "./store/Selectors/product-selectors";
 import { fetchProductCategories } from "./store/Thunks/products-thunk";
-import Loader from "./Loader";
-import RefreshButton from "./RefreshButton";
+import checkStatus from "../helper/checkLoadingStatus";
 export default function Main() {
   const { pathname } = useLocation();
   const categories = useSelector(selectProductCatergories);
-  const status = useSelector(selectProductsStatus);
+  const productStatus = useSelector(selectProductsStatus);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchProductCategories());
   }, [dispatch]);
-  let element;
-  if (status === "loading") {
-    element = <Loader />;
-  } else if (status === "failed") {
-    element = <RefreshButton />;
-  } else {
-    element = <ProductCategoryPage productCategories={categories} />;
-  }
-  return <>{pathname === "/" && <>{element}</>}</>;
+  return (
+    pathname === "/" &&
+    checkStatus(
+      <ProductCategoryPage productCategories={categories} />,
+      productStatus
+    )
+  );
 }
