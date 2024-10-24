@@ -44,12 +44,20 @@ export const cart = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getCart.fulfilled, (state, action) => {
-      const { payload } = action;
-      if (state.cartItems.length === 0) {
-        state.cartItems = payload;
-      }
-    });
+    builder
+      .addCase(getCart.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getCart.fulfilled, (state, action) => {
+        const { payload } = action;
+        if (state.cartItems.length === 0) {
+          state.cartItems = payload;
+        }
+        state.status = "successful";
+      })
+      .addCase(getCart.rejected, (state) => {
+        state.status = "failed";
+      });
   },
 });
 

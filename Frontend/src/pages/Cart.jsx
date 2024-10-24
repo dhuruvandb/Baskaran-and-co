@@ -3,10 +3,16 @@ import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/cart.css";
 import ProductList from "../components/ProductList";
-import { cartItems } from "../components/store/Selectors/cart-selectors";
+import {
+  cartItems,
+  cartItemsStatus,
+} from "../components/store/Selectors/cart-selectors";
 import { getCart } from "../components/store/Thunks/cart-thunk";
+import Loader from "../components/Loader";
+import RefreshButton from "../components/RefreshButton";
 export default function Cart() {
   const cartValue = useSelector(cartItems);
+  const cartStatus = useSelector(cartItemsStatus);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const totalPrice = cartValue
@@ -25,45 +31,51 @@ export default function Cart() {
     <>
       <fieldset>
         <legend>Cart</legend>
-        {cartValue.length > 0 ? (
-          <section>
-            <ProductList product={cartValue} />
-            <hr />
-            <Link to="/">
-              <button>Shop More Products</button>
-            </Link>
-            <table>
-              <tbody>
-                <tr>
-                  <th>Price Details</th>
-                </tr>
-                <tr>
-                  <td>Price of {totalItems} Items : </td>
-                  <td>{totalPrice}</td>
-                </tr>
-                <tr>
-                  <td>Total Amount : </td>
-                  <td>{totalPrice}</td>
-                </tr>
-              </tbody>
-            </table>
+        {cartStatus === "loading" ? (
+          <Loader />
+        ) : cartStatus === "successful" ? (
+          cartValue.length > 0 ? (
+            <section>
+              <ProductList product={cartValue} />
+              <hr />
+              <Link to="/">
+                <button>Shop More Products</button>
+              </Link>
+              <table>
+                <tbody>
+                  <tr>
+                    <th>Price Details</th>
+                  </tr>
+                  <tr>
+                    <td>Price of {totalItems} Items : </td>
+                    <td>{totalPrice}</td>
+                  </tr>
+                  <tr>
+                    <td>Total Amount : </td>
+                    <td>{totalPrice}</td>
+                  </tr>
+                </tbody>
+              </table>
 
-            <button
-              onClick={() => {
-                navigate("/checkout");
-                window.location.reload();
-              }}
-            >
-              Buy Now
-            </button>
-          </section>
+              <button
+                onClick={() => {
+                  navigate("/checkout");
+                  window.location.reload();
+                }}
+              >
+                Buy Now
+              </button>
+            </section>
+          ) : (
+            <>
+              <p>Your Cart is Empty</p>
+              <Link to="/">
+                <button>Shop Now</button>
+              </Link>
+            </>
+          )
         ) : (
-          <>
-            <p>Your Cart is Empty</p>
-            <Link to="/">
-              <button>Shop Now</button>
-            </Link>
-          </>
+          <RefreshButton />
         )}
       </fieldset>
     </>
