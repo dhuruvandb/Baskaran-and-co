@@ -1,5 +1,5 @@
 // src/components/CheckoutForm.js
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ShippingInfo } from "../components/ShippingInfo";
 import { OrderSummary } from "../components/OrderSummary";
 import "../styles/Checkout.css"; // Create CheckoutForm.css for styling

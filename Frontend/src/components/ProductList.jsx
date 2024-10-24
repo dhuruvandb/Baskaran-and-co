@@ -14,7 +14,7 @@ import {
   incrementCart,
   removeProductFromCart,
 } from "./store/Slices/cart-slice";
-import { AppBar, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import { cartItems } from "./store/Selectors/cart-selectors";
 export default function ProductList({ product, key }) {
   let { productIdentifier } = useParams();

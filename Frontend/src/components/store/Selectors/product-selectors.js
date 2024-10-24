@@ -5,3 +5,4 @@ export const selectProductCatergories = (state) =>
   state.reducers.products.categories;
 export const selectSearch = (state) => state.reducers.products.searchResult;
 export const selectBuyNowProducts = (state) => state.reducers.products.buyNow;
+export const selectSearchStatus = (state) => state.reducers.products.searchResultStatus;

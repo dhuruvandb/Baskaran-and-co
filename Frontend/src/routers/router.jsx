@@ -1,9 +1,7 @@
 import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Suspenses from "../components/Suspense";
-import { fetchProductCategories } from "../components/store/Thunks/products-thunk";
 
-import { store } from "../components/store";
 
 // Layout and Root Components
 const Layout = lazy(() => import("../components/Layouts/Layout"));

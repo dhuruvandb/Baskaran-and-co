@@ -4,8 +4,11 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { cartItems } from "../store/Selectors/cart-selectors";
 import { useEffect, useState } from "react";
 import { getCart } from "../store/Thunks/cart-thunk";
-import { Button } from "@mui/material";
-import { selectSearch } from "../store/Selectors/product-selectors";
+import { Box, Button, LinearProgress } from "@mui/material";
+import {
+  selectSearch,
+  selectSearchStatus,
+} from "../store/Selectors/product-selectors";
 import { searchProducts } from "../store/Thunks/products-thunk";
 import { getProduct } from "../store/Slices/product-slice";
 
@@ -13,6 +16,7 @@ export default function Header() {
   const cartValue = useSelector(cartItems) || [];
   const totalItems = cartValue.reduce((pre, next) => pre + next.cartValue, 0);
   const productNames = useSelector(selectSearch);
+  const searchStatus = useSelector(selectSearchStatus);
   const [searchText, setSearchText] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const dispatch = useDispatch();
@@ -99,32 +103,40 @@ export default function Header() {
         {searchText && (
           <ul className="search-results">
             {searchText.length > 0 && productNames.length > 0 ? (
-              productNames.map((data, i) => (
-                <li
-                  key={data._id}
-                  onClick={() => {
-                    setSearchText(data.name);
-                    setSelectedIndex(-1);
-                    navigate(`/products/${data.category}/${data._id}`);
-                    dispatch(getProduct(data._id));
-                  }}
-                  style={{
-                    backgroundColor:
-                      i === selectedIndex ? "#bde4ff" : "transparent",
-                    cursor: "pointer",
-                  }}
-                  onMouseEnter={() => setSelectedIndex(i)}
-                >
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    to={`/products/${data.category}/${data._id}`}
+              searchStatus === "loading" ? (
+                <Box sx={{ width: "80%" }}>
+                  <LinearProgress />
+                </Box>
+              ) : searchStatus === "successful" ? (
+                productNames.map((data, i) => (
+                  <li
+                    key={data._id}
+                    onClick={() => {
+                      setSearchText(data.name);
+                      setSelectedIndex(-1);
+                      navigate(`/products/${data.category}/${data._id}`);
+                      dispatch(getProduct(data._id));
+                    }}
+                    style={{
+                      backgroundColor:
+                        i === selectedIndex ? "#bde4ff" : "transparent",
+                      cursor: "pointer",
+                    }}
+                    onMouseEnter={() => setSelectedIndex(i)}
                   >
-                    {data.name}
-                  </Link>
-                </li>
-              ))
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      to={`/products/${data.category}/${data._id}`}
+                    >
+                      {data.name}
+                    </Link>
+                  </li>
+                ))
+              ) : (
+                <li>No products found!</li>
+              )
             ) : (
-              <li>No products found! </li>
+              <li>No products found!</li>
             )}
           </ul>
         )}

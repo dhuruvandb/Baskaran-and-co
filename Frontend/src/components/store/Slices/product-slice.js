@@ -13,6 +13,7 @@ const initialState = {
   status: "idle",
   error: "",
   searchResult: [],
+  searchResultStatus: "",
 };
 
 export const fetchProducts = createSlice({
@@ -113,9 +114,18 @@ export const fetchProducts = createSlice({
         state.error = action.error.message || "Failed to fetch the categories";
       });
 
-    builder.addCase(searchProducts.fulfilled, (state, action) => {
-      state.searchResult = action.payload;
-    });
+    builder
+      .addCase(searchProducts.pending, (state) => {
+        state.searchResultStatus = "loading";
+      })
+      .addCase(searchProducts.fulfilled, (state, action) => {
+        state.searchResult = action.payload;
+        state.searchResultStatus = "successful";
+      })
+      .addCase(searchProducts.rejected, (state, action) => {
+        state.searchResultStatus = "failed";
+        state.error = action.error.message || "Failed to fetch the categories";
+      });
   },
 });
 
