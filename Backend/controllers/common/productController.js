@@ -41,21 +41,13 @@ exports.searchProducts = async (req, res) => {
   try {
     const { searchText } = req.params;
     const results = await productModel.find();
-    const result = (() => {
-      const matchedCategories = new Set();
-      results.forEach((d) => {
-        if (d.category.toLowerCase().includes(searchText.toLowerCase())) {
-          matchedCategories.add(d.category);
-        }
-      });
-      return results.filter((d) => {
-        if (matchedCategories.has(d.category)) {
-          return true;
-        }
-        return d.name.toLowerCase().includes(searchText.toLowerCase());
-      });
-    })();
-    return res.json({ result });
+    const productResults = results.filter((_) =>
+      _.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+    const categoryResults = results.filter((_) =>
+      _.category.toLowerCase().includes(searchText.toLowerCase())
+    );
+    return res.json({ result: [...productResults, ...categoryResults] });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
