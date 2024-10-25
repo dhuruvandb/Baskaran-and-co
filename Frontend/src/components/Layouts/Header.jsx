@@ -103,9 +103,8 @@ export default function Header() {
         </button>
         {searchText && (
           <ul className="search-results">
-            {searchText.length > 0 &&
-              productNames.length > 0 &&
-              checkStatus(
+            {checkStatus(
+              searchText.length > 0 && productNames.length > 0 ? (
                 productNames.map((data, i) => (
                   <li
                     key={data._id}
@@ -129,12 +128,18 @@ export default function Header() {
                       {data.name}
                     </Link>
                   </li>
-                )),
-                searchStatus,
-                <Box sx={{ width: "80%" }}>
-                  <LinearProgress />
-                </Box>
-              )}
+                ))
+              ) : (
+                <>
+                  No products Found.
+                  <Link to={"/"}>Click here</Link> to view all products.
+                </>
+              ),
+              searchStatus,
+              <Box sx={{ width: "80%" }}>
+                <LinearProgress />
+              </Box>
+            )}
           </ul>
         )}
       </div>

@@ -16,6 +16,7 @@ import {
 } from "./store/Slices/cart-slice";
 import { Button } from "@mui/material";
 import { cartItems } from "./store/Selectors/cart-selectors";
+import { useState } from "react";
 export default function ProductList({ product, key }) {
   let { productIdentifier } = useParams();
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ export default function ProductList({ product, key }) {
   const navigate = useNavigate();
   const cartValue = useSelector(cartItems) || [];
   const totalItems = cartValue.reduce((pre, next) => pre + next.cartValue, 0);
-
+  const [more, setMore] = useState(0);
   const handleAddToCart = (userId, productId) => {
     const getProductToAddInCart = product.filter(
       (data) => data._id === productId
@@ -72,7 +73,6 @@ export default function ProductList({ product, key }) {
   };
 
   const handleDeleteCart = (userId, productId) => {
-    console.log("remove cart");
     dispatch(removeProductFromCart(productId));
     dispatch(
       deleteCart({
@@ -97,88 +97,130 @@ export default function ProductList({ product, key }) {
           View Cart
         </Button>
       )}
-      <div className="product" key={key}>
-        {product.map((data, i) => {
-          const { _id, name, description, price, images, cartValue, category } =
-            data;
-          return (
-            <figure key={i}>
-              <p>{name}</p>
-              {!productIdentifier ? (
-                <Link
-                  to={`/products/${category}/${_id}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <img alt={name} loading="lazy" src={images} />
-                </Link>
-              ) : (
-                <img
-                  loading="lazy"
-                  src={images}
-                  alt={name}
-                  height={inCart ? 100 : null}
-                  width={inCart ? 100 : null}
-                />
-              )}
-              <p>{description}</p>
-              <p>&#8377;{price}</p>
-              <>
-                {cartValue > 0 ? (
-                  <>
-                    <button
-                      onClick={() => {
-                        handleDecrement("66ae15a9ac912312f503f23599e", _id);
-                      }}
-                      disabled={cartValue <= 0}
-                    >
-                      &nbsp;-{cartValue < 10 ? "\u00A0" : null}
-                    </button>
-                    <span>{cartValue || 0}</span>
-                    <button
-                      onClick={() => {
-                        handleIncrement("66ae15a9ac912312f503f23599e", _id);
-                      }}
-                    >
-                      &nbsp;+{cartValue < 10 ? "\u00A0" : null}
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => {
-                        handleAddToCart("66ae15a9ac912312f503f23599e", _id);
-                      }}
-                    >
-                      Add Cart
-                    </button>
-                  </>
-                )}
-              </>
-              {inCart && (
-                <button
-                  onClick={() => {
-                    handleDeleteCart("66ae15a9ac912312f503f23599e", _id);
-                  }}
-                >
-                  Remove
-                </button>
-              )}
-              {productIdentifier && (
-                <button
-                  onClick={() => {
-                    dispatch(addToBuyNow(_id));
-                    navigate("/checkout");
-                  }}
-                >
-                  Buy Now
-                </button>
-              )}
-              {/wishlist/.test(pathname) && <button>Remove</button>}
-            </figure>
-          );
-        })}
-      </div>
+      <table className="product">
+        <tbody>
+          {product.map((data, i) => {
+            const {
+              _id,
+              name,
+              description,
+              price,
+              images,
+              cartValue,
+              category,
+            } = data;
+            return (
+              <tr key={i}>
+                <td>
+                  <figure>
+                    <p>{name}</p>
+                    {!productIdentifier ? (
+                      <Link
+                        to={`/products/${category}/${_id}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img alt={name} loading="lazy" src={images} />
+                      </Link>
+                    ) : (
+                      <img
+                        loading="lazy"
+                        src={images}
+                        alt={name}
+                        height={inCart ? 100 : null}
+                        width={inCart ? 100 : null}
+                      />
+                    )}
+                    <p>
+                      {description.slice(
+                        0,
+                        more > 0 ? more : Math.floor(description.length * 0.25)
+                      )}
+                      {more !== description.length && (
+                        <span
+                          onClick={() => setMore(description.length)}
+                          style={{ cursor: "pointer", color: "blue" }}
+                          key={i}
+                        >
+                          ... more
+                        </span>
+                      )}
+                      {more === description.length && (
+                        <>
+                          <br />
+                          <span
+                            onClick={() => setMore(0)}
+                            style={{ cursor: "pointer", color: "blue" }}
+                          >
+                            less
+                          </span>
+                        </>
+                      )}
+                    </p>
+                    <p>&#8377;{price}</p>
+                    <>
+                      {cartValue > 0 ? (
+                        <>
+                          <button
+                            onClick={() =>
+                              handleDecrement(
+                                "66ae15a9ac912312f503f23599e",
+                                _id
+                              )
+                            }
+                            disabled={cartValue <= 0}
+                          >
+                            &nbsp;-{cartValue < 10 ? "\u00A0" : null}
+                          </button>
+                          <span>{cartValue || 0}</span>
+                          <button
+                            onClick={() =>
+                              handleIncrement(
+                                "66ae15a9ac912312f503f23599e",
+                                _id
+                              )
+                            }
+                          >
+                            &nbsp;+{cartValue < 10 ? "\u00A0" : null}
+                          </button>
+                        </>
+                      ) : (
+                        <button
+                          onClick={() =>
+                            handleAddToCart("66ae15a9ac912312f503f23599e", _id)
+                          }
+                        >
+                          Add Cart
+                        </button>
+                      )}
+                    </>
+                    {inCart && (
+                      <button
+                        onClick={() =>
+                          handleDeleteCart("66ae15a9ac912312f503f23599e", _id)
+                        }
+                      >
+                        Remove
+                      </button>
+                    )}
+                    {productIdentifier && (
+                      <button
+                        onClick={() => {
+                          dispatch(addToBuyNow(_id));
+                          navigate("/checkout");
+                        }}
+                      >
+                        Buy Now
+                      </button>
+                    )}
+                    {/wishlist/.test(pathname) && <button>Remove</button>}
+                  </figure>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </>
   );
 }
