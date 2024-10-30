@@ -42,151 +42,185 @@ export const router = createBrowserRouter([
         </Layout>
       </Suspenses>
     ),
-    children: [
-      {
-        path: "cart",
-        element: (
-          <Suspenses>
-            <Cart />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "products/:categoryName",
-        element: (
-          <Suspenses>
-            <Product />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "products/:categoryName/:productIdentifier",
-        element: (
-          <Suspenses>
-            <Product />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "checkout",
-        element: (
-          <Suspenses>
-            <Checkout />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "order-confirmation",
-        element: (
-          <Suspenses>
-            <OrderConfirmation />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "profile-management",
-        element: (
-          <Suspenses>
-            <ProfileManagement />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "orders",
-        element: (
-          <Suspenses>
-            <Orders />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "order-history",
-        element: (
-          <Suspenses>
-            <OrderHistory />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "wishlist",
-        element: (
-          <Suspenses>
-            <Wishlist />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "admin/addProduct",
-        element: (
-          <Suspenses>
-            <ProductForm />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "login",
-        element: (
-          <Suspenses>
-            <LoginSignupPage />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "signup",
-        element: (
-          <Suspenses>
-            <LoginSignupPage />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "forget-password",
-        element: (
-          <Suspenses>
-            <ForgetPassword />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "about",
-        element: (
-          <Suspenses>
-            <AboutUs />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "return-policy",
-        element: (
-          <Suspenses>
-            <ReturnPolicy />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "user-account",
-        element: (
-          <Suspenses>
-            <UserAccount />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "terms-of-service",
-        element: (
-          <Suspenses>
-            <TermsOfService />
-          </Suspenses>
-        ),
-      },
-      {
-        path: "privacy-policy",
-        element: (
-          <Suspenses>
-            <PrivacyPolicy />
-          </Suspenses>
-        ),
-      },
-    ],
+  },
+  {
+    path: "cart",
+    element: (
+      <Suspenses>
+        <Layout>
+          <Cart />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "products/:categoryName",
+    element: (
+      <Suspenses>
+        <Layout>
+          <Product />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "products/:categoryName/:productIdentifier",
+    element: (
+      <Suspenses>
+        <Layout>
+          <Product />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "checkout",
+    element: (
+      <Suspenses>
+        <Layout>
+          <Checkout />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "order-confirmation",
+    element: (
+      <Suspenses>
+        <Layout>
+          <OrderConfirmation />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "profile-management",
+    element: (
+      <Suspenses>
+        <Layout>
+          <ProfileManagement />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "orders",
+    element: (
+      <Suspenses>
+        <Layout>
+          <Orders />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "order-history",
+    element: (
+      <Suspenses>
+        <Layout>
+          <OrderHistory />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "wishlist",
+    element: (
+      <Suspenses>
+        <Layout>
+          <Wishlist />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "admin/addProduct",
+    element: (
+      <Suspenses>
+        <Layout>
+          <ProductForm />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "login",
+    element: (
+      <Suspenses>
+        <Layout>
+          <LoginSignupPage />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "signup",
+    element: (
+      <Suspenses>
+        <Layout>
+          <LoginSignupPage />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "forget-password",
+    element: (
+      <Suspenses>
+        <Layout>
+          <ForgetPassword />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "about",
+    element: (
+      <Suspenses>
+        <Layout>
+          <AboutUs />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "return-policy",
+    element: (
+      <Suspenses>
+        <Layout>
+          <ReturnPolicy />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "user-account",
+    element: (
+      <Suspenses>
+        <Layout>
+          <UserAccount />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "terms-of-service",
+    element: (
+      <Suspenses>
+        <Layout>
+          <TermsOfService />
+        </Layout>
+      </Suspenses>
+    ),
+  },
+  {
+    path: "privacy-policy",
+    element: (
+      <Suspenses>
+        <Layout>
+          <PrivacyPolicy />
+        </Layout>
+      </Suspenses>
+    ),
   },
 ]);
