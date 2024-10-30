@@ -2,7 +2,6 @@ import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Suspenses from "../components/Suspense";
 
-
 // Layout and Root Components
 const Layout = lazy(() => import("../components/Layouts/Layout"));
 const RootComponent = lazy(() => import("../components/RootComponent"));
@@ -32,6 +31,7 @@ const AboutUs = lazy(() => import("../pages/AboutUs"));
 const ReturnPolicy = lazy(() => import("../pages/ReturnPolicy"));
 const TermsOfService = lazy(() => import("../pages/TermsOfService"));
 const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy"));
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -45,75 +45,147 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "cart",
-        element: <Cart />,
+        element: (
+          <Suspenses>
+            <Cart />
+          </Suspenses>
+        ),
       },
       {
         path: "products/:categoryName",
-        element: <Product />,
+        element: (
+          <Suspenses>
+            <Product />
+          </Suspenses>
+        ),
       },
       {
         path: "products/:categoryName/:productIdentifier",
-        element: <Product />,
+        element: (
+          <Suspenses>
+            <Product />
+          </Suspenses>
+        ),
       },
       {
         path: "checkout",
-        element: <Checkout />,
+        element: (
+          <Suspenses>
+            <Checkout />
+          </Suspenses>
+        ),
       },
       {
         path: "order-confirmation",
-        element: <OrderConfirmation />,
+        element: (
+          <Suspenses>
+            <OrderConfirmation />
+          </Suspenses>
+        ),
       },
       {
         path: "profile-management",
-        element: <ProfileManagement />,
+        element: (
+          <Suspenses>
+            <ProfileManagement />
+          </Suspenses>
+        ),
       },
       {
         path: "orders",
-        element: <Orders />,
+        element: (
+          <Suspenses>
+            <Orders />
+          </Suspenses>
+        ),
       },
       {
         path: "order-history",
-        element: <OrderHistory />,
+        element: (
+          <Suspenses>
+            <OrderHistory />
+          </Suspenses>
+        ),
       },
       {
         path: "wishlist",
-        element: <Wishlist />,
+        element: (
+          <Suspenses>
+            <Wishlist />
+          </Suspenses>
+        ),
       },
       {
         path: "admin/addProduct",
-        element: <ProductForm />,
+        element: (
+          <Suspenses>
+            <ProductForm />
+          </Suspenses>
+        ),
       },
       {
         path: "login",
-        element: <LoginSignupPage />,
+        element: (
+          <Suspenses>
+            <LoginSignupPage />
+          </Suspenses>
+        ),
       },
       {
         path: "signup",
-        element: <LoginSignupPage />,
+        element: (
+          <Suspenses>
+            <LoginSignupPage />
+          </Suspenses>
+        ),
       },
       {
         path: "forget-password",
-        element: <ForgetPassword />,
+        element: (
+          <Suspenses>
+            <ForgetPassword />
+          </Suspenses>
+        ),
       },
       {
         path: "about",
-        element: <AboutUs />,
+        element: (
+          <Suspenses>
+            <AboutUs />
+          </Suspenses>
+        ),
       },
       {
         path: "return-policy",
-        element: <ReturnPolicy />,
+        element: (
+          <Suspenses>
+            <ReturnPolicy />
+          </Suspenses>
+        ),
       },
       {
         path: "user-account",
-        element: <UserAccount />,
+        element: (
+          <Suspenses>
+            <UserAccount />
+          </Suspenses>
+        ),
       },
       {
         path: "terms-of-service",
-        element: <TermsOfService />,
+        element: (
+          <Suspenses>
+            <TermsOfService />
+          </Suspenses>
+        ),
       },
       {
         path: "privacy-policy",
-        element: <PrivacyPolicy />,
+        element: (
+          <Suspenses>
+            <PrivacyPolicy />
+          </Suspenses>
+        ),
       },
     ],
   },
