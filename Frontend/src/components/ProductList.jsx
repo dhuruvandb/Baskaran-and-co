@@ -120,12 +120,11 @@ export default function ProductList({ product, key }) {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        <img alt={name} loading="lazy" src={images} />
+                        <img alt={name} loading="lazy"  />
                       </Link>
                     ) : (
                       <img
                         loading="lazy"
-                        src={images}
                         alt={name}
                         height={inCart ? 100 : null}
                         width={inCart ? 100 : null}
