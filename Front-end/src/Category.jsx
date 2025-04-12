@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Card, Typography, Row, Col, Image, Skeleton, Pagination } from "antd";
 
 const { Title } = Typography;
 
 const CategoryPage = () => {
   const [products, setProducts] = useState([]);
-  const { page = 1 } = useParams();
+  const { page } = useParams();
   const [totalPages, setTotalPages] = useState(0);
+  const navigate = useNavigate();
   useEffect(() => {
     // Fetch products for the specific category
     const fetchProducts = async () => {
       const response = await fetch(
-        `http://localhost:5000/products/category?page=${page}&limit=10`
+        `http://localhost:5000/products/category?page=${page}&limit=${10}`
       );
       const data = await response.json();
+      console.log({ data });
+
       setProducts(data.category);
       setTotalPages(data.totalcategory);
     };
@@ -67,7 +70,7 @@ const CategoryPage = () => {
           total={totalPages}
           pageSize={10}
           onChange={(newPage) => {
-            window.location.href = `/category/${newPage}`;
+            navigate(`/category/${newPage}`);
             window.scrollTo(0, 0);
           }}
           showSizeChanger={false}

@@ -14,7 +14,7 @@ import {
   Space,
 } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -25,7 +25,7 @@ function Products() {
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -50,7 +50,7 @@ function Products() {
   }, [category, page]);
 
   const handlePageChange = (newPage) => {
-    window.location.href = `/page/${newPage}`;
+    navigate(`/page/${newPage}`);
     window.scrollTo(0, 0);
   };
 
@@ -138,7 +138,9 @@ function Products() {
               ))}
         </Row>
 
-        <div style={{ textAlign: "center", marginTop: 24 }}>
+        <div
+          style={{ display: "flex", justifyContent: "center", marginTop: 24 }}
+        >
           <Pagination
             current={page}
             total={totalPages}

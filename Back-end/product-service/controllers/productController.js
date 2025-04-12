@@ -47,16 +47,37 @@ exports.getAllProducts = async (req, res) => {
   try {
     const { page, limit, category } = req.query;
 
+    // Ensure `page` and `limit` are valid numbers, set defaults if missing
+    const pageNumber = page && !isNaN(page) ? parseInt(page) : 1;
+    const limitNumber = limit && !isNaN(limit) ? parseInt(limit) : 10;
+
+    // Ensure category exists, otherwise return error
+    if (!category) {
+      return res.status(400).json({ message: "Category is required." });
+    }
+
     const products = await Product.aggregate([
       { $match: { category } },
-      { $skip: parseInt((page - 1) * limit) },
-      { $limit: parseInt(limit) },
+      { $skip: (pageNumber - 1) * limitNumber },
+      { $limit: limitNumber },
     ]);
 
-    res.status(200).json({ products, totalPages: products.length });
+    // Count total number of products for the given category (for pagination)
+    const totalProducts = await Product.aggregate([
+      { $match: { category } },
+      { $count: "total" },
+    ]);
+
+    // Get total pages by dividing the total number of products by the limit
+    const totalPages =
+      totalProducts.length > 0
+        ? Math.ceil(totalProducts[0].total / limitNumber)
+        : 0;
+
+    res.status(200).json({ products, totalPages });
   } catch (error) {
     res.status(500).json({
-      message: "Error retrieving products",
+      message: "Error retrieving all products",
       error: error.message,
     });
   }
@@ -66,6 +87,10 @@ exports.getAllCategories = async (req, res) => {
   try {
     const { page, limit } = req.query;
 
+    // Default values if page or limit are not provided
+    const pageNumber = page && !isNaN(page) ? Number(page) : 1;
+    const limitNumber = limit && !isNaN(limit) ? Number(limit) : 10;
+
     const category = await Product.aggregate([
       {
         $group: {
@@ -73,9 +98,10 @@ exports.getAllCategories = async (req, res) => {
           product: { $first: "$$ROOT" },
         },
       },
-      { $skip: parseInt((page - 1) * limit) },
-      { $limit: parseInt(limit) },
+      { $skip: (pageNumber - 1) * limitNumber },
+      { $limit: limitNumber },
     ]);
+
     const totalcategory = await Product.aggregate([
       {
         $group: {
@@ -83,10 +109,11 @@ exports.getAllCategories = async (req, res) => {
         },
       },
     ]);
+
     res.status(200).json({ category, totalcategory: totalcategory.length });
   } catch (error) {
     res.status(500).json({
-      message: "Error retrieving products",
+      message: "Error retrieving products category",
       error: error.message,
     });
   }

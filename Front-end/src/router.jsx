@@ -4,7 +4,7 @@ import CategoryPage from "./Category.jsx";
 import WishlistPage from "./WishList.jsx";
 
 // Lazy-loaded components
-const Cart = lazy(() => import("./Cart.js"));
+const Cart = lazy(() => import("./Cart.jsx"));
 const Loading = lazy(() => import("./Loading.jsx"));
 const AppFooter = lazy(() => import("./Layouts/Footer.jsx"));
 const AppHeader = lazy(() => import("./Layouts/Header.jsx"));
@@ -17,8 +17,8 @@ const AboutUsPage = lazy(() => import("./AboutUs.jsx"));
 const ContactUsPage = lazy(() => import("./ContactUs.jsx"));
 
 // Lazy-loaded components already
-const Products = lazy(() => import("./Products.js"));
-const ProductDetail = lazy(() => import("./ProductDetail.js"));
+const Products = lazy(() => import("./Products.jsx"));
+const ProductDetail = lazy(() => import("./ProductDetail.jsx"));
 const LoginSignUp = lazy(() => import("./LoginSignUp.jsx"));
 
 export const routers = createBrowserRouter([
