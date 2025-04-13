@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Form, Input, Button, message } from "antd";
 
 const OtpVerificationPage = ({ email, onVerify }) => {
-  const [otp, setOtp] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [otp, setOtp] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = () => {
     setLoading(true);
@@ -13,7 +13,6 @@ const OtpVerificationPage = ({ email, onVerify }) => {
         // Replace with the actual OTP generated during signup
         message.success("OTP verified successfully!");
         onVerify();
-        
       } else {
         message.error("Invalid OTP. Please try again.");
       }

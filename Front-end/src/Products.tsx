@@ -15,28 +15,61 @@ import {
 } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import React from "react";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
 
+// Interface for product type
+interface Product {
+  _id: string;
+  title: string;
+  price: number;
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  thumbnail: string;
+  availabilityStatus: string;
+}
+
+// Interface for API response
+interface ProductResponse {
+  products: Product[];
+  totalPages: number;
+}
+
+// Route parameters
+interface Params {
+  page?: string;
+  category?: string;
+}
+
 function Products() {
-  const [products, setProducts] = useState([]);
-  const { page = 1, category } = useParams();
-  const [totalPages, setTotalPages] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const { page = "1", category } = useParams<Params>();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
   const navigate = useNavigate();
+
+  const currentPage = parseInt(page, 10);
+
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       setError("");
+
       try {
         const response = await fetch(
-          `http://localhost:5000/products?page=${page}&limit=10&category=${category}`
+          `http://localhost:5000/products?page=${currentPage}&limit=10&category=${
+            category ?? ""
+          }`
         );
+
         if (!response.ok)
           throw new Error(`HTTP error! status: ${response.status}`);
-        const data = await response.json();
+
+        const data: ProductResponse = await response.json();
         setProducts(data.products);
         setTotalPages(data.totalPages);
       } catch (err) {
@@ -47,14 +80,14 @@ function Products() {
     };
 
     fetchProducts();
-  }, [category, page]);
+  }, [category, currentPage]);
 
-  const handlePageChange = (newPage) => {
+  const handlePageChange = (newPage: number) => {
     navigate(`/page/${newPage}`);
     window.scrollTo(0, 0);
   };
 
-  const renderProductDetails = (product) => (
+  const renderProductDetails = (product: Product) => (
     <Card
       hoverable
       style={{
@@ -142,8 +175,8 @@ function Products() {
           style={{ display: "flex", justifyContent: "center", marginTop: 24 }}
         >
           <Pagination
-            current={page}
-            total={totalPages}
+            current={currentPage}
+            total={totalPages * 10} // total = total items, not pages
             pageSize={10}
             onChange={handlePageChange}
             showSizeChanger={false}

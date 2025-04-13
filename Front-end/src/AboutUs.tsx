@@ -1,9 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import { Typography } from "antd";
 
 const { Title, Paragraph } = Typography;
 
-const AboutUsPage = () => {
+const AboutUsPage: FC = () => {
   return (
     <div style={{ padding: "20px" }}>
       <Title level={2}>About Us</Title>

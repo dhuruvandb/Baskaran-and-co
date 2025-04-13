@@ -1,9 +1,16 @@
-import React from "react";
+import React, { FC } from "react";
 import { Table, Typography } from "antd";
 
 const { Title } = Typography;
 
-const OrderHistoryPage = () => {
+interface Orders {
+  key: string;
+  orderId: string;
+  date: string;
+  total: string;
+  status: string;
+}
+const OrderHistoryPage: FC = () => {
   const orders = [
     {
       key: "1",

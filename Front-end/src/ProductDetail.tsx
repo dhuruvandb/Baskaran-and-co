@@ -26,23 +26,85 @@ import {
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
+import React from "react";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  tags: string[];
+  brand: string;
+  sku: string;
+  weight: number;
+  dimensions: {
+    width: number;
+    height: number;
+    depth: number;
+  };
+  warrantyInformation: string;
+  shippingInformation: string;
+  availabilityStatus: string;
+  reviews: {
+    rating: number;
+    comment: string;
+    date: string;
+    reviewerName: string;
+    reviewerEmail: string;
+  }[];
+  returnPolicy: string;
+  minimumOrderQuantity: number;
+  meta: {
+    createdAt: string;
+    updatedAt: string;
+    barcode: string;
+    qrCode: string;
+  };
+  thumbnail: string;
+  images: string[];
+}
+
+export interface ProductResponse {
+  product: Product[];
+}
+
+interface CartItem {
+  title: string;
+  price: number;
+  image: string;
+  quantity: number;
+}
+
+interface CartResponse {
+  userCart: {
+    items: CartItem[];
+  };
+}
+
 function ProductDetail() {
-  const { id } = useParams();
-  const [product, setProduct] = useState(null);
+  const { id } = useParams<{ id: string }>();
+  const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [mainImageLoading, setMainImageLoading] = useState(true);
-  const [isProductIncart, setIsProductIncart] = useState(false); // Cart state
+  const [isProductIncart, setIsProductIncart] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!id) return;
+
     const fetchProduct = async () => {
       setError("");
+      setLoading(true);
+
       try {
         const response = await fetch(
           `http://localhost:5000/products/product/${id}`
@@ -50,36 +112,51 @@ function ProductDetail() {
 
         if (!response.ok)
           throw new Error(`HTTP error! status: ${response.status}`);
-        const data = await response.json();
-        console.log({ data });
-        const result = await axios.get(
+
+        const data: ProductResponse = await response.json();
+
+        if (!data.product || data.product.length === 0) {
+          throw new Error("Product not found.");
+        }
+
+        const productData = data.product[0];
+        setProduct(productData);
+
+        const cartRes = await axios.get<CartResponse>(
           "http://localhost:5000/cart/getcart/6798d6506f5c44e9ffe75d99"
         );
-        setIsProductIncart(
-          result.data.userCart.items.filter(
-            (d) => d.title === data.product[0].title
-          ).length > 0
+
+        const inCart = cartRes.data.userCart.items.some(
+          (item) => item.title === productData.title
         );
-        setProduct(...data.product); // Assuming the product is an array
+
+        setIsProductIncart(inCart);
       } catch (err) {
         setError("Failed to fetch product details. Please try again later.");
         console.error("Fetch error:", err);
       } finally {
-        setLoading(false); // Set loading to false after data is fetched
+        setLoading(false);
       }
     };
 
     fetchProduct();
-  }, [id, isProductIncart]);
+  }, [id]);
 
   const handleAddToCart = async () => {
+    if (!product) return;
+
     const { title, price, images } = product;
     const image = images[0];
-    const result = await axios.post("http://localhost:5000/cart/addcart", {
-      userId: "6798d6506f5c44e9ffe75d99",
-      items: { title, price, image, quantity: 1 },
-    });
-    setIsProductIncart(true);
+
+    try {
+      await axios.post("http://localhost:5000/cart/addcart", {
+        userId: "6798d6506f5c44e9ffe75d99",
+        items: { title, price, image, quantity: 1 },
+      });
+      setIsProductIncart(true);
+    } catch (err) {
+      console.error("Add to cart failed:", err);
+    }
   };
 
   if (error) {
@@ -105,12 +182,7 @@ function ProductDetail() {
         {loading ? (
           <Skeleton active paragraph={{ rows: 10 }} />
         ) : product ? (
-          <Card
-            style={{
-              borderRadius: 8,
-              overflow: "hidden",
-            }}
-          >
+          <Card style={{ borderRadius: 8, overflow: "hidden" }}>
             <Row gutter={[24, 24]}>
               <Col xs={24} md={12}>
                 <Image.PreviewGroup>

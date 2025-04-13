@@ -1,9 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import { Typography } from "antd";
 
 const { Title, Paragraph } = Typography;
 
-const TermsOfServicePage = () => {
+const TermsOfServicePage: FC = () => {
   return (
     <div style={{ padding: "20px" }}>
       <Title level={2}>Terms of Service</Title>

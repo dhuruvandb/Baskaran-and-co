@@ -1,37 +1,43 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { Tabs, Form, Input, Button, message } from "antd";
-import OtpVerificationPage from "./OtpVerificationPage"; // Import the OTP verification component
+import OtpVerificationPage from "./OtpVerificationPage";
 import { useNavigate } from "react-router";
 
 const { TabPane } = Tabs;
 
-const LoginPage = () => {
-  const [activeTab, setActiveTab] = useState("login");
-  const [email, setEmail] = useState("");
-  const [showOtpVerification, setShowOtpVerification] = useState(false);
-  const navigate = useNavigate();
-  const handleTabChange = (key) => {
+interface Login {
+  email: string;
+  password: string;
+}
+
+interface Signup extends Login {
+  confirmPassword: string;
+}
+const LoginPage: FC = () => {
+  const [activeTab, setActiveTab] = useState<string>("login");
+  const [email, setEmail] = useState<string>("");
+  const [showOtpVerification, setShowOtpVerification] =
+    useState<boolean>(false);
+  // const navigate = useNavigate();
+  const handleTabChange = (key: string) => {
     setActiveTab(key);
   };
 
-  const handleLogin = (values) => {
+  const handleLogin = (values: Login) => {
     console.log("Login values:", values);
-    // Add your login logic here
-    navigate(-1);
+    // navigate(-1);
   };
 
-  const handleSignup = (values) => {
+  const handleSignup = (values: Signup) => {
     console.log("Signup values:", values);
-    setEmail(values.email); // Save the email for OTP verification
-    setShowOtpVerification(true); // Show OTP verification page
-    // Add your signup logic here
+    setEmail(values.email);
+    setShowOtpVerification(true);
   };
 
   const handleOtpVerify = () => {
-    // Redirect to login or dashboard after successful OTP verification
     message.success("Account verified successfully!");
     setShowOtpVerification(false);
-    // setActiveTab("login");
+
     navigate(-1);
   };
 

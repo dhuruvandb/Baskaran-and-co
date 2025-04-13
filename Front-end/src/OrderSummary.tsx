@@ -1,8 +1,8 @@
-import React from "react";
+import React, { FC } from "react";
 import { Result, Button, Typography, Card, Divider } from "antd";
 const { Title, Text } = Typography;
 
-const OrderConfirmationPage = () => {
+const OrderConfirmationPage: FC = () => {
   return (
     <div style={{ maxWidth: 800, margin: "auto", padding: "20px 0" }}>
       <Result

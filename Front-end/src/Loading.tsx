@@ -1,9 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import { Spin, Typography } from "antd";
 
 const { Title } = Typography;
 
-const Loading = () => {
+const Loading: FC = () => {
   return (
     <div
       style={{

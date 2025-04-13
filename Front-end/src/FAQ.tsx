@@ -1,10 +1,10 @@
-import React from "react";
+import React, { FC } from "react";
 import { Collapse, Typography } from "antd";
 
 const { Panel } = Collapse;
 const { Title } = Typography;
 
-const FAQPage = () => {
+const FAQPage: FC = () => {
   const faqs = [
     {
       question: "How do I place an order?",

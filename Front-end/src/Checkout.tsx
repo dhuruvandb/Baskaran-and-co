@@ -1,16 +1,40 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Card, Divider, Typography, Select } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Card,
+  Divider,
+  Typography,
+  Select,
+  FormInstance,
+} from "antd";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 
-const Checkout = () => {
-  const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
-  const [showAddressForm, setShowAddressForm] = useState(false);
+interface Address {
+  id: number;
+  fullName: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  state: string;
+  zip: string;
+  country: string;
+  phone: string;
+}
 
-  // Mock saved addresses (replace with data from your backend)
-  const savedAddresses = [
+interface OrderFormValues extends Omit<Address, "id"> {
+  addressId: number | "new";
+}
+
+const Checkout: React.FC = () => {
+  const [form] = Form.useForm<OrderFormValues>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showAddressForm, setShowAddressForm] = useState<boolean>(false);
+
+  const savedAddresses: Address[] = [
     {
       id: 1,
       fullName: "John Doe",
@@ -35,31 +59,35 @@ const Checkout = () => {
     },
   ];
 
-  const handlePlaceOrder = (values) => {
+  const handlePlaceOrder = (values: OrderFormValues) => {
     setLoading(true);
     console.log("Order Details:", values);
-    // Simulate API call for placing the order
+
+    // Simulate API call
     setTimeout(() => {
       setLoading(false);
       alert("Order placed successfully!");
-      // Redirect to order confirmation page
+      // Redirect to confirmation page here if needed
     }, 2000);
   };
 
-  const handleAddressChange = (value) => {
+  const handleAddressChange = (value: number | "new") => {
     if (value === "new") {
-      setShowAddressForm(true); // Show form for new address
-      form.resetFields(); // Clear form fields
+      setShowAddressForm(true);
+      form.resetFields(); // Reset the full address form
     } else {
-      setShowAddressForm(false); // Hide form
+      setShowAddressForm(false);
       const selectedAddress = savedAddresses.find((addr) => addr.id === value);
-      form.setFieldsValue(selectedAddress); // Autofill form with selected address
+      if (selectedAddress) {
+        form.setFieldsValue(selectedAddress);
+      }
     }
   };
 
   return (
     <div style={{ maxWidth: 800, margin: "auto", padding: "20px 0" }}>
       <Title level={2}>Checkout</Title>
+
       <Card title="Order Summary" style={{ marginBottom: 20 }}>
         <Text strong>Items:</Text>
         <ul>
@@ -70,7 +98,7 @@ const Checkout = () => {
         <Text strong>Total: $50.00</Text>
       </Card>
 
-      <Form form={form} layout="vertical" onFinish={handlePlaceOrder}>
+      <Form<OrderFormValues> form={form} layout="vertical" onFinish={handlePlaceOrder}>
         <Card title="Shipping Address" style={{ marginBottom: 20 }}>
           <Form.Item
             label="Select Address"
@@ -95,18 +123,14 @@ const Checkout = () => {
               <Form.Item
                 label="Full Name"
                 name="fullName"
-                rules={[
-                  { required: true, message: "Please enter your full name!" },
-                ]}
+                rules={[{ required: true, message: "Please enter your full name!" }]}
               >
                 <Input placeholder="John Doe" />
               </Form.Item>
               <Form.Item
                 label="Address Line 1"
                 name="addressLine1"
-                rules={[
-                  { required: true, message: "Please enter your address!" },
-                ]}
+                rules={[{ required: true, message: "Please enter your address!" }]}
               >
                 <Input placeholder="123 Main St" />
               </Form.Item>
@@ -123,39 +147,28 @@ const Checkout = () => {
               <Form.Item
                 label="State/Province"
                 name="state"
-                rules={[
-                  { required: true, message: "Please enter your state!" },
-                ]}
+                rules={[{ required: true, message: "Please enter your state!" }]}
               >
                 <Input placeholder="NY" />
               </Form.Item>
               <Form.Item
                 label="ZIP/Postal Code"
                 name="zip"
-                rules={[
-                  { required: true, message: "Please enter your ZIP code!" },
-                ]}
+                rules={[{ required: true, message: "Please enter your ZIP code!" }]}
               >
                 <Input placeholder="10001" />
               </Form.Item>
               <Form.Item
                 label="Country"
                 name="country"
-                rules={[
-                  { required: true, message: "Please enter your country!" },
-                ]}
+                rules={[{ required: true, message: "Please enter your country!" }]}
               >
                 <Input placeholder="USA" />
               </Form.Item>
               <Form.Item
                 label="Phone Number"
                 name="phone"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please enter your phone number!",
-                  },
-                ]}
+                rules={[{ required: true, message: "Please enter your phone number!" }]}
               >
                 <Input placeholder="+1 123 456 7890" />
               </Form.Item>

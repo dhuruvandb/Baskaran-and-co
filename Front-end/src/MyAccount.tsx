@@ -1,13 +1,13 @@
-import React from "react";
+import React, { FC } from "react";
 import { Card, Button, Typography, Row, Col } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const { Title } = Typography;
 
-const MyAccount = () => {
+const MyAccount: FC = () => {
   const navigate = useNavigate();
 
-  const handleNavigation = (path) => {
+  const handleNavigation = (path: string) => {
     navigate(path);
   };
 

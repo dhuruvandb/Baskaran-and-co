@@ -3,8 +3,14 @@ import { Form, Input, Button, Typography } from "antd";
 
 const { Title } = Typography;
 
+interface ContactForm {
+  name: string;
+  email: string;
+  message: String;
+}
+
 const ContactUsPage = () => {
-  const onFinish = (values) => {
+  const onFinish = (values: ContactForm): void => {
     console.log("Contact Form Submitted:", values);
     alert("Thank you for contacting us!");
   };

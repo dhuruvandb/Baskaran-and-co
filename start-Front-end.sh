@@ -1,3 +1,3 @@
 echo "Frontend starting"
 cd "./Front-end"
-npm start
+npm run dev

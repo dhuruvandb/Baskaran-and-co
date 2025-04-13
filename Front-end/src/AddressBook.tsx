@@ -1,9 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import { Card, Typography, Button, List } from "antd";
 
 const { Title } = Typography;
 
-const AddressBookPage = () => {
+const AddressBookPage: FC = () => {
   const addresses = [
     {
       id: 1,

@@ -1,10 +1,14 @@
-import React from "react";
+import React, { FC } from "react";
 import { Form, Input, Button, Typography } from "antd";
 
 const { Title } = Typography;
-
-const ProfilePage = () => {
-  const onFinish = (values) => {
+interface Profile {
+  fullName: string;
+  email: string;
+  password: string;
+}
+const ProfilePage: FC = () => {
+  const onFinish = (values: Profile) => {
     console.log("Profile Updated:", values);
     alert("Profile updated successfully!");
   };
